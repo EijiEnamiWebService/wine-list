@@ -1,0 +1,660 @@
+{
+  "format": "ClassicaTrackPack",
+  "version": 1,
+  "packId": "curated40-20261108",
+  "title": "クラシックおすすめ追加40曲（バロック〜現代）",
+  "tracks": [
+    {
+      "id": "p001",
+      "title": "カノン ニ長調",
+      "composer": "",
+      "composerName": "パッヘルベル",
+      "genre": "独奏・室内楽",
+      "era": "バロック",
+      "level": "はじめて",
+      "moods": [
+        "優雅",
+        "静けさ"
+      ],
+      "hook": "同じ低音進行の上で三つのヴァイオリンの旋律が重なる。",
+      "story": "繰り返しが心地よく感じられるバロック音楽の入口。",
+      "query": "Pachelbel Canon in D original strings",
+      "composerBio": "ドイツ・バロック期のオルガニスト。繰り返す低音の上に声部を重ねる作品で親しまれる。"
+    },
+    {
+      "id": "p002",
+      "title": "歌劇「ディドとエネアス」より「私が土の中に横たわるとき」",
+      "composer": "",
+      "composerName": "パーセル",
+      "genre": "声楽・合唱",
+      "era": "バロック",
+      "level": "もう一歩",
+      "moods": [
+        "哀愁",
+        "静けさ"
+      ],
+      "hook": "沈み込む低音の上に、切実な別れの歌が続く。",
+      "story": "短いアリアに舞台の悲劇が凝縮されている。",
+      "query": "Purcell Dido lament When I am laid in earth",
+      "composerBio": "イングランドの作曲家。劇音楽や声楽で、言葉と感情を鋭く結びつけた。"
+    },
+    {
+      "id": "p003",
+      "title": "ブランデンブルク協奏曲第3番 第1楽章",
+      "composer": "bach",
+      "composerName": "J.S.バッハ",
+      "genre": "協奏曲",
+      "era": "バロック",
+      "level": "はじめて",
+      "moods": [
+        "躍動",
+        "華やか"
+      ],
+      "hook": "弦楽器同士が勢いよく受け渡す短い旋律。",
+      "story": "複数の弦のグループが競い合う合奏協奏曲の面白さ。",
+      "query": "Bach Brandenburg Concerto 3 first movement BWV1048"
+    },
+    {
+      "id": "p004",
+      "title": "トッカータとフーガ ニ短調 BWV565",
+      "composer": "bach",
+      "composerName": "J.S.バッハ",
+      "genre": "独奏・室内楽",
+      "era": "バロック",
+      "level": "はじめて",
+      "moods": [
+        "壮大",
+        "緊張感"
+      ],
+      "hook": "強烈なオルガンの一撃から自在な音の流れが始まる。",
+      "story": "オルガンの低音と建物に広がる残響を楽しむ。",
+      "query": "Bach Toccata and Fugue D minor BWV 565 organ"
+    },
+    {
+      "id": "p005",
+      "title": "「四季」より「夏」第3楽章",
+      "composer": "vivaldi",
+      "composerName": "ヴィヴァルディ",
+      "genre": "協奏曲",
+      "era": "バロック",
+      "level": "はじめて",
+      "moods": [
+        "躍動",
+        "緊張感"
+      ],
+      "hook": "激しい嵐を思わせるヴァイオリンの奔流。",
+      "story": "春や冬の楽章と比べると季節の描き分けがわかりやすい。",
+      "query": "Vivaldi Four Seasons Summer Presto III"
+    },
+    {
+      "id": "p006",
+      "title": "歌劇「セルセ」より「オンブラ・マイ・フ」",
+      "composer": "handel",
+      "composerName": "ヘンデル",
+      "genre": "声楽・合唱",
+      "era": "バロック",
+      "level": "はじめて",
+      "moods": [
+        "優雅",
+        "静けさ"
+      ],
+      "hook": "ゆったりと広がる歌声に深い安らぎがある。",
+      "story": "「ヘンデルのラルゴ」としても親しまれる短いアリア。",
+      "query": "Handel Ombra mai fu Serse"
+    },
+    {
+      "id": "p007",
+      "title": "合奏協奏曲第8番「クリスマス協奏曲」終楽章",
+      "composer": "",
+      "composerName": "コレッリ",
+      "genre": "協奏曲",
+      "era": "バロック",
+      "level": "もう一歩",
+      "moods": [
+        "静けさ",
+        "優雅"
+      ],
+      "hook": "牧歌的なリズムが穏やかな祝祭の空気を作る。",
+      "story": "バロックの合奏協奏曲が持つ室内楽的な親密さ。",
+      "query": "Corelli Christmas Concerto Op6 No8 Pastorale",
+      "composerBio": "イタリアの作曲家・ヴァイオリニスト。合奏協奏曲と弦楽器の演奏様式に大きな影響を与えた。"
+    },
+    {
+      "id": "p008",
+      "title": "アイネ・クライネ・ナハトムジーク 第1楽章",
+      "composer": "mozart",
+      "composerName": "モーツァルト",
+      "genre": "独奏・室内楽",
+      "era": "古典派",
+      "level": "はじめて",
+      "moods": [
+        "華やか",
+        "躍動"
+      ],
+      "hook": "歯切れよい弦の主題から、明快な音楽が進む。",
+      "story": "古典派の均整のよさやフレーズの区切りを聴きやすい。",
+      "query": "Mozart Eine kleine Nachtmusik K525 first movement"
+    },
+    {
+      "id": "p009",
+      "title": "レクイエムより「ラクリモーサ」",
+      "composer": "mozart",
+      "composerName": "モーツァルト",
+      "genre": "声楽・合唱",
+      "era": "古典派",
+      "level": "はじめて",
+      "moods": [
+        "哀愁",
+        "壮大"
+      ],
+      "hook": "短い旋律が重なり、祈りと悲しみを増幅させる。",
+      "story": "未完のレクイエムに含まれる、とりわけ印象的な一節。",
+      "query": "Mozart Requiem Lacrimosa K626"
+    },
+    {
+      "id": "p010",
+      "title": "ピアノソナタ第11番 第3楽章「トルコ行進曲」",
+      "composer": "mozart",
+      "composerName": "モーツァルト",
+      "genre": "ピアノ",
+      "era": "古典派",
+      "level": "はじめて",
+      "moods": [
+        "躍動",
+        "華やか"
+      ],
+      "hook": "軽快な打楽器風のリズムで進む親しみやすい旋律。",
+      "story": "当時流行したトルコ風の音楽表現にも注目。",
+      "query": "Mozart Turkish March K331 Rondo alla Turca"
+    },
+    {
+      "id": "p011",
+      "title": "ピアノソナタ第8番「悲愴」第2楽章",
+      "composer": "beethoven",
+      "composerName": "ベートーヴェン",
+      "genre": "ピアノ",
+      "era": "古典派",
+      "level": "はじめて",
+      "moods": [
+        "静けさ",
+        "優雅"
+      ],
+      "hook": "落ち着いた旋律が何度も戻り、温かな表情を変えていく。",
+      "story": "力強い第1楽章との対比も印象的な緩徐楽章。",
+      "query": "Beethoven Pathetique Sonata 8 second movement"
+    },
+    {
+      "id": "p012",
+      "title": "ピアノ協奏曲第5番「皇帝」第2楽章",
+      "composer": "beethoven",
+      "composerName": "ベートーヴェン",
+      "genre": "協奏曲",
+      "era": "古典派",
+      "level": "もう一歩",
+      "moods": [
+        "静けさ",
+        "透明感"
+      ],
+      "hook": "静謐な弦の上をピアノがそっと進む。",
+      "story": "第3楽章へ切れ目なく移る瞬間に耳を澄ませたい。",
+      "query": "Beethoven Emperor Concerto 5 second movement"
+    },
+    {
+      "id": "p013",
+      "title": "交響曲第94番「驚愕」第2楽章",
+      "composer": "haydn",
+      "composerName": "ハイドン",
+      "genre": "交響曲",
+      "era": "古典派",
+      "level": "はじめて",
+      "moods": [
+        "優雅",
+        "華やか"
+      ],
+      "hook": "素朴な主題の途中に突然大きな一撃が響く。",
+      "story": "ハイドンの遊び心と変奏の工夫が楽しい。",
+      "query": "Haydn Surprise Symphony 94 second movement"
+    },
+    {
+      "id": "p014",
+      "title": "「アヴェ・マリア」D839",
+      "composer": "schubert",
+      "composerName": "シューベルト",
+      "genre": "声楽・合唱",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "静けさ",
+        "優雅"
+      ],
+      "hook": "長い息で歌う旋律が穏やかな祈りを感じさせる。",
+      "story": "歌曲として生まれ、さまざまな編曲でも親しまれる。",
+      "query": "Schubert Ave Maria D839"
+    },
+    {
+      "id": "p015",
+      "title": "歌曲「魔王」D328",
+      "composer": "schubert",
+      "composerName": "シューベルト",
+      "genre": "声楽・合唱",
+      "era": "ロマン派",
+      "level": "もう一歩",
+      "moods": [
+        "緊張感",
+        "情熱"
+      ],
+      "hook": "ピアノの激しい刻みと、声による登場人物の演じ分け。",
+      "story": "物語と音楽の緊迫感が一体になる歌曲の代表作。",
+      "query": "Schubert Erlkonig D328 baritone"
+    },
+    {
+      "id": "p016",
+      "title": "ピアノ協奏曲 イ短調 第1楽章",
+      "composer": "schumann",
+      "composerName": "シューマン",
+      "genre": "協奏曲",
+      "era": "ロマン派",
+      "level": "もう一歩",
+      "moods": [
+        "情熱",
+        "哀愁"
+      ],
+      "hook": "ピアノと管弦楽が情熱的な主題を分かち合う。",
+      "story": "技巧の誇示よりも両者の密接な会話が魅力。",
+      "query": "Schumann Piano Concerto A minor Op54 first movement"
+    },
+    {
+      "id": "p017",
+      "title": "練習曲 ハ短調 Op.10-12「革命」",
+      "composer": "chopin",
+      "composerName": "ショパン",
+      "genre": "ピアノ",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "情熱",
+        "緊張感"
+      ],
+      "hook": "左手の激しい音型が絶え間なく押し寄せる。",
+      "story": "情熱的な響きと演奏技術が結びついたショパンの練習曲。",
+      "query": "Chopin Revolutionary Etude Op10 No12"
+    },
+    {
+      "id": "p018",
+      "title": "無言歌集 Op.19-1",
+      "composer": "mendelssohn",
+      "composerName": "メンデルスゾーン",
+      "genre": "ピアノ",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "優雅",
+        "静けさ"
+      ],
+      "hook": "言葉のない歌がピアノの上に自然に浮かぶ。",
+      "story": "歌曲のような息遣いをピアノだけで味わえる。",
+      "query": "Mendelssohn Songs Without Words Op19 No1"
+    },
+    {
+      "id": "p019",
+      "title": "ハンガリー舞曲第5番",
+      "composer": "brahms",
+      "composerName": "ブラームス",
+      "genre": "管弦楽",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "躍動",
+        "情熱"
+      ],
+      "hook": "急な速度の変化が踊りの高揚感を生む。",
+      "story": "ピアノ連弾版と管弦楽版で色合いが大きく変わる。",
+      "query": "Brahms Hungarian Dance No 5 orchestra"
+    },
+    {
+      "id": "p020",
+      "title": "交響曲第1番 第4楽章",
+      "composer": "brahms",
+      "composerName": "ブラームス",
+      "genre": "交響曲",
+      "era": "ロマン派",
+      "level": "もう一歩",
+      "moods": [
+        "壮大",
+        "情熱"
+      ],
+      "hook": "苦悩を経た先に大きく歌い上げる旋律が現れる。",
+      "story": "大きな時間の流れを持つ交響曲の終楽章。",
+      "query": "Brahms Symphony No 1 fourth movement"
+    },
+    {
+      "id": "p021",
+      "title": "交響曲第6番「悲愴」第4楽章",
+      "composer": "tchaikovsky",
+      "composerName": "チャイコフスキー",
+      "genre": "交響曲",
+      "era": "ロマン派",
+      "level": "もう一歩",
+      "moods": [
+        "哀愁",
+        "緊張感"
+      ],
+      "hook": "終楽章なのに静かに沈んでゆく、異例の構成。",
+      "story": "悲劇的な余韻を残すロマン派交響曲の名場面。",
+      "query": "Tchaikovsky Pathetique Symphony 6 IV finale"
+    },
+    {
+      "id": "p022",
+      "title": "スラヴ舞曲 Op.46-8",
+      "composer": "dvorak",
+      "composerName": "ドヴォルザーク",
+      "genre": "管弦楽",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "躍動",
+        "華やか"
+      ],
+      "hook": "民俗舞踊のリズムが生き生きと弾む。",
+      "story": "オーケストラ版の色彩と推進力を楽しむ。",
+      "query": "Dvorak Slavonic Dance Op46 No8"
+    },
+    {
+      "id": "p023",
+      "title": "ピアノ協奏曲 イ短調 第1楽章",
+      "composer": "grieg",
+      "composerName": "グリーグ",
+      "genre": "協奏曲",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "壮大",
+        "情熱"
+      ],
+      "hook": "鮮烈なピアノの下降音から、北欧の空気が広がる。",
+      "story": "豪快な技巧と素朴な歌心を併せ持つ協奏曲。",
+      "query": "Grieg Piano Concerto A minor Op16 first movement"
+    },
+    {
+      "id": "p024",
+      "title": "交響曲第3番「オルガン付き」第2部後半",
+      "composer": "saintsaens",
+      "composerName": "サン＝サーンス",
+      "genre": "交響曲",
+      "era": "ロマン派",
+      "level": "もう一歩",
+      "moods": [
+        "壮大",
+        "華やか"
+      ],
+      "hook": "パイプオルガンと管弦楽が巨大な響きを作る。",
+      "story": "ホール全体に音が広がるような壮麗なフィナーレ。",
+      "query": "Saint-Saens Symphony 3 Organ finale"
+    },
+    {
+      "id": "p025",
+      "title": "楽劇「ワルキューレ」より「ワルキューレの騎行」",
+      "composer": "",
+      "composerName": "ワーグナー",
+      "genre": "バレエ・舞台",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "躍動",
+        "壮大"
+      ],
+      "hook": "駆け上がる弦と金管楽器の強烈なエネルギー。",
+      "story": "舞台の動きを音楽が押し進める、楽劇の迫力を体験。",
+      "query": "Wagner Ride of the Valkyries",
+      "composerBio": "ドイツの作曲家。オペラを音楽・詩・舞台が結びつく大規模な楽劇へ発展させた。"
+    },
+    {
+      "id": "p026",
+      "title": "交響曲第7番 第2楽章",
+      "composer": "",
+      "composerName": "ブルックナー",
+      "genre": "交響曲",
+      "era": "ロマン派",
+      "level": "じっくり",
+      "moods": [
+        "壮大",
+        "哀愁"
+      ],
+      "hook": "ゆっくり積み重なる和音が巨大な空間を作る。",
+      "story": "長い時間をかけて展開するブルックナーの音楽への入口。",
+      "query": "Bruckner Symphony 7 Adagio second movement",
+      "composerBio": "オーストリアの作曲家。オルガンのように積み重なる響きと、壮大な交響曲で知られる。"
+    },
+    {
+      "id": "p027",
+      "title": "交響組曲「シェエラザード」第1楽章",
+      "composer": "",
+      "composerName": "リムスキー＝コルサコフ",
+      "genre": "管弦楽",
+      "era": "ロマン派",
+      "level": "もう一歩",
+      "moods": [
+        "神秘",
+        "壮大"
+      ],
+      "hook": "力強い主題と独奏ヴァイオリンが物語を語り始める。",
+      "story": "「千夜一夜物語」に着想した色彩豊かな管弦楽作品。",
+      "query": "Rimsky Korsakov Scheherazade first movement",
+      "composerBio": "ロシアの作曲家。色彩豊かな管弦楽法と物語性のある作品で知られる。"
+    },
+    {
+      "id": "p028",
+      "title": "シシリエンヌ Op.78",
+      "composer": "faure",
+      "composerName": "フォーレ",
+      "genre": "独奏・室内楽",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "優雅",
+        "哀愁"
+      ],
+      "hook": "穏やかに揺れるリズムに、懐かしい旋律が乗る。",
+      "story": "フルートとピアノ、あるいは管弦楽で親しまれる小品。",
+      "query": "Faure Sicilienne Op78 flute"
+    },
+    {
+      "id": "p029",
+      "title": "連作交響詩「わが祖国」より「モルダウ」",
+      "composer": "",
+      "composerName": "スメタナ",
+      "genre": "管弦楽",
+      "era": "ロマン派",
+      "level": "はじめて",
+      "moods": [
+        "透明感",
+        "壮大"
+      ],
+      "hook": "小川が合流し、大河となって流れていく音楽。",
+      "story": "自然を描きながら祖国への思いも重ねた交響詩。",
+      "query": "Smetana Vltava Moldau Ma Vlast",
+      "composerBio": "チェコの作曲家。祖国の風景や歴史を描いた交響詩「わが祖国」で有名。"
+    },
+    {
+      "id": "p030",
+      "title": "牧神の午後への前奏曲",
+      "composer": "debussy",
+      "composerName": "ドビュッシー",
+      "genre": "管弦楽",
+      "era": "近代・印象派",
+      "level": "もう一歩",
+      "moods": [
+        "神秘",
+        "透明感"
+      ],
+      "hook": "フルートの曖昧な旋律から夢のような空間が広がる。",
+      "story": "近代音楽の出発点としても語られる、色彩的な作品。",
+      "query": "Debussy Prelude to the Afternoon of a Faun"
+    },
+    {
+      "id": "p031",
+      "title": "アラベスク第1番",
+      "composer": "debussy",
+      "composerName": "ドビュッシー",
+      "genre": "ピアノ",
+      "era": "近代・印象派",
+      "level": "はじめて",
+      "moods": [
+        "透明感",
+        "優雅"
+      ],
+      "hook": "軽やかな音型が水の流れのように連なっていく。",
+      "story": "印象派的な響きを身近に感じられるピアノ小品。",
+      "query": "Debussy Arabesque No 1 piano"
+    },
+    {
+      "id": "p032",
+      "title": "ラ・ヴァルス",
+      "composer": "ravel",
+      "composerName": "ラヴェル",
+      "genre": "管弦楽",
+      "era": "近代・印象派",
+      "level": "もう一歩",
+      "moods": [
+        "華やか",
+        "緊張感"
+      ],
+      "hook": "優雅なワルツが次第に渦を巻き、熱狂へ傾く。",
+      "story": "舞踏の華やかさと不安定さが同居する管弦楽曲。",
+      "query": "Ravel La Valse orchestra"
+    },
+    {
+      "id": "p033",
+      "title": "ヴァイオリン協奏曲 ニ短調 第1楽章",
+      "composer": "sibelius",
+      "composerName": "シベリウス",
+      "genre": "協奏曲",
+      "era": "近代・印象派",
+      "level": "もう一歩",
+      "moods": [
+        "神秘",
+        "情熱"
+      ],
+      "hook": "凍てついた空気のような弦の上で独奏が歌う。",
+      "story": "北欧の透明感と激しい技巧が溶け合う協奏曲。",
+      "query": "Sibelius Violin Concerto first movement"
+    },
+    {
+      "id": "p034",
+      "title": "ルーマニア民俗舞曲",
+      "composer": "",
+      "composerName": "バルトーク",
+      "genre": "独奏・室内楽",
+      "era": "20世紀以降",
+      "level": "もう一歩",
+      "moods": [
+        "躍動",
+        "神秘"
+      ],
+      "hook": "短い舞曲を続けて聴くと、拍子や表情が次々変わる。",
+      "story": "民俗音楽の旋律とリズムを活かした連作。",
+      "query": "Bartok Romanian Folk Dances piano",
+      "composerBio": "ハンガリーの作曲家。民俗音楽の調査と現代的な和声・リズムの探求を結びつけた。"
+    },
+    {
+      "id": "p035",
+      "title": "ラプソディ・イン・ブルー",
+      "composer": "",
+      "composerName": "ガーシュウィン",
+      "genre": "協奏曲",
+      "era": "20世紀以降",
+      "level": "はじめて",
+      "moods": [
+        "華やか",
+        "躍動"
+      ],
+      "hook": "クラリネットの滑走音からジャズと管弦楽が交わる。",
+      "story": "クラシックとジャズの境界を越える一作。",
+      "query": "Gershwin Rhapsody in Blue full",
+      "composerBio": "アメリカの作曲家。ジャズとクラシックの語法を融合させた作品を残した。"
+    },
+    {
+      "id": "p036",
+      "title": "弦楽のためのアダージョ",
+      "composer": "",
+      "composerName": "バーバー",
+      "genre": "管弦楽",
+      "era": "20世紀以降",
+      "level": "はじめて",
+      "moods": [
+        "哀愁",
+        "静けさ"
+      ],
+      "hook": "弦の旋律が長い弧を描き、静かな頂点へ向かう。",
+      "story": "一つの旋律をじっくり味わいたいときに向く。",
+      "query": "Samuel Barber Adagio for Strings",
+      "composerBio": "アメリカの作曲家。叙情性の強い旋律と緊密な構成で知られる。"
+    },
+    {
+      "id": "p037",
+      "title": "「アパラチアの春」組曲より「シンプル・ギフト」",
+      "composer": "",
+      "composerName": "コープランド",
+      "genre": "管弦楽",
+      "era": "20世紀以降",
+      "level": "もう一歩",
+      "moods": [
+        "優雅",
+        "透明感"
+      ],
+      "hook": "素朴な旋律が温かく広がり、開けた風景を感じさせる。",
+      "story": "アメリカの民謡的素材を用いたバレエ音楽。",
+      "query": "Copland Appalachian Spring Simple Gifts",
+      "composerBio": "アメリカの作曲家。広々とした和声と民俗的な素材で独自の音楽世界を築いた。"
+    },
+    {
+      "id": "p038",
+      "title": "「ウエスト・サイド物語」より「マンボ」",
+      "composer": "",
+      "composerName": "バーンスタイン",
+      "genre": "バレエ・舞台",
+      "era": "20世紀以降",
+      "level": "はじめて",
+      "moods": [
+        "躍動",
+        "華やか"
+      ],
+      "hook": "鋭いリズムと金管が一気に舞台を熱くする。",
+      "story": "ラテン音楽と管弦楽が交わる、舞台音楽の迫力。",
+      "query": "Bernstein West Side Story Mambo symphonic dances",
+      "composerBio": "アメリカの指揮者・作曲家。クラシックとミュージカルの両分野で活躍した。"
+    },
+    {
+      "id": "p039",
+      "title": "フラトレス（Fratres）",
+      "composer": "part",
+      "composerName": "アルヴォ・ペルト",
+      "genre": "独奏・室内楽",
+      "era": "20世紀以降",
+      "level": "もう一歩",
+      "moods": [
+        "静けさ",
+        "神秘"
+      ],
+      "hook": "少ない音が反復されるなかで、時間の感覚が変わる。",
+      "story": "編成の違う多数の版があり、音色の比較にも向く。",
+      "query": "Arvo Part Fratres violin piano"
+    },
+    {
+      "id": "p040",
+      "title": "弦楽四重奏曲第8番 第2楽章",
+      "composer": "shostakovich",
+      "composerName": "ショスタコーヴィチ",
+      "genre": "独奏・室内楽",
+      "era": "20世紀以降",
+      "level": "じっくり",
+      "moods": [
+        "緊張感",
+        "情熱"
+      ],
+      "hook": "激しい弦の刻みが切迫感を生む。",
+      "story": "個人的で鋭い表現を持つ弦楽四重奏曲の一部。",
+      "query": "Shostakovich String Quartet 8 second movement"
+    }
+  ]
+}

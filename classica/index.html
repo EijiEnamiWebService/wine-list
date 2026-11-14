@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1e273b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Classica">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="icon" href="./icons/icon-192.png" type="image/png">
+  <meta name="description" content="おすすめのクラシック音楽を聴いて評価し、自分の好みを発見する音楽ノート">
+  <title>Classica | クラシック音楽の発見ノート</title>
+  <style>
+:root{color-scheme:light;--ink:#20283a;--muted:#687282;--line:#e7e4df;--paper:#f8f7f4;--white:#fff;--navy:#1e293f;--gold:#9e7845;--gold-light:#e9d8b9;--blue:#e8edf4;--radius:16px;--shadow:0 9px 30px rgba(31,41,57,.055)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;font-size:14px;line-height:1.7}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #d3a35b;outline-offset:2px}button:disabled{cursor:not-allowed;opacity:.45}[hidden]{display:none!important}
+.topbar{max-width:1320px;margin:0 auto;padding:17px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:10px;text-decoration:none}.brand-mark{height:42px;width:42px;display:grid;place-items:center;background:var(--navy);color:#efd7a4;border-radius:12px;font-family:Georgia,serif;font-size:26px}.brand-name{font-family:Georgia,serif;font-size:25px;letter-spacing:-.5px;line-height:1.2;font-weight:700}.brand-name small{font-size:10px;font-family:inherit;letter-spacing:.2px;font-weight:500;color:#7d858f;margin-left:9px}.topbar-note{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}.status-dot{display:inline-block;width:7px;height:7px;background:#68a18d;border-radius:50%;margin-right:3px}.text-link{color:#536887;border:0;background:none;padding:3px;text-decoration:underline;text-underline-offset:3px;font-size:12px}
+.hero{max-width:1248px;margin:0 auto;border-radius:22px;min-height:250px;background:linear-gradient(110deg,#26334a 0%,#1b2941 68%,#3a3850 100%);color:white;position:relative;overflow:hidden;display:flex;align-items:center;box-shadow:0 17px 40px #1c26351d}.hero-copy{padding:36px 55px;position:relative;z-index:2;max-width:765px}.eyebrow{font-size:11px;font-weight:750;letter-spacing:2.6px;color:#e1c390}.hero h1{font-family:Georgia,"Yu Mincho","Hiragino Mincho ProN",serif;line-height:1.42;font-weight:600;font-size:clamp(24px,3vw,36px);letter-spacing:1px;margin:9px 0}.hero p{color:#d6dce6;font-size:13px;line-height:1.9;max-width:600px;margin:0}.hero-steps{display:flex;align-items:center;gap:14px;margin-top:17px;color:#e2d2b2;font-size:11px}.hero-steps b{font-size:12px;color:white;margin-left:3px}.hero-steps i{display:block;width:19px;height:1px;background:#8a94a8}.hero-art{position:absolute;right:0;top:0;width:340px;height:100%;display:grid;place-items:center;color:#e4c99d;opacity:.94}.hero-art span{font-family:Georgia,serif;font-size:170px;position:relative;z-index:2;transform:rotate(-13deg);text-shadow:0 15px 20px #1820325a}.art-circle{position:absolute;border:1px solid rgba(232,205,157,.2);border-radius:50%}.art-one{width:280px;height:280px}.art-two{width:360px;height:360px}.art-three{width:450px;height:450px}
+.content{max-width:1320px;margin:0 auto;padding:0 36px 42px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0 20px}.stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;min-width:0}.stat-label{color:#737f8d;font-size:11px;font-weight:700}.stat-value{display:block;font-size:25px;font-weight:750;line-height:1.22;letter-spacing:-.9px}.stat-suffix{font-size:12px;font-weight:500;color:var(--muted);margin-left:3px}.stat-icon{font-size:20px;color:#b39a73;background:#f7f2e9;display:grid;place-items:center;border-radius:10px;width:39px;height:39px}.tabbar{display:flex;gap:3px;border-bottom:1px solid #dfdfdb;flex-wrap:wrap;margin-bottom:22px}.tab{border:0;background:transparent;color:#6f7887;padding:13px 21px 14px;font-weight:700;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}.tab.active{color:#26344a;border-bottom-color:#9e7845}.tab:hover{color:#26344a}.tab-icon{font-size:17px;display:inline-block;margin-right:7px;vertical-align:-1px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:16px}.section-head h2{margin:0;font-size:22px;letter-spacing:-.7px}.section-head p{margin:2px 0 0;color:#7b8390;font-size:12px}.section-head aside{font-size:12px;color:var(--muted);text-align:right}.count-pill{border-radius:50px;background:#e9e2d7;color:#805d30;padding:3px 10px;font-size:11px;font-weight:750}.guide-note{display:flex;gap:13px;align-items:center;background:#eff3f5;border:1px solid #e2e9ed;border-radius:12px;padding:11px 15px;margin-bottom:16px;font-size:12px;color:#576377}.guide-note .guide-symbol{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:#dbe6ee;font-size:19px;color:#58748c;flex:0 0 auto}.guide-note b{color:#2e465f}.guide-note .note-right{margin-left:auto;flex:0 0 auto}
+.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--line);padding:12px;border-radius:13px;margin:0 0 15px}.search-input{min-width:200px;flex:2 1 235px}.controls input,.controls select,.form-field input,.form-field select,.form-field textarea,.note-textarea{border:1px solid #e0e1e3;background:#fcfcfb;color:var(--ink);padding:10px 12px;border-radius:9px;outline-offset:2px;width:100%}.controls select{width:auto;min-width:132px;flex:1 1 134px;padding:10px 24px 10px 10px}.controls input:focus,.controls select:focus{border-color:#ae956c}.mood-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:5px 0 17px}.mood-row .mood-label{color:#81858d;font-size:11px;font-weight:700;margin-right:3px}.chip{border:1px solid #e3dfd8;border-radius:30px;background:white;padding:6px 12px;color:#6f737d;font-size:11px;transition:all .2s}.chip.active{background:#293951;color:#fff;border-color:#293951}.chip:hover{border-color:#9b865f}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.music-card{display:flex;flex-direction:column;min-width:0;min-height:420px;padding:20px 20px 17px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.music-card:hover{border-color:#d6c4a7;box-shadow:0 12px 32px #1c263517}.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.tag-row{display:flex;gap:6px;flex-wrap:wrap}.tag{font-size:10px;border-radius:5px;background:#edf1f5;color:#667387;padding:2px 7px;white-space:nowrap;font-weight:650}.tag.era{background:#f6f0e6;color:#937348}.bookmark{border:1px solid #e4e3df;background:#fff;width:30px;height:30px;display:grid;place-items:center;border-radius:8px;font-size:18px;color:#9aa0ac;flex:0 0 auto;line-height:1}.bookmark.saved{color:#a77731;background:#fff8ea;border-color:#ead1a3}.music-card h3{font-size:17px;line-height:1.5;letter-spacing:-.4px;margin:13px 0 2px;min-height:2.1em}.composer{font-size:12px;color:#738096;margin-bottom:10px}.composer em{font-size:10px;margin-left:7px;font-style:normal;color:#9699a1}.hook{font-size:12px;line-height:1.85;margin:0 0 11px;color:#4c5769;min-height:3.7em}.track-moods{display:flex;gap:5px;flex-wrap:wrap}.personal-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px;align-items:center}.personal-tag{font-size:11px;font-weight:650;color:#426650;background:#eaf4ed;border:1px solid #d1e6d7;border-radius:14px;padding:2px 8px}.tag-editor{margin:8px 0 3px;border:1px solid #e8ebe6;background:#fafbf9;border-radius:9px;padding:0 10px 9px}.tag-editor summary{cursor:pointer;font-size:11px;color:#506e5b;font-weight:750;padding-top:7px}.tag-edit-row{display:flex;gap:7px;margin-top:7px}.tag-edit-row input,.tag-edit-row select,.manage-tag-form input{border:1px solid #d7ded8;border-radius:7px;padding:6px 8px;min-width:0;flex:1;background:#fff;color:#344154;font-size:12px}.tag-edit-row button:disabled{opacity:.48;cursor:not-allowed}.tag-edit-row select:disabled{opacity:.65}.tag-edit-row button,.manage-tag-form button{background:#31513c;border:0;color:#fff;border-radius:7px;padding:6px 12px;font-size:11px;font-weight:750;white-space:nowrap}.tag-edit-items{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.tag-remove{border:1px solid #d1e6d7;background:#eaf4ed;color:#426650;border-radius:14px;padding:3px 8px;font-size:11px}.tag-remove span{margin-left:5px;color:#8b5555;font-weight:700}.tag-help{color:#8c958b;font-size:10px;margin-top:5px}.tag-filter-chip{border-color:#c9dfce!important;color:#3e6950!important;background:#f3faf4!important}.tag-filter-chip.active{background:#31513c!important;color:#fff!important;border-color:#31513c!important}.manage-tag-form{display:flex;gap:7px;margin:12px 0}.global-tag-list{display:flex;flex-direction:column;gap:8px;max-height:315px;overflow:auto;padding:2px}.global-tag-item{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#f7f9f6;border-radius:8px;padding:8px 10px;font-size:12px}.global-tag-name{font-weight:750;flex:1;min-width:100px;color:#415c48}.global-tag-count{color:#8a958b;font-size:11px;margin-right:8px}.global-tag-item button{border:1px solid #d7ded8;background:#fff;border-radius:7px;padding:4px 8px;color:#556555;font-size:11px}.global-tag-item button[data-tag-delete]{color:#a15e5e;border-color:#ead8d8}.mood-tag{border:1px solid #eee9df;padding:2px 7px;border-radius:5px;color:#94846d;font-size:10px}.why{color:#6c775e;background:#f2f5ef;border-radius:7px;margin:12px 0 0;padding:6px 9px;font-size:10px;font-weight:650}.music-card .grow{flex-grow:1}.more-details{font-size:11px;color:#657187;border-top:1px solid #f1efeb;margin-top:12px;padding-top:9px}.more-details summary{cursor:pointer;font-weight:750;padding:3px 0}.more-details p{font-size:11px;margin:8px 0;line-height:1.8}.more-details strong{color:#465774}.wiki-links{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0 0}.wiki-links a{display:inline-flex;align-items:center;gap:4px;color:#335d88;background:#f3f7fc;border:1px solid #dbe6f3;text-decoration:none;border-radius:7px;padding:6px 9px;font-size:11px;font-weight:700}.wiki-links a:hover{background:#eaf1fa}.import-hint{font-size:11px;color:#647389;line-height:1.8;margin-top:8px}.storage-warning{background:#fff1e9;border:1px solid #eac2aa;border-radius:10px;padding:13px 17px;margin:0 0 16px;color:#7b3f25;font-size:13px;font-weight:650}.save-ok{color:#426b4b}.save-caution{color:#976144}.card-actions{display:flex;gap:8px;margin-top:14px}.listen-link{display:inline-flex;align-items:center;justify-content:center;gap:5px;flex:1;text-decoration:none;padding:9px 8px;border:1px solid #d9dfeb;border-radius:9px;font-size:11px;font-weight:750;background:#f7f9fc;color:#34435e;white-space:nowrap}.listen-link.youtube{border-color:#e7d5d4;background:#fff7f6;color:#a04b45}.listen-link:hover{filter:brightness(.96)}.listen-link .external{font-size:10px;opacity:.7}.rating{border-top:1px solid #f1eee9;margin-top:13px;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:5px}.rating-title{color:#7e8795;font-size:11px;white-space:nowrap}.stars{display:flex;gap:2px}.star{border:0;background:transparent;color:#d1d3d6;font-size:23px;line-height:1.35;padding:0 1px}.star.on{color:#d6a24c}.star:hover{color:#bd8839}.rating-info{font-size:10px;color:#8b919c;min-width:46px;text-align:right}.card-bottom{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:7px}.listened-label{display:flex;align-items:center;gap:5px;font-size:11px;color:#697684;cursor:pointer}.listened-label input{accent-color:#7f926c;width:15px;height:15px}.level{font-size:10px;color:#959ca5}.note-wrap{margin-top:8px;border-top:1px solid #f3f0ea}.note-wrap summary{font-size:11px;color:#6a788b;padding-top:7px;cursor:pointer}.note-wrap textarea{resize:vertical;font-size:12px;margin-top:7px;min-height:56px}.note-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:6px}.note-save-status{font-size:11px;color:#34724b}.note-save-status.error{color:#a84e39}.note-wrap button{background:#263750;color:#fff;border:0;border-radius:7px;padding:5px 12px;font-size:11px;margin:0;display:block}
+.action-row{display:flex;justify-content:center;gap:10px;margin:23px 0}.btn{border:1px solid #d6d6d3;padding:10px 17px;border-radius:9px;background:white;color:#354258;font-weight:700;font-size:12px}.btn:hover{background:#f5f2ec}.btn.primary{background:#263750;color:#fff;border-color:#263750}.btn.primary:hover{background:#394e67}.btn.danger{color:#9e4646;border-color:#e4caca}.empty{padding:48px 20px;text-align:center;background:white;border:1px dashed #dbd8d1;border-radius:15px;color:#7b8594}.empty h3{margin:0 0 8px;color:#344154}.empty p{margin:0 0 15px}
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.info-card{border:1px solid var(--line);background:#fff;border-radius:15px;padding:22px}.info-card.full{grid-column:1/-1}.info-card h3{font-size:16px;margin:0 0 3px}.info-card .sub{font-size:11px;color:#7e8793;margin:0 0 18px}.bars{display:flex;flex-direction:column;gap:13px}.bar-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:12px}.bar-heading b{font-weight:650}.bar-heading span{font-size:11px;color:#838d99}.bar-track{height:8px;border-radius:20px;background:#eaeef0;overflow:hidden;margin-top:6px}.bar-fill{height:100%;background:linear-gradient(90deg,#7896a4,#a58d61);border-radius:20px}.favorites{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.favorite-line{background:#f7f8f8;border:1px solid #f0f0ef;padding:10px 12px;border-radius:9px;font-size:12px}.favorite-line small{display:block;color:#8b95a1;font-size:11px}.analysis-banner{background:linear-gradient(110deg,#eaf0f3,#f3eee5);border:1px solid #dfe6e6;border-radius:14px;padding:18px 22px;margin-bottom:16px}.analysis-banner h3{margin:0 0 5px;font-size:16px}.analysis-banner p{font-size:12px;color:#5c6c78;margin:0}.mini-badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.mini-badges span{border-radius:30px;background:#ffffffaf;color:#596b74;font-size:11px;padding:5px 10px}
+.manage-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.manage-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}.manage-card h3{margin:0;font-size:16px}.manage-card p{margin:4px 0 18px;color:#737e8c;font-size:12px}.manage-card .btn{margin:0 8px 8px 0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-field{min-width:0}.form-field.full{grid-column:1/-1}.form-field label{font-size:11px;font-weight:750;color:#657181;display:block;margin:0 0 4px}.form-field input,.form-field select,.form-field textarea{width:100%;padding:9px 10px}.form-field textarea{min-height:62px;resize:vertical}.hint{font-size:11px;color:#7b8592}.small-note{background:#f9f3e9;border-radius:8px;padding:10px;color:#866e4c;font-size:11px;margin-top:12px}.manage-card .file-input{display:none}.footer{max-width:1248px;border-top:1px solid #e2e0dc;margin:0 auto;padding:21px 0 28px;display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;font-size:11px;color:#9397a0}.footer b{font-family:Georgia,serif;color:#6f7682}.toast{position:fixed;z-index:99;right:24px;bottom:23px;background:#26384d;color:white;padding:12px 17px;min-width:180px;max-width:min(90vw,400px);box-shadow:0 12px 26px #14203140;border-radius:9px;font-size:12px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1050px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-art{opacity:.48}.hero-copy{padding-right:30px}.topbar,.content{padding-left:24px;padding-right:24px}.footer{margin:0 24px}}
+@media(max-width:700px){.topbar{padding:12px 15px}.brand-name{font-size:22px}.brand-name small{display:none}.topbar-note{font-size:0;gap:2px}.status-dot{display:none}.text-link{font-size:11px}.hero{border-radius:0;min-height:235px}.hero-copy{padding:30px 21px}.hero h1{font-size:27px}.hero p{font-size:12px;line-height:1.7}.hero-art{right:-190px;opacity:.35}.content{padding:0 12px 30px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.stat{padding:10px 12px}.stat-value{font-size:22px}.stat-icon{width:32px;height:32px;font-size:16px}.tabbar{overflow-x:auto;flex-wrap:nowrap;margin-bottom:16px}.tab{padding:11px 10px;white-space:nowrap;font-size:11px}.tab-icon{font-size:15px;margin-right:2px}.section-head{align-items:start}.section-head h2{font-size:19px}.section-head aside{display:none}.cards,.insight-grid,.manage-grid{grid-template-columns:1fr}.music-card{min-height:0}.info-card.full{grid-column:auto}.favorites{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-field.full{grid-column:auto}.guide-note{align-items:start}.guide-note .note-right{display:none}.controls{gap:7px}.controls select{min-width:calc(50% - 4px);flex:1 1 calc(50% - 4px)}.search-input{flex-basis:100%}.footer{margin:0 14px;padding:16px 0}.hero-steps{gap:9px}}
+
+
+/* v8: iPhone操作用のタッチ領域 */
+@media(max-width:700px){.star{min-width:37px;min-height:44px;padding:5px 0;font-size:24px}.listen-link{min-height:44px}.bookmark{width:40px;height:40px}.note-wrap button{min-height:40px}.rating-title{font-size:10px}.rating-info{min-width:38px}.tag-edit-row button{min-height:36px}}
+/* v8: Supabase cloud UI */
+.cloud-gate{min-height:100vh;display:grid;place-items:center;padding:28px 16px;background:linear-gradient(135deg,#1b2740,#343c54)}
+.cloud-auth{background:white;border-radius:19px;padding:29px;max-width:465px;width:100%;box-shadow:0 16px 55px #0a0f2133}
+.cloud-auth h1{font-family:Georgia,serif;font-size:29px;margin:0;color:#24324b}
+.cloud-auth p{font-size:13px;color:#627083;margin:7px 0 19px}
+.cloud-auth label{display:block;font-weight:700;font-size:12px;color:#536072;margin:14px 0 5px}
+.cloud-auth input{width:100%;border:1px solid #d4d9e0;border-radius:9px;padding:12px 13px;font-size:16px;background:#fff}
+.cloud-auth button,.cloud-bar button{border:1px solid #d4dce2;background:#fff;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;color:#34465d;cursor:pointer}
+.cloud-auth .primary{width:100%;padding:12px;background:#273853;color:white;margin-top:17px}
+.cloud-auth details{margin-top:20px;border-top:1px solid #eae9e6;padding-top:13px}
+.cloud-auth summary{cursor:pointer;color:#63728b;font-size:12px}
+.cloud-auth .error{min-height:19px;margin-top:11px;color:#a13232;font-size:12px;overflow-wrap:anywhere}
+.cloud-auth .hint{font-size:11px;margin:11px 0;color:#808998}
+.cloud-bar{max-width:1320px;margin:0 auto;padding:8px 36px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;border-top:1px solid #e5e8ea;border-bottom:1px solid #e5e8ea;background:#f0f4f8}
+.cloud-bar .cloud-message{flex:1;min-width:155px;color:#436b5b;font-weight:700}
+.cloud-bar .cloud-message.warn{color:#9c6125}.cloud-bar .cloud-message.error{color:#a13232}
+.cloud-bar .cloud-account{color:#738094;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
+.cloud-manage{padding:11px 13px;border:1px solid #dce5e3;background:#f4faf8;border-radius:10px;font-size:12px;margin:0 0 16px}
+.cloud-manage b{color:#2c6455}.cloud-manage button{margin:8px 5px 0 0}
+@media(max-width:700px){.cloud-bar{padding:8px 13px;gap:6px}.cloud-bar button{padding:7px 8px}.cloud-bar .cloud-account{max-width:140px}.cloud-auth{padding:24px 19px}}
+</style>
+
+
+</head>
+<body>
+<section id="cloudGate" class="cloud-gate">
+ <div class="cloud-auth">
+  <h1>♫ Classica</h1>
+  <p>ワイン管理と同じSupabaseアカウントでログイン。PCとiPhoneで評価・タグ・メモを同期します。</p>
+  <form id="cloudLoginForm">
+   <label for="cloudEmail">メールアドレス</label><input id="cloudEmail" type="email" autocomplete="email" required placeholder="メールアドレス">
+   <label for="cloudPassword">パスワード</label><input id="cloudPassword" type="password" autocomplete="current-password" required placeholder="ワイン管理と同じパスワード">
+   <button id="cloudLoginButton" class="primary" type="submit">ログイン</button>
+  </form>
+  <div id="cloudLoginError" class="error" role="alert"></div>
+  <p class="hint">初回ログイン後に、v7のJSONバックアップを取り込めます。ログイン前にクラウド上の記録は表示されません。</p>
+  <details><summary>Supabase接続設定（通常は変更不要）</summary>
+   <label for="cloudUrl">Project URL</label><input id="cloudUrl" type="url" spellcheck="false" placeholder="https://xxxx.supabase.co">
+   <label for="cloudKey">Publishable / anon key</label><input id="cloudKey" type="text" spellcheck="false" autocomplete="off" placeholder="sb_publishable_...">
+   <button type="button" id="cloudConfigSave">接続設定を保存</button>
+   <p class="hint">公開用キーのみ設定してください。secret / service_roleキーは入力しないでください。</p>
+  </details>
+ </div>
+</section>
+<div class="app-shell" id="classicaApp" hidden>
+  <header class="topbar">
+    <a href="#" class="brand" id="brandHome" aria-label="Classica ホームへ">
+      <span class="brand-mark" aria-hidden="true">♫</span>
+      <span class="brand-name">Classica <small>私のクラシック音楽ノート</small></span>
+    </a>
+    <div class="topbar-note"><span class="status-dot"></span> iPhone・PCクラウド同期 <button class="text-link" id="headerBackup">バックアップ</button></div>
+  </header>
+  <div class="cloud-bar" role="status" aria-live="polite">
+   <span id="cloudMessage" class="cloud-message warn">ログイン処理中…</span>
+   <span id="cloudAccount" class="cloud-account"></span>
+   <button id="cloudSyncNow" type="button">↻ 同期</button>
+   <button id="cloudSignOut" type="button">ログアウト</button>
+  </div>
+  <div id="hero" class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">DISCOVER · LISTEN · REMEMBER</div>
+      <h1>好きな一曲から、<br>音楽の世界を広げよう。</h1>
+      <p>名曲の聴きどころを知り、YouTubeやSpotifyで試聴。心に残った曲を記録すると、あなたに合う次の曲が見えてきます。</p>
+      <div class="hero-steps"><span>01 <b>見つける</b></span><i></i><span>02 <b>聴く</b></span><i></i><span>03 <b>評価する</b></span></div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><div class="art-circle art-one"></div><div class="art-circle art-two"></div><div class="art-circle art-three"></div><span>𝄞</span></div>
+  </div>
+  <main class="content">
+    <div id="storageWarning" class="storage-warning" role="alert" hidden></div>
+    <section class="stats" id="stats" aria-label="記録の状況"></section>
+    <nav class="tabbar" aria-label="表示メニュー">
+      <button class="tab active" data-tab="recommend"><span class="tab-icon">✦</span> おすすめ</button>
+      <button class="tab" data-tab="library"><span class="tab-icon">≡</span> 曲ライブラリ</button>
+      <button class="tab" data-tab="insights"><span class="tab-icon">▥</span> 好み分析</button>
+      <button class="tab" data-tab="manage"><span class="tab-icon">⚙</span> 登録・データ管理</button>
+    </nav>
+    <section id="panel-recommend" class="panel"></section>
+    <section id="panel-library" class="panel" hidden></section>
+    <section id="panel-insights" class="panel" hidden></section>
+    <section id="panel-manage" class="panel" hidden></section>
+  </main>
+  <footer class="footer"><span><b>Classica</b> · 自分だけのクラシック音楽ノート</span><span>試聴はYouTube / Spotifyの検索結果から。録音や演奏家はご自身で選べます。</span></footer>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+'use strict';
+const COMPOSERS = {
+ bach: {name:'J.S.バッハ',en:'Johann Sebastian Bach',years:'1685–1750',era:'バロック',bio:'ドイツの作曲家。対位法や和声の精緻さで知られ、宗教曲、鍵盤曲、器楽曲に膨大な作品を残した。'},
+ vivaldi: {name:'ヴィヴァルディ',en:'Antonio Vivaldi',years:'1678–1741',era:'バロック',bio:'イタリア・ヴェネツィアの作曲家・ヴァイオリニスト。独奏協奏曲を数多く作り、「四季」で自然の情景を鮮やかに描いた。'},
+ handel: {name:'ヘンデル',en:'George Frideric Handel',years:'1685–1759',era:'バロック',bio:'ドイツ生まれで英国を中心に活躍。オペラとオラトリオを得意とし、豪壮で祝祭的な響きが魅力。'},
+ mozart: {name:'モーツァルト',en:'Wolfgang Amadeus Mozart',years:'1756–1791',era:'古典派',bio:'オーストリアの作曲家。明快で美しい旋律の奥に、巧妙な構成と豊かな感情を共存させた。'},
+ haydn: {name:'ハイドン',en:'Joseph Haydn',years:'1732–1809',era:'古典派',bio:'交響曲と弦楽四重奏曲の発展に大きく貢献したオーストリアの作曲家。機知と明晰な形式感が特徴。'},
+ beethoven: {name:'ベートーヴェン',en:'Ludwig van Beethoven',years:'1770–1827',era:'古典派',bio:'古典派からロマン派への橋渡しとなった作曲家。短い動機を大きなドラマへ発展させる力に優れる。'},
+ schubert: {name:'シューベルト',en:'Franz Schubert',years:'1797–1828',era:'ロマン派',bio:'オーストリアの作曲家。歌曲の巨匠として知られ、器楽曲でも親密な抒情と翳りを表現した。'},
+ mendelssohn: {name:'メンデルスゾーン',en:'Felix Mendelssohn',years:'1809–1847',era:'ロマン派',bio:'ドイツの作曲家・指揮者。透明感ある管弦楽法、軽やかな運動感、歌心に優れる。'},
+ chopin: {name:'ショパン',en:'Frédéric Chopin',years:'1810–1849',era:'ロマン派',bio:'ポーランド生まれのピアニスト・作曲家。ほぼすべての重要作品にピアノが関わり、独特の詩情と繊細な和声を生んだ。'},
+ schumann: {name:'シューマン',en:'Robert Schumann',years:'1810–1856',era:'ロマン派',bio:'ドイツ・ロマン派の作曲家。文学的な想像力と心の揺れをピアノ曲、歌曲、管弦楽曲に託した。'},
+ liszt: {name:'リスト',en:'Franz Liszt',years:'1811–1886',era:'ロマン派',bio:'ハンガリー生まれのピアニスト・作曲家。超絶技巧と大胆な響きで、ピアノ音楽や交響詩を革新した。'},
+ brahms: {name:'ブラームス',en:'Johannes Brahms',years:'1833–1897',era:'ロマン派',bio:'ドイツの作曲家。古典的な構成美と深い情緒を組み合わせ、室内楽、ピアノ曲、交響曲に名作を残した。'},
+ tchaikovsky: {name:'チャイコフスキー',en:'Pyotr Ilyich Tchaikovsky',years:'1840–1893',era:'ロマン派',bio:'ロシアの作曲家。憶えやすい旋律、劇的な起伏、華やかな管弦楽が特徴。バレエ音楽でも有名。'},
+ dvorak: {name:'ドヴォルザーク',en:'Antonín Dvořák',years:'1841–1904',era:'ロマン派',bio:'チェコの作曲家。民謡的なリズムと温かな旋律を、交響曲や室内楽に生かした。'},
+ grieg: {name:'グリーグ',en:'Edvard Grieg',years:'1843–1907',era:'ロマン派',bio:'ノルウェーの作曲家。北欧の自然と民俗音楽の色彩が感じられる小品や劇音楽を残した。'},
+ saintsaens: {name:'サン＝サーンス',en:'Camille Saint-Saëns',years:'1835–1921',era:'ロマン派',bio:'フランスの作曲家。明快な構成と洗練された楽器の使い方を持ち、親しみやすい名曲も多い。'},
+ faure: {name:'フォーレ',en:'Gabriel Fauré',years:'1845–1924',era:'ロマン派',bio:'フランスの作曲家。柔らかな和声、抑制された気品、内省的な歌心が特徴。'},
+ mahler: {name:'マーラー',en:'Gustav Mahler',years:'1860–1911',era:'ロマン派',bio:'大規模な交響曲で、人生の喜び、葛藤、孤独を広大な音響世界にした作曲家・指揮者。'},
+ elgar: {name:'エルガー',en:'Edward Elgar',years:'1857–1934',era:'ロマン派',bio:'英国の作曲家。気品のある旋律と大きなうねりを持つ管弦楽作品で知られる。'},
+ puccini: {name:'プッチーニ',en:'Giacomo Puccini',years:'1858–1924',era:'ロマン派',bio:'イタリアのオペラ作曲家。劇場効果を心得た歌の旋律と繊細な管弦楽が魅力。'},
+ verdi: {name:'ヴェルディ',en:'Giuseppe Verdi',years:'1813–1901',era:'ロマン派',bio:'イタリアのオペラ作曲家。登場人物の感情を劇的で力強い旋律に変える名手。'},
+ bizet: {name:'ビゼー',en:'Georges Bizet',years:'1838–1875',era:'ロマン派',bio:'フランスの作曲家。オペラ「カルメン」で、色彩豊かな管弦楽と忘れがたい旋律を残した。'},
+ rachmaninoff: {name:'ラフマニノフ',en:'Sergei Rachmaninoff',years:'1873–1943',era:'ロマン派',bio:'ロシア生まれの作曲家・ピアニスト。濃厚な旋律、広い音域、鐘を思わせる響きが特徴。'},
+ debussy: {name:'ドビュッシー',en:'Claude Debussy',years:'1862–1918',era:'近代・印象派',bio:'フランスの作曲家。従来の調性感にとらわれず、光や水、空気のような音の色彩を追求した。'},
+ ravel: {name:'ラヴェル',en:'Maurice Ravel',years:'1875–1937',era:'近代・印象派',bio:'フランスの作曲家。精密で透明なオーケストレーションと洗練されたリズムが特徴。'},
+ sibelius: {name:'シベリウス',en:'Jean Sibelius',years:'1865–1957',era:'近代・印象派',bio:'フィンランドの作曲家。凝縮された動機と北欧的な自然観を感じさせる交響曲・交響詩で知られる。'},
+ holst: {name:'ホルスト',en:'Gustav Holst',years:'1874–1934',era:'20世紀以降',bio:'英国の作曲家。組曲「惑星」は性格の異なる楽章を鮮やかな管弦楽で描いた代表作。'},
+ stravinsky: {name:'ストラヴィンスキー',en:'Igor Stravinsky',years:'1882–1971',era:'20世紀以降',bio:'ロシア出身の作曲家。変拍子や鮮烈な管弦楽法によって20世紀音楽を大きく変えた。'},
+ prokofiev: {name:'プロコフィエフ',en:'Sergei Prokofiev',years:'1891–1953',era:'20世紀以降',bio:'ロシアの作曲家。鋭いリズムと現代的な響きの中に、強いメロディー感覚を持つ。'},
+ shostakovich: {name:'ショスタコーヴィチ',en:'Dmitri Shostakovich',years:'1906–1975',era:'20世紀以降',bio:'ソ連の作曲家。緊張、皮肉、悲劇性を交響曲や弦楽四重奏曲に刻んだ。'},
+ satie: {name:'サティ',en:'Erik Satie',years:'1866–1925',era:'近代・印象派',bio:'フランスの作曲家。簡素で静かなピアノ曲は、後世のミニマル音楽にも影響を与えた。'},
+ part: {name:'アルヴォ・ペルト',en:'Arvo Pärt',years:'1935–',era:'20世紀以降',bio:'エストニアの作曲家。鐘の響きを思わせる簡潔な作曲語法で、沈黙と余白を生かした作品を生む。'},
+ glass: {name:'フィリップ・グラス',en:'Philip Glass',years:'1937–',era:'20世紀以降',bio:'米国の作曲家。反復する音型が少しずつ変化していくミニマル音楽で知られる。'}
+};
+const t=(id,composer,title,genre,level,moods,hook,story,query)=>({id,composer,title,genre,level,moods,hook,story,query,era:COMPOSERS[composer].era});
+const TRACKS=[
+ t('c001','beethoven','交響曲第7番 第2楽章', '交響曲','はじめて',['哀愁','躍動'],'一定のリズムが少しずつ重なり、静かな行進が大きな感情へ変化する。','重厚な印象でも、まずは冒頭の低音の刻みに耳を向けると入りやすい。','Beethoven Symphony No. 7 II Allegretto'),
+ t('c002','debussy','ベルガマスク組曲「月の光」','ピアノ','はじめて',['静けさ','透明感'],'夜の光が水面で揺れるような、柔らかなピアノの響き。','はっきりした拍より、音の余韻と和声の移ろいを味わいたい曲。','Debussy Clair de Lune'),
+ t('c003','rachmaninoff','ピアノ協奏曲第2番 第2楽章','協奏曲','はじめて',['哀愁','情熱'],'ピアノとオーケストラが交わす、長く美しい歌のような旋律。','静けさから情感が高まる流れを追うと、協奏曲の醍醐味がつかめる。','Rachmaninoff Piano Concerto No. 2 II Adagio sostenuto'),
+ t('c004','bach','無伴奏チェロ組曲第1番「プレリュード」','独奏・室内楽','はじめて',['静けさ','優雅'],'1本のチェロが奏でる分散和音から、豊かな空間が生まれる。','低音から高音へ、弦の響きが自然に広がる感覚を楽しむ。','Bach Cello Suite No 1 Prelude BWV 1007'),
+ t('c005','vivaldi','「四季」より「春」第1楽章','協奏曲','はじめて',['華やか','躍動'],'小鳥のさえずりのような旋律と、弾むヴァイオリン。','風景を音で表す標題音楽の楽しみを知る入口。','Vivaldi Four Seasons Spring I Allegro'),
+ t('c006','mozart','ピアノ協奏曲第21番 第2楽章','協奏曲','はじめて',['静けさ','優雅'],'穏やかな弦の上で、ピアノが気品ある旋律を歌う。','ピアノとオーケストラの距離感、透明な美しさを楽しむ。','Mozart Piano Concerto 21 II Andante K467'),
+ t('c007','tchaikovsky','バレエ「白鳥の湖」より「情景」','バレエ・舞台','はじめて',['哀愁','壮大'],'オーボエの切ない主題が、物語の世界へ連れていく。','バレエの一場面を思い浮かべ、音楽が感情を描く力を味わう。','Tchaikovsky Swan Lake Scene Act II Op 20'),
+ t('c008','chopin','ノクターン第2番 変ホ長調 Op.9-2','ピアノ','はじめて',['優雅','哀愁'],'装飾されながら繰り返される、歌うようなピアノの旋律。','右手の自由な歌い回しと、左手の安定した伴奏を聴き分ける。','Chopin Nocturne Op 9 No 2'),
+ t('c009','dvorak','交響曲第9番「新世界より」第2楽章','交響曲','はじめて',['哀愁','壮大'],'イングリッシュホルンが奏でる懐かしい旋律。','アメリカ滞在中の作品。遠い故郷を想わせる響きが印象的。','Dvorak Symphony No 9 II Largo'),
+ t('c010','ravel','ボレロ','管弦楽','はじめて',['躍動','壮大'],'同じリズムと旋律を、楽器を変えながら大きく育てていく。','スネアドラムの反復と、次々変わる楽器の色合いに注目。','Ravel Bolero full orchestra'),
+ t('c011','saintsaens','「動物の謝肉祭」より「白鳥」','独奏・室内楽','はじめて',['静けさ','優雅'],'ゆったり歌うチェロと、波のように揺れるピアノ。','短い1曲でも、音色の美しさをじっくり味わえる。','Saint Saens The Swan Le Cygne'),
+ t('c012','mahler','交響曲第5番 第4楽章「アダージェット」','交響曲','もう一歩',['哀愁','静けさ'],'弦楽器とハープだけで描く、長い息の静かな抒情。','マーラーの大編成交響曲の中でも、とても親密な一章。','Mahler Symphony No 5 IV Adagietto'),
+ t('c013','beethoven','交響曲第5番「運命」第1楽章','交響曲','はじめて',['緊張感','壮大'],'有名な4音の動機が、壮大なドラマに発展する。','たった数音が曲全体を動かすベートーヴェンらしさに注目。','Beethoven Symphony No 5 I Allegro con brio'),
+ t('c014','mozart','交響曲第40番 第1楽章','交響曲','はじめて',['哀愁','躍動'],'小刻みに揺れる旋律が、美しさと落ち着かなさを同居させる。','明るいだけではないモーツァルトの魅力がよく伝わる。','Mozart Symphony No 40 I Molto allegro K550'),
+ t('c015','bach','管弦楽組曲第3番「エア（アリア）」','管弦楽','はじめて',['静けさ','優雅'],'ゆっくり流れる旋律と、柔らかい弦の重なり。','いわゆる「G線上のアリア」の原曲。編曲版との違いも楽しめる。','Bach Orchestral Suite No 3 Air BWV 1068'),
+ t('c016','handel','「メサイア」より「ハレルヤ」','声楽・合唱','はじめて',['壮大','華やか'],'合唱とオーケストラが高らかに響く、祝祭的な音楽。','バロック期のオラトリオ。合唱の声部が積み重なる迫力を楽しむ。','Handel Messiah Hallelujah Chorus'),
+ t('c017','schubert','即興曲 変ト長調 Op.90-3','ピアノ','はじめて',['静けさ','哀愁'],'流れるような伴奏の上に、親密な旋律が浮かぶ。','繰り返し聴くほど、さりげない和声の変化が沁みてくる。','Schubert Impromptu Op 90 No 3 D899'),
+ t('c018','chopin','バラード第1番 ト短調 Op.23','ピアノ','もう一歩',['情熱','壮大'],'穏やかな語りから、劇的なクライマックスへ向かう。','物語のように展開する大規模なピアノ独奏曲。','Chopin Ballade No 1 G minor Op 23'),
+ t('c019','tchaikovsky','ピアノ協奏曲第1番 第1楽章','協奏曲','はじめて',['壮大','情熱'],'有名なホルンの導入から、ピアノが豪快に登場する。','華やかな冒頭を味わったら、曲中の静かな対比にも注目。','Tchaikovsky Piano Concerto 1 I Allegro'),
+ t('c020','brahms','交響曲第3番 第3楽章','交響曲','はじめて',['哀愁','優雅'],'チェロが歌い始める、しみじみとした主題。','大げさに盛り上がらない、内面に響くロマン派の音楽。','Brahms Symphony No 3 III Poco allegretto'),
+ t('c021','debussy','「映像」第1集より「水の反映」','ピアノ','もう一歩',['透明感','神秘'],'水面のきらめきを思わせる、複雑で色彩的な響き。','旋律を追うよりも、響きが変化する様子を楽しみたい。','Debussy Reflets dans l eau Images book 1'),
+ t('c022','ravel','亡き王女のためのパヴァーヌ','管弦楽','はじめて',['優雅','哀愁'],'静謐で気品のある旋律が、ゆっくりと歩む。','古風な舞曲をイメージした作品。ピアノ版も聴き比べに向く。','Ravel Pavane pour une infante defunte orchestra'),
+ t('c023','rachmaninoff','前奏曲 嬰ハ短調 Op.3-2','ピアノ','もう一歩',['緊張感','壮大'],'鐘を思わせる重い和音と、切迫した中間部。','華麗な技巧だけでなく、響きの厚さに注目すると面白い。','Rachmaninoff Prelude C sharp minor Op 3 No 2'),
+ t('c024','dvorak','チェロ協奏曲 第1楽章','協奏曲','もう一歩',['情熱','壮大'],'オーケストラの大きな導入を受け、チェロが堂々と歌う。','チェロの人間的な声と大編成オーケストラの対話を味わう。','Dvorak Cello Concerto I Allegro Op 104'),
+ t('c025','mendelssohn','ヴァイオリン協奏曲 ホ短調 第1楽章','協奏曲','はじめて',['情熱','優雅'],'ヴァイオリンが冒頭からすぐに主旋律を歌い出す。','独奏と管弦楽の掛け合いが滑らかなロマン派協奏曲の代表格。','Mendelssohn Violin Concerto E minor I Allegro'),
+ t('c026','faure','レクイエムより「ピエ・イエズ」','声楽・合唱','はじめて',['静けさ','透明感'],'祈りをささげるような、素朴で柔らかな歌。','劇的な死の恐怖よりも、安らぎを感じさせるレクイエム。','Faure Requiem Pie Jesu'),
+ t('c027','satie','ジムノペディ第1番','ピアノ','はじめて',['静けさ','神秘'],'間をたっぷり取る、簡素で不思議なピアノの世界。','音数の少なさと余白を味わうのにぴったり。','Erik Satie Gymnopedie No 1 piano'),
+ t('c028','holst','組曲「惑星」より「木星」','管弦楽','はじめて',['華やか','壮大'],'躍動感あるリズムのあと、伸びやかで壮大な旋律が現れる。','同じ楽章の中で性格が大きく変わる楽しさを聴く。','Holst The Planets Jupiter'),
+ t('c029','stravinsky','「火の鳥」組曲より「終曲」','バレエ・舞台','もう一歩',['壮大','神秘'],'ホルンの静かな主題が成長し、輝かしいフィナーレへ。','細やかな楽器の重ね方から、絢爛な結末へ向かう変化が魅力。','Stravinsky Firebird Suite Finale'),
+ t('c030','prokofiev','「ロメオとジュリエット」より「騎士たちの踊り」','バレエ・舞台','はじめて',['緊張感','壮大'],'低音の力強いリズムと鋭い和音が強烈な印象を残す。','バレエ音楽なのに映画音楽のような迫力を感じられる。','Prokofiev Dance of the Knights Romeo Juliet'),
+ t('c031','elgar','エニグマ変奏曲より「ニムロッド」','管弦楽','はじめて',['哀愁','壮大'],'静かに始まり、弦の響きが大きく温かく広がる。','友人たちを描いた変奏曲の一部。厳粛さと人間味が共存する。','Elgar Enigma Variations Nimrod'),
+ t('c032','puccini','歌劇「トゥーランドット」より「誰も寝てはならぬ」','声楽・合唱','はじめて',['情熱','壮大'],'テノールの歌声がクライマックスへ突き進む。','声楽が初めてでもドラマが伝わりやすいオペラの名アリア。','Puccini Nessun Dorma Turandot'),
+ t('c033','bizet','歌劇「カルメン」より「ハバネラ」','声楽・合唱','はじめて',['情熱','優雅'],'独特のリズムと魅惑的な旋律が耳に残る。','登場人物の性格が音楽だけでも見えるようなアリア。','Bizet Carmen Habanera'),
+ t('c034','verdi','歌劇「椿姫」より「乾杯の歌」','声楽・合唱','はじめて',['華やか','躍動'],'華やかな社交の場を彩る、親しみやすい二重唱と合唱。','オペラを堅苦しく考えず、舞台の楽しさを感じる入口に。','Verdi La Traviata Brindisi Libiamo'),
+ t('c035','vivaldi','「四季」より「冬」第2楽章','協奏曲','はじめて',['静けさ','優雅'],'雨音を思わせる伴奏に、温かなヴァイオリンが歌う。','「春」の活気とは対照的な、季節の静かな一面を楽しむ。','Vivaldi Four Seasons Winter II Largo'),
+ t('c036','bach','ゴルトベルク変奏曲より「アリア」','ピアノ','はじめて',['静けさ','優雅'],'端正な旋律と穏やかな和声が、長い変奏曲の入口を作る。','ピアノ演奏とチェンバロ演奏で印象が大きく変わる。','Bach Goldberg Variations Aria BWV 988'),
+ t('c037','beethoven','ピアノソナタ第14番「月光」第1楽章','ピアノ','はじめて',['静けさ','哀愁'],'静かな三連符の波の上に、深い陰影が漂う。','「月光」は後世に広まった通称。柔らかいだけでない緊張を聴く。','Beethoven Moonlight Sonata I Adagio sostenuto'),
+ t('c038','mozart','クラリネット協奏曲 第2楽章','協奏曲','はじめて',['優雅','静けさ'],'クラリネットが人の声のように自然に歌う。','モーツァルト晩年の作品。楽器そのものの美しい音色に浸れる。','Mozart Clarinet Concerto II Adagio K622'),
+ t('c039','haydn','弦楽四重奏曲 Op.76-3「皇帝」第2楽章','独奏・室内楽','もう一歩',['優雅','静けさ'],'親しみやすい主題が、4本の弦楽器の中で変奏されていく。','小さな編成ならではの会話とバランスに注目。','Haydn String Quartet Emperor Op 76 No 3 II'),
+ t('c040','brahms','間奏曲 イ長調 Op.118-2','ピアノ','はじめて',['哀愁','静けさ'],'穏やかで温かな旋律の中に、深い郷愁がにじむ。','晩年のピアノ小品。派手さより、音の語り口を味わいたい。','Brahms Intermezzo A major Op 118 No 2'),
+ t('c041','tchaikovsky','「くるみ割り人形」より「花のワルツ」','バレエ・舞台','はじめて',['華やか','優雅'],'ハープの導入から広がる優美なワルツ。','踊りと場面の変化を想像するとさらに楽しめる。','Tchaikovsky Nutcracker Waltz of the Flowers'),
+ t('c042','liszt','愛の夢 第3番','ピアノ','はじめて',['情熱','優雅'],'歌うような旋律から、きらめく華やかな展開へ。','感情の高まりをピアノ一台で描き出すロマン派の名曲。','Liszt Liebestraum No 3'),
+ t('c043','grieg','「ペール・ギュント」より「朝」','管弦楽','はじめて',['透明感','静けさ'],'朝日が昇るように、旋律と管弦楽の色彩が広がる。','短い情景描写。フルートとオーボエのやり取りが印象的。','Grieg Peer Gynt Morning Mood'),
+ t('c044','sibelius','フィンランディア','管弦楽','もう一歩',['壮大','情熱'],'力強い序奏から、誇りと祈りを感じる旋律へ。','フィンランドの民族的な意識とも深く結びついた交響詩。','Sibelius Finlandia Op 26'),
+ t('c045','shostakovich','交響曲第5番 第4楽章','交響曲','じっくり',['緊張感','壮大'],'激しい推進力の中に、どこか割り切れない緊張が残る。','表面の壮麗さとその背後の不安をどう聴くか、解釈が分かれる作品。','Shostakovich Symphony No 5 IV Allegro non troppo'),
+ t('c046','part','鏡の中の鏡（Spiegel im Spiegel）','独奏・室内楽','もう一歩',['静けさ','神秘'],'極めて少ない音で、ゆっくり時間が進む感覚を作る。','余白の大きい現代音楽。旋律より、音の消え際を聴いてみる。','Arvo Part Spiegel im Spiegel violin piano'),
+ t('c047','glass','グラスワークスより「オープニング」','ピアノ','もう一歩',['躍動','神秘'],'同じ音型が繰り返され、少しずつ風景が変わる。','反復の中に生まれる小さな違いを見つける楽しみがある。','Philip Glass Glassworks Opening'),
+ t('c048','schumann','「子供の情景」より「トロイメライ」','ピアノ','はじめて',['静けさ','哀愁'],'言葉のない回想のように、短い旋律が優しく響く。','「夢」という題名の通り、思い出の遠さを感じる小品。','Schumann Traumerei Kinderszenen Op 15'),
+ t('c049','mendelssohn','序曲「フィンガルの洞窟」','管弦楽','もう一歩',['神秘','壮大'],'うねる弦と管楽器が、海や洞窟の景色を連想させる。','スコットランド旅行の印象から生まれた演奏会用序曲。','Mendelssohn Hebrides Fingals Cave Overture'),
+ t('c050','faure','パヴァーヌ Op.50','管弦楽','はじめて',['優雅','哀愁'],'気品と少しの寂しさを持つ旋律が、ゆっくりと舞う。','同じ作品に合唱を加えた版もあり、聴き比べが楽しい。','Faure Pavane Op 50 orchestra'),
+ t('c051','debussy','交響詩「海」より第1楽章','管弦楽','じっくり',['神秘','壮大'],'色彩が次々と移り変わり、海の表情が立ち現れる。','はっきりした主題を探すより、音の質感と動きを楽しむ。','Debussy La Mer I De l aube a midi sur la mer'),
+ t('c052','rachmaninoff','ヴォカリーズ Op.34-14','声楽・合唱','はじめて',['哀愁','静けさ'],'言葉を使わず、母音だけで歌う長い美しい旋律。','歌唱版とチェロなどの器楽編曲で雰囲気が変わる。','Rachmaninoff Vocalise Op 34 No 14 soprano'),
+ t('c053','handel','「水上の音楽」より「アラ・ホーンパイプ」','管弦楽','はじめて',['華やか','躍動'],'トランペットやホルンがきらびやかに響く、祝祭の音楽。','英国王室の行事と結びついた屋外の響きを思い浮かべて。','Handel Water Music Alla Hornpipe'),
+ t('c054','chopin','練習曲 ホ長調 Op.10-3「別れの曲」','ピアノ','はじめて',['哀愁','優雅'],'まっすぐ歌う旋律が、やがて感情をあふれさせる。','練習曲という名前からは想像しにくい、深い歌心が魅力。','Chopin Etude Op 10 No 3'),
+ t('c055','stravinsky','「春の祭典」より「春のきざし」','バレエ・舞台','じっくり',['緊張感','躍動'],'強烈な不規則アクセントが、身体に迫るリズムを生む。','1913年に初演された20世紀音楽の転換点のひとつ。','Stravinsky Rite of Spring Augurs of Spring'),
+ t('c056','satie','グノシエンヌ第1番','ピアノ','もう一歩',['神秘','静けさ'],'定まらないように漂う、独特でミステリアスな旋律。','拍子を意識させない自由な雰囲気を味わう。','Satie Gnossienne No 1'),
+ t('c057','beethoven','交響曲第6番「田園」第1楽章','交響曲','はじめて',['優雅','躍動'],'自然の中で気持ちがほどけるような伸びやかな旋律。','作者自身による標題のある交響曲。風景より気分の描写を楽しむ。','Beethoven Pastoral Symphony No 6 I'),
+ t('c058','elgar','チェロ協奏曲 第1楽章','協奏曲','もう一歩',['哀愁','情熱'],'チェロの独白のような冒頭から、深い感情へ入っていく。','重く低い楽器の響きが好きかどうかを確かめる一曲。','Elgar Cello Concerto I Adagio Moderato'),
+ t('c059','schubert','弦楽四重奏曲第14番「死と乙女」第2楽章','独奏・室内楽','もう一歩',['哀愁','緊張感'],'静かな主題を4本の弦が変奏し、表情が変わっていく。','弦楽四重奏の会話と緊張の両方を感じられる。','Schubert Death and the Maiden Quartet II Andante'),
+ t('c060','ravel','「ダフニスとクロエ」第2組曲より「夜明け」','管弦楽','もう一歩',['透明感','壮大'],'細かな音が重なり、朝の光が広がるような管弦楽。','ラヴェルの色彩豊かなオーケストレーションが際立つ。','Ravel Daphnis et Chloe Suite No 2 Lever du jour')
+];
+
+</script>
+<script>
+'use strict';
+(() => {
+  const STORAGE_KEY='classica-notebook-v1';
+  const GENRES=['交響曲','協奏曲','ピアノ','独奏・室内楽','管弦楽','バレエ・舞台','声楽・合唱'];
+  const ERAS=['バロック','古典派','ロマン派','近代・印象派','20世紀以降'];
+  const MOODS=['静けさ','情熱','壮大','哀愁','華やか','躍動','透明感','優雅','神秘','緊張感'];
+  const WIKI_WORKS={c002:'ベルガマスク組曲',c005:'四季 (ヴィヴァルディ)',c007:'白鳥の湖',c010:'ボレロ (ラヴェル)',c035:'四季 (ヴィヴァルディ)'}; // 確認できた作品ページ
+  const wikiSearch=(q)=>'https://ja.wikipedia.org/w/index.php?search='+encodeURIComponent(q);
+  const wikiArticle=(title)=>'https://ja.wikipedia.org/wiki/'+encodeURIComponent(title.replaceAll(' ','_'));
+  const STARTER=['c001','c002','c003','c004','c005','c006','c007','c008','c009','c010','c011','c013','c015','c028','c037','c038'];
+  const initData=()=>({entries:{},customTracks:[],tags:[]});
+  let storageError='';
+  const load=()=>{try{const obj=JSON.parse(localStorage.getItem(STORAGE_KEY));return obj&&typeof obj==='object'&&obj.entries&&typeof obj.entries==='object'&&Array.isArray(obj.customTracks)?obj:initData();}catch(e){storageError=`${e.name||'Error'}: ${e.message||'保存領域にアクセスできません'}`;return initData();}};
+  let data=load(),tab='recommend', cloudBridge=null;
+  if(!Array.isArray(data.tags))data.tags=[]; // v1/v2からの自動移行：既存の記録は保持
+  const ui={recommend:{query:'',genre:'',era:'',mood:'',tag:'',status:'unrated',sort:'recommended',visible:12},library:{query:'',genre:'',era:'',mood:'',tag:'',status:'all',sort:'recommended',visible:12}};
+  const $=(id)=>document.getElementById(id);
+  const allTracks=()=>[...TRACKS,...data.customTracks];
+  const entry=(id)=>data.entries[id]||{};
+  const normalizeTag=(value)=>String(value??'').normalize('NFKC').trim().replace(/\s+/g,' ').slice(0,24);
+  const tagKey=(name)=>normalizeTag(name).toLocaleLowerCase('ja');
+  const tagsFor=(id)=>Array.isArray(entry(id).tags)?entry(id).tags:[];
+  const allTagNames=()=>Array.isArray(data.tags)?data.tags:[];
+  // 選択肢には初期の雰囲気タグとユーザー作成タグの両方を含む。
+  const existingTagChoices=()=>[...MOODS,...allTagNames().filter(t=>!MOODS.some(m=>tagKey(m)===tagKey(t)))];
+  const matchingTag=(name)=>allTagNames().find(t=>tagKey(t)===tagKey(name));
+  const validTag=(name)=>name&&name.length<=24&&!/[\x00-\x1F\x7F]/.test(name);
+  const usageCount=(name)=>allTracks().filter(t=>tagsFor(t.id).some(x=>tagKey(x)===tagKey(name))).length;
+  const composerOf=(track)=>track.composer&&COMPOSERS[track.composer]?COMPOSERS[track.composer]:track.composerName?{name:track.composerName,en:'',years:'',era:track.era,bio:track.composerBio||'登録した作曲家です。'}:{name:'不明',en:'',years:'',bio:''};
+  const esc=(s)=>String(s??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+  const truncate=(s,n)=>String(s??'').slice(0,n);
+  const ratingText=(n)=>({1:'好みではない',2:'少し合わない',3:'普通・悪くない',4:'好き',5:'とても好き'})[n]||'未評価';
+  function storageDiagnostic(err){
+    storageError=err?`${err.name||'Error'}: ${err.message||'保存領域への書き込み失敗'}`:'';
+    const el=$('storageWarning');if(!el)return;
+    el.hidden=!storageError;
+    if(storageError){el.textContent='端末内の一時保存に失敗しました（'+storageError+'）。プライベートブラウズやブラウザの容量制限を確認してください。必要に応じて「JSONバックアップ」を保存してください。';}
+  }
+  const save=()=>{if(!cloudBridge?.ready||cloudBridge.blocked){toast('クラウドが利用できません。同期状態を確認してください。');return false;}
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));storageDiagnostic(null);cloudBridge.noteChange();return true;}
+    catch(e){storageDiagnostic(e);toast('端末内の一時保存に失敗しました：'+(e.name||'Error'));return false;}
+  };
+  const toast=(s)=>{const el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),2800)};
+  const averages=(groups,keyFn)=>{const obj={};for(const tr of groups){const x=keyFn(tr),r=Number(entry(tr.id).rating);if(r>=1&&r<=5){for(const k of (Array.isArray(x)?x:[x])){if(!k)continue;if(!obj[k])obj[k]={sum:0,n:0};obj[k].sum+=r;obj[k].n++;}}}return obj;};
+  const stats=()=>{const all=allTracks(),rated=all.filter(t=>entry(t.id).rating>=1),listened=all.filter(t=>entry(t.id).listened||entry(t.id).rating>=1),favorites=rated.filter(t=>entry(t.id).rating>=4);return {total:all.length,rated:rated.length,listened:listened.length,favorites:favorites.length,unlistened:all.length-listened.length,mean:rated.length?(rated.reduce((a,t)=>a+entry(t.id).rating,0)/rated.length).toFixed(1):'–'};};
+  const compactAffinity=(target)=>{
+    const rated=allTracks().filter(t=>entry(t.id).rating>=1);
+    if(rated.length<3)return {score:0,reason:'気軽に聴ける名曲'};
+    let score=0;const reasons=[];
+    const similar=(label,mult,matcher)=>{const matches=rated.filter(matcher);if(!matches.length)return;const avg=matches.reduce((a,t)=>a+Number(entry(t.id).rating),0)/matches.length;const s=(avg-3)*mult*Math.min(1.3,0.75+Math.log2(matches.length+1)*0.2);score+=s;if(avg>=4)reasons.push({score:s,text:label});};
+    similar('好きな作曲家の別作品',2.4,t=>t.composer===target.composer&&t.composer&&!t.composerName);
+    similar('好みのジャンルに近い',1.1,t=>t.genre===target.genre);
+    similar('好みの時代に近い',0.55,t=>t.era===target.era);
+    similar('好みの雰囲気が共通',0.75,t=>t.moods?.some(m=>target.moods?.includes(m)));
+    if(target.level==='はじめて')score+=.25;
+    return {score,reason:reasons.sort((a,b)=>b.score-a.score)[0]?.text||'新しい方向も試してみる'};
+  };
+  const recommendationOrder=(tracks,hideRated)=>{
+    const weighted=tracks.map((t,i)=>{const a=compactAffinity(t),start=STARTER.indexOf(t.id);return {t,score:a.score+(start>=0?1.8-start*.08:0)+((t.level==='はじめて')?.1:0),reason:a.reason,i};});
+    weighted.sort((a,b)=>b.score-a.score||a.i-b.i);
+    if(!hideRated)return weighted;
+    const output=[],genre={},composer={};
+    // Prefer a varied first page instead of only one composer / one genre.
+    for(const limit of [true,false])for(const it of weighted){if(output.includes(it))continue;if(limit && ((genre[it.t.genre]||0)>=3||(composer[it.t.composer||it.t.composerName]||0)>=2))continue;output.push(it);genre[it.t.genre]=(genre[it.t.genre]||0)+1;const c=it.t.composer||it.t.composerName;composer[c]=(composer[c]||0)+1;}
+    return output;
+  };
+  function updateStats(){const s=stats();$('stats').innerHTML=[['収録曲数',s.total,'曲','♫'],['聴いた曲',s.listened,'曲','◉'],['評価済み',s.rated,'曲','★'],['好きな曲（4点以上）',s.favorites,'曲','♡']].map(([label,n,sfx,icon])=>`<div class="stat"><div><span class="stat-label">${label}</span><span class="stat-value">${n}<span class="stat-suffix">${sfx}</span></span></div><div class="stat-icon">${icon}</div></div>`).join('');}
+  const option=(v,label,selected)=>`<option value="${esc(v)}" ${v===selected?'selected':''}>${esc(label)}</option>`;
+  function controls(view){const f=ui[view],extraTags=allTagNames().filter(tag=>!MOODS.some(m=>tagKey(m)===tagKey(tag)));return `<div class="controls">
+   <input class="search-input" aria-label="曲名、作曲家、タグ、メモで検索" data-filter="query" data-view="${view}" placeholder="⌕ 曲名・作曲家・タグ・メモで検索" value="${esc(f.query)}">
+   <select data-filter="genre" data-view="${view}" aria-label="ジャンル">${option('','全ジャンル',f.genre)}${GENRES.map(g=>option(g,g,f.genre)).join('')}</select>
+   <select data-filter="era" data-view="${view}" aria-label="時代">${option('','全時代',f.era)}${ERAS.map(g=>option(g,g,f.era)).join('')}</select>
+   <select data-filter="tag" data-view="${view}" aria-label="自分のタグ">${option('','全タグ',f.tag)}${allTagNames().map(g=>option(g,'#'+g,f.tag)).join('')}</select>
+   <select data-filter="status" data-view="${view}" aria-label="試聴・評価状況">${[['all','すべて'],['unrated','未評価'],['unlistened','未試聴'],['listened','試聴済み'],['liked','好き（4点以上）'],['saved','あとで聴く']].map(x=>option(x[0],x[1],f.status)).join('')}</select>
+   <select data-filter="sort" data-view="${view}" aria-label="並べ替え">${[['recommended','おすすめ順'],['rating','好み度の高い順'],['latest','最近評価した順'],['composer','作曲家順'],['title','曲名順']].map(x=>option(x[0],x[1],f.sort)).join('')}</select>
+   </div><div class="mood-row"><span class="mood-label">曲の雰囲気・タグ</span>${['',...MOODS].map(m=>`<button type="button" data-mood="${esc(m)}" data-view="${view}" class="chip ${m?(f.mood===m?'active':''):(f.mood===''&&f.tag===''?'active':'')}">${esc(m||'すべて')}</button>`).join('')}${extraTags.map(tag=>`<button type="button" data-filter-tag="${esc(tag)}" data-view="${view}" class="chip tag-filter-chip ${f.tag===tag?'active':''}" title="自分で追加したタグ">#${esc(tag)}</button>`).join('')}</div>`;}
+  function findTracks(view){const f=ui[view],search=f.query.trim().toLocaleLowerCase('ja');let list=allTracks().filter(t=>{
+    const e=entry(t.id),r=Number(e.rating)||0;
+    if(f.genre&&t.genre!==f.genre)return false;
+    if(f.era&&t.era!==f.era)return false;
+    if(f.mood&&!t.moods?.includes(f.mood)&&!tagsFor(t.id).some(tag=>tagKey(tag)===tagKey(f.mood)))return false;
+    if(f.tag&&!tagsFor(t.id).some(tag=>tagKey(tag)===tagKey(f.tag)))return false;
+    if(f.status==='unrated'&&r>0)return false;
+    if(f.status==='unlistened'&&(e.listened||r>0))return false;
+    if(f.status==='listened'&&!(e.listened||r>0))return false;
+    if(f.status==='liked'&&r<4)return false;
+    if(f.status==='saved'&&!e.saved)return false;
+    if(search){const c=composerOf(t);const text=[t.title,c.name,c.en,t.hook,t.story,e.note,t.genre,t.era,...(t.moods||[]),...tagsFor(t.id)].join(' ').toLocaleLowerCase('ja');if(!text.includes(search))return false;}
+    return true;
+  });
+    if(f.sort==='recommended')return recommendationOrder(list,view==='recommend');
+    list.sort((a,b)=>{
+      if(f.sort==='rating')return (Number(entry(b.id).rating)||0)-(Number(entry(a.id).rating)||0)||(a.title||'').localeCompare(b.title||'','ja');
+      if(f.sort==='latest')return (entry(b.id).ratedAt||'').localeCompare(entry(a.id).ratedAt||'');
+      if(f.sort==='composer')return composerOf(a).name.localeCompare(composerOf(b).name,'ja');
+      if(f.sort==='title')return a.title.localeCompare(b.title,'ja');
+      return 0;
+    });
+    return list.map(t=>({t,reason:''}));
+  }
+  function card(item){const t=item.t,c=composerOf(t),e=entry(t.id),r=Number(e.rating)||0,query=t.query||[c.en||c.name,t.title].join(' ');
+    const yt='https://www.youtube.com/results?search_query='+encodeURIComponent(query);
+    const sp='https://open.spotify.com/search/'+encodeURIComponent(query);
+    const workPage=t.wikiTitle||WIKI_WORKS[t.id]||'';
+    const wikiWork=workPage?wikiArticle(workPage):wikiSearch(`${c.name} ${t.title}`);
+    const wikiComposer=wikiSearch(c.en||c.name);
+    const availableTags=existingTagChoices().filter(tag=>!tagsFor(t.id).some(current=>tagKey(tag)===tagKey(current)));
+    const why=tab==='recommend'?`<div class="why">✦ ${esc(item.reason||'新しい曲を発見')}</div>`:'';
+    return `<article class="music-card" id="track-${esc(t.id)}">
+      <div class="card-top"><div class="tag-row"><span class="tag">${esc(t.genre)}</span><span class="tag era">${esc(t.era)}</span></div><button class="bookmark ${e.saved?'saved':''}" data-save="${esc(t.id)}" title="${e.saved?'あとで聴くから外す':'あとで聴くに保存'}" aria-label="${e.saved?'保存解除':'あとで聴く'}">${e.saved?'◆':'◇'}</button></div>
+      <h3>${esc(t.title)}</h3><div class="composer">${esc(c.name)} <em>${esc(c.years||'')}</em></div>
+      <p class="hook">${esc(t.hook||'自分で追加した曲。ぜひ聴きどころを記録してみてください。')}</p>
+      <div class="track-moods">${(t.moods||[]).map(m=>`<span class="mood-tag">${esc(m)}</span>`).join('')}</div>
+      ${tagsFor(t.id).length?`<div class="personal-tags">${tagsFor(t.id).map(tag=>`<span class="personal-tag">#${esc(tag)}</span>`).join('')}</div>`:''}
+      <details class="tag-editor"><summary>♯ 自分のタグを${tagsFor(t.id).length?'編集（'+tagsFor(t.id).length+'件）':'追加'}</summary>
+       <div class="tag-edit-items">${tagsFor(t.id).map(tag=>`<button type="button" class="tag-remove" data-tag-remove="${esc(t.id)}" data-tag-name="${esc(tag)}" title="この曲からタグを外す">#${esc(tag)} <span>×</span></button>`).join('')}</div>
+       <div class="tag-edit-row"><select aria-label="既存タグから選択" data-tag-select="${esc(t.id)}" ${availableTags.length?'':'disabled'}>${option('',availableTags.length?'既存のタグから選択':'追加できる既存タグなし','')}${availableTags.map(tag=>option(tag,MOODS.some(m=>tagKey(m)===tagKey(tag))?'雰囲気：'+tag:'#'+tag,'')).join('')}</select><button type="button" data-tag-choose="${esc(t.id)}" ${availableTags.length?'':'disabled'}>＋ 選択タグを追加</button></div>
+       <div class="tag-edit-row"><input type="text" maxlength="24" data-tag-input="${esc(t.id)}" placeholder="新しいタグ名を入力（例：夜に聴きたい）"><button type="button" data-tag-add="${esc(t.id)}">＋ 新規タグ</button></div>
+       <div class="tag-help">既存タグを選択するか、新しい名前を入力してください。追加したタグは上部の「曲の雰囲気・タグ」でも絞り込めます。</div>
+      </details>
+      ${why}<div class="grow"></div>
+      <details class="more-details"><summary>曲・作曲家の解説を見る</summary><p><strong>この曲について</strong><br>${esc(t.story||'自分で追加した曲です。')}</p><p><strong>${esc(c.name)}について</strong><br>${esc(c.bio||'作曲家の説明はありません。')}</p><div class="wiki-links"><a href="${wikiWork}" target="_blank" rel="noopener noreferrer" aria-label="${esc(t.title)}のWikipedia情報を見る">ⓦ ${workPage?'作品のWikipedia記事':'曲をWikipediaで検索'} ↗</a><a href="${wikiComposer}" target="_blank" rel="noopener noreferrer" aria-label="${esc(c.name)}のWikipedia情報を見る">ⓦ 作曲家をWikipediaで検索 ↗</a></div></details>
+      <div class="card-actions"><a class="listen-link youtube" href="${yt}" target="_blank" rel="noopener noreferrer" aria-label="${esc(t.title)}をYouTubeで検索">▶ YouTubeで探す <span class="external">↗</span></a><a class="listen-link" href="${sp}" target="_blank" rel="noopener noreferrer" aria-label="${esc(t.title)}をSpotifyで検索">◉ Spotifyで探す <span class="external">↗</span></a></div>
+      <div class="rating"><span class="rating-title">好みの度合い</span><div class="stars" aria-label="5段階評価">${[1,2,3,4,5].map(n=>`<button class="star ${n<=r?'on':''}" type="button" data-rate="${n}" data-id="${esc(t.id)}" title="${n}点：${ratingText(n)}" aria-label="${n}点で評価">★</button>`).join('')}</div><span class="rating-info">${r?r+' / 5':'未評価'}</span></div>
+      <div class="card-bottom"><label class="listened-label"><input type="checkbox" data-listened="${esc(t.id)}" ${e.listened||r>0?'checked':''}> 聴いた</label><span class="level">${esc(t.level||'自分で登録')} ${r?'・'+ratingText(r):''}</span></div>
+      <details class="note-wrap"><summary>${e.note?'✎ メモあり・編集する':'✎ 感想・演奏家をメモ'}</summary><textarea class="note-textarea" data-note="${esc(t.id)}" maxlength="500" placeholder="お気に入りの演奏家、好きだった部分、気になったことなど">${esc(e.note||'')}</textarea><div class="note-toolbar"><span class="note-save-status" role="status" aria-live="polite"></span><button data-note-save="${esc(t.id)}" type="button">メモを保存</button></div></details>
+      </article>`;
+  }
+  function renderResults(view){const x=$(view+'-results');if(!x)return;const found=findTracks(view),n=Math.min(ui[view].visible,found.length),visible=found.slice(0,n);
+    x.innerHTML=`<div class="section-head"><div><h2>${view==='recommend'?'次に聴くおすすめ':'登録曲を探す・並べ替える'}</h2><p>${view==='recommend'?'好みの記録に合わせて、おすすめ順が変わります。':'評価やメモも一緒に検索できます。'}</p></div><aside><span class="count-pill">${found.length} 曲</span> のうち ${n} 曲を表示</aside></div>`+
+    (found.length?`<div class="cards">${visible.map(card).join('')}</div>`:`<div class="empty"><h3>該当する曲がありません</h3><p>検索条件を変えてみてください。</p><button class="btn" data-reset-filters="${view}">条件をクリア</button></div>`)+
+    (found.length>n?`<div class="action-row"><button class="btn primary" data-more="${view}">さらに12曲表示 （残り${found.length-n}曲）</button></div>`:'');
+  }
+  function renderListing(view){const panel=$('panel-'+view);let guide='';if(view==='recommend'){
+    const s=stats();guide=`<div class="guide-note"><div class="guide-symbol">♫</div><div><b>${s.rated>=3?'あなたの好みから次の曲を選びました':'まずは気になる曲を3曲ほど聴いてみましょう'}</b><br>${s.rated>=3?'高評価の作曲家・時代・ジャンル・雰囲気が、おすすめ順に反映されています。':'試聴先で聴いたら★1〜5で評価。3曲ほど評価すると好みに沿って並び替えます。'}</div><span class="note-right">★4＝好き / ★5＝とても好き</span></div>`;
+  }
+    panel.innerHTML=guide+controls(view)+`<div id="${view}-results"></div>`;renderResults(view);
+  }
+  function barRows(items,format='count'){if(!items.length)return '<p class="hint">評価を記録するとここに表示されます。</p>';const max=Math.max(...items.map(x=>x.score),1);return `<div class="bars">${items.map(x=>`<div><div class="bar-heading"><b>${esc(x.name)}</b><span>${format==='rating'?x.score.toFixed(1)+' / 5 · '+x.n+'曲':x.score+' 曲'}</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(2,x.score/max*100)}%"></div></div></div>`).join('')}</div>`;}
+  function rankGroups(rated,groupFn){const obj={};for(const t of rated){const keys=groupFn(t);for(const name of Array.isArray(keys)?keys:[keys]){if(!name)continue;if(!obj[name])obj[name]={name,n:0,sum:0,liked:0};obj[name].n++;obj[name].sum+=entry(t.id).rating;if(entry(t.id).rating>=4)obj[name].liked++;}}return Object.values(obj).map(x=>({...x,avg:x.sum/x.n}));}
+  function renderInsights(){const s=stats(),rated=allTracks().filter(t=>entry(t.id).rating>=1),fav=rated.filter(t=>entry(t.id).rating>=4).sort((a,b)=>entry(b.id).rating-entry(a.id).rating||(entry(b.id).ratedAt||'').localeCompare(entry(a.id).ratedAt||''));
+    const genres=rankGroups(rated,t=>t.genre).sort((a,b)=>b.avg-a.avg||b.n-a.n);
+    const eras=rankGroups(rated,t=>t.era).sort((a,b)=>b.avg-a.avg||b.n-a.n);
+    const composers=rankGroups(rated,t=>composerOf(t).name).sort((a,b)=>b.avg-a.avg||b.n-a.n);
+    const moods=rankGroups(rated,t=>t.moods||[]).sort((a,b)=>b.avg-a.avg||b.n-a.n);
+    const ownTags=rankGroups(rated,t=>tagsFor(t.id)).sort((a,b)=>b.avg-a.avg||b.n-a.n);
+    const likedGenres=genres.filter(x=>x.avg>=4).slice(0,3).map(x=>x.name),likedComposers=composers.filter(x=>x.avg>=4).slice(0,3).map(x=>x.name);
+    const banner=s.rated===0?'まだ評価がありません。まずはおすすめから気になる曲を聴いて、★をつけてみましょう。':s.rated<3?`現在${s.rated}曲を評価済み。あと${3-s.rated}曲でおすすめに好みが反映され始めます。`:`${s.rated}曲の評価から分析。${likedGenres.length?'特に評価の高いジャンルは「'+likedGenres.join('・')+'」。':'好きなジャンルを探している途中です。'} 初めての曲も混ぜると好みの輪郭がはっきりします。`;
+    $('panel-insights').innerHTML=`<div class="section-head"><div><h2>自分の音楽の好みを知る</h2><p>評価を増やすほど、好きなジャンル・時代・作曲家の傾向が見えてきます。</p></div></div>
+      <div class="analysis-banner"><h3>✦ あなたのリスニング傾向</h3><p>${esc(banner)}</p><div class="mini-badges"><span>評価済み ${s.rated} 曲</span><span>平均評価 ${s.mean} / 5</span><span>好きな曲 ${s.favorites} 曲</span>${likedComposers.map(n=>`<span>♡ ${esc(n)}</span>`).join('')}</div></div>
+      <div class="insight-grid">
+      <div class="info-card"><h3>好きなジャンル</h3><p class="sub">平均評価順・評価した曲だけで集計</p>${barRows(genres.map(x=>({name:x.name,score:x.avg,n:x.n})), 'rating')}</div>
+      <div class="info-card"><h3>好きな音楽の時代</h3><p class="sub">バロック〜現代までの好み</p>${barRows(eras.map(x=>({name:x.name,score:x.avg,n:x.n})), 'rating')}</div>
+      <div class="info-card"><h3>好きな作曲家</h3><p class="sub">平均評価順（同点なら評価曲数順）</p>${barRows(composers.slice(0,10).map(x=>({name:x.name,score:x.avg,n:x.n})), 'rating')}</div>
+      <div class="info-card"><h3>好きな曲の雰囲気</h3><p class="sub">曲に付けた雰囲気タグと好みを照合</p>${barRows(moods.map(x=>({name:x.name,score:x.avg,n:x.n})), 'rating')}</div>
+      <div class="info-card"><h3>自分のタグ別の好み</h3><p class="sub">評価した曲についてタグ別平均評価を集計</p>${barRows(ownTags.map(x=>({name:x.name,score:x.avg,n:x.n})),'rating')}</div>
+      <div class="info-card full"><h3>好きな曲トップリスト</h3><p class="sub">4点・5点を付けた曲を表示</p>${fav.length?`<div class="favorites">${fav.map(t=>`<div class="favorite-line"><strong>${esc(t.title)}</strong><small>${esc(composerOf(t).name)}　${'★'.repeat(entry(t.id).rating)}　${entry(t.id).note?'✎ '+esc(truncate(entry(t.id).note,44)):''}</small></div>`).join('')}</div>`:'<p class="hint">4点以上の曲を評価すると、自動で一覧に加わります。</p>'}</div>
+      </div>`;
+  }
+  function renderManage(){$('panel-manage').innerHTML=`<div class="section-head"><div><h2>曲を追加・記録をバックアップ</h2><p>データはSupabaseに保存され、PC・iPhoneで同期します。旧v7からの移行にはJSONバックアップを利用してください。</p><p class="save-ok">保存先：Supabase / ${esc(cloudBridge?.user?.email||'ログイン待ち')}。バックアップは引き続きJSONで作成できます。</p></div></div>
+      <div class="manage-grid">
+      <section class="manage-card"><h3>自分の曲を追加する</h3><p>おすすめにない曲も登録できます。曲名と作曲家だけでも追加可能です。</p>
+        <form id="addForm"><div class="form-grid">
+         <div class="form-field"><label for="addTitle">曲名 *</label><input id="addTitle" name="title" maxlength="100" required placeholder="例：交響曲第1番 第2楽章"></div>
+         <div class="form-field"><label for="addComposer">作曲家 *</label><input id="addComposer" name="composer" maxlength="80" required placeholder="例：ブラームス"></div>
+         <div class="form-field"><label for="addGenre">ジャンル</label><select id="addGenre" name="genre">${GENRES.map(x=>option(x,x,'')).join('')}</select></div>
+         <div class="form-field"><label for="addEra">時代</label><select id="addEra" name="era">${ERAS.map(x=>option(x,x,'ロマン派')).join('')}</select></div>
+         <div class="form-field full"><label for="addHook">曲の聴きどころ・説明（任意）</label><textarea id="addHook" name="hook" maxlength="240" placeholder="自分の言葉でメモしておけます"></textarea></div>
+         <div class="form-field full"><label for="addQuery">YouTube / Spotifyで検索する文字列（任意）</label><input id="addQuery" name="query" maxlength="140" placeholder="未入力なら作曲家名＋曲名で検索"></div>
+        </div><div style="margin-top:14px"><button type="submit" class="btn primary">＋ 曲を追加</button></div></form></section>
+      <section class="manage-card"><h3>おすすめ曲セットを一括追加</h3><p>曲セット（JSON）を読み込むと、新しい曲を既存のライブラリに追加できます。これまでの評価やメモは残ります。</p>
+        <button type="button" class="btn primary" data-import-pack>＋ おすすめ曲セットを読み込む</button>
+        <input type="file" id="packFile" class="file-input" accept="application/json,.json">
+        <div class="import-hint">ZIPに付属する「追加おすすめ40曲.json」を指定してください。同じセットを二度読み込んでも重複登録しません。追加曲もおすすめ順・ジャンル別表示・好み分析の対象です。</div></section>
+      <section class="manage-card"><h3>タグの管理</h3><p>曲ごとに初期の雰囲気タグや既存タグを選択でき、新しいタグも作成できます。追加したタグは「曲の雰囲気・タグ」から絞り込めます。自分で作ったタグの改名・削除は全曲に反映されます。</p>
+        <div class="manage-tag-form"><input type="text" id="newGlobalTag" maxlength="24" placeholder="例：休日の朝 / お気に入り演奏"><button type="button" data-tag-create>＋ 新規タグ</button></div>
+        <div class="global-tag-list">${allTagNames().length?allTagNames().map(tag=>`<div class="global-tag-item"><span class="global-tag-name">#${esc(tag)}</span><span class="global-tag-count">${usageCount(tag)}曲</span><button type="button" data-tag-rename="${esc(tag)}">名前変更</button><button type="button" data-tag-delete="${esc(tag)}">削除</button></div>`).join(''):'<span class="hint">まだタグはありません。各曲の「自分のタグを追加」からも作成できます。</span>'}</div>
+      </section>
+      <section class="manage-card"><h3>記録の保存・復元</h3><p>評価、試聴記録、感想、タグ、あとで聴く、自分で追加した曲を保存できます。</p>
+        <button class="btn primary" data-export="json">JSONバックアップ</button><button class="btn" data-export="csv">一覧をCSV出力</button><button class="btn" data-import>JSONから復元</button>
+        <input type="file" id="importFile" class="file-input" accept="application/json,.json">
+        <div class="small-note"><b>データ消失を防ぐために</b><br>保存した記録はクラウドで共有されます。初回移行は旧v7から書き出したJSONを読み込んでください。復元するとクラウド上の現在の記録を置き換えるため、必要なら事前にバックアップを保存してください。</div>
+        <div style="margin-top:19px;border-top:1px solid #eee;padding-top:15px"><button class="btn danger" data-reset-all>全記録を初期化</button><p class="hint">評価・メモ・追加した曲をすべて消去します。元に戻せません。</p></div>
+      </section></div>`;}
+  function renderCurrent(){updateStats();document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));['recommend','library','insights','manage'].forEach(v=>$('panel-'+v).hidden=v!==tab);$('hero').hidden=tab!=='recommend';if(tab==='recommend'||tab==='library')renderListing(tab);else if(tab==='insights')renderInsights();else renderManage();}
+  function switchTab(next){tab=next;renderCurrent();window.scrollTo({top:0,behavior:'smooth'});}
+  function storeEntry(id,changes){if(!allTracks().some(t=>t.id===id))return false;data.entries[id]={...entry(id),...changes};return save();}
+  function refreshTagEditor(id){renderCurrent();const el=$('panel-'+tab)?.querySelector('#track-'+CSS.escape(id));const editor=el?.querySelector('.tag-editor');if(editor)editor.open=true;}
+  function addTagToTrack(id,raw){
+    const name=normalizeTag(raw);if(!validTag(name)){toast('タグ名を入力してください（最大24文字）');return;}
+    const found=matchingTag(name);if(!found&&allTagNames().length>=100){toast('タグ登録は最大100種類までです');return;}
+    const tag=found||name,prior=tagsFor(id);
+    if(prior.includes(tag)){toast('この曲にはすでに付いています');return;}
+    if(prior.length>=12){toast('1曲あたりタグは最大12個です');return;}
+    if(!found)data.tags.push(tag);
+    storeEntry(id,{tags:[...prior,tag]});refreshTagEditor(id);toast(`#${tag} を追加しました`);
+  }
+  function removeTagFromTrack(id,tag){storeEntry(id,{tags:tagsFor(id).filter(t=>t!==tag)});refreshTagEditor(id);toast('曲からタグを外しました');}
+  function createGlobalTag(raw){const tag=normalizeTag(raw);if(!validTag(tag)){toast('タグ名を入力してください（最大24文字）');return;}
+    if(matchingTag(tag)){toast('同じ名前のタグがあります');return;}
+    if(allTagNames().length>=100){toast('タグ登録は最大100種類までです');return;}
+    data.tags.push(tag);save();renderCurrent();toast(`#${tag} を登録しました`);
+  }
+  function renameGlobalTag(old,raw){const next=normalizeTag(raw);if(!validTag(next)){toast('タグ名は最大24文字です');return;}
+    if(!allTagNames().includes(old)||next===old)return;
+    const existing=matchingTag(next),target=existing||next;
+    data.tags=[...new Set(data.tags.map(t=>t===old?target:t))];
+    for(const e of Object.values(data.entries)){if(Array.isArray(e.tags))e.tags=[...new Set(e.tags.map(t=>t===old?target:t))];}
+    for(const f of Object.values(ui))if(f.tag===old)f.tag=target;
+    save();renderCurrent();toast(existing?`#${old} を #${target} に統合しました`:`#${old} を #${next} に変更しました`);
+  }
+  function deleteGlobalTag(tag){if(!allTagNames().includes(tag))return;
+    const n=usageCount(tag);if(!confirm(`#${tag} を削除しますか？\nこのタグは${n}曲から外れます。曲の評価やメモは残ります。`))return;
+    data.tags=data.tags.filter(t=>t!==tag);
+    for(const e of Object.values(data.entries)){if(Array.isArray(e.tags))e.tags=e.tags.filter(t=>t!==tag);}
+    for(const f of Object.values(ui))if(f.tag===tag)f.tag='';
+    save();renderCurrent();toast(`#${tag} を削除しました`);
+  }
+  function rate(id,r){const prev=Number(entry(id).rating)||0;const next=(prev===r)?null:r;storeEntry(id,{rating:next,listened:true,ratedAt:next?new Date().toISOString():(entry(id).ratedAt||'')});renderCurrent();toast(next?`★${r}：「${ratingText(r)}」で記録しました`:'評価を解除しました');}
+  function download(filename,content,mime){const blob=new Blob([content],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  const dateStamp=()=>{const d=new Date();return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;};
+  function exportData(type){if(type==='json'){download(`Classica_backup_${dateStamp()}.json`,JSON.stringify({format:'Classica',version:2,exportedAt:new Date().toISOString(),entries:data.entries,customTracks:data.customTracks,tags:allTagNames()},null,2),'application/json;charset=utf-8');toast('JSONバックアップを書き出しました');}
+    if(type==='csv'){const fields=['曲名','作曲家','ジャンル','時代','雰囲気','自分のタグ','聴いた','好み評価(1-5)','あとで聴く','感想メモ','評価日時','YouTube検索URL','Spotify検索URL'];const rows=[fields,...allTracks().map(t=>{const e=entry(t.id),q=t.query||[composerOf(t).en||composerOf(t).name,t.title].join(' ');return [t.title,composerOf(t).name,t.genre,t.era,(t.moods||[]).join(' / '),tagsFor(t.id).join(' / '),(e.listened||e.rating)?'はい':'いいえ',e.rating||'',e.saved?'はい':'いいえ',e.note||'',e.ratedAt||'','https://www.youtube.com/results?search_query='+encodeURIComponent(q),'https://open.spotify.com/search/'+encodeURIComponent(q)];})];const csv='\ufeff'+rows.map(cols=>cols.map(s=>'"'+String(s??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');download(`Classica_library_${dateStamp()}.csv`,csv,'text/csv;charset=utf-8');toast('CSVを書き出しました');}}
+  const scrubString=(x,n)=>truncate(typeof x==='string'?x:'',n);
+  function importData(raw){if(!raw||typeof raw!=='object'||raw.format!=='Classica'||![1,2].includes(raw.version)||!raw.entries||typeof raw.entries!=='object'||!Array.isArray(raw.customTracks))throw Error('ClassicaのJSONバックアップではありません。');
+    const custom=raw.customTracks.slice(0,2000).filter(t=>t&&typeof t==='object'&&typeof t.id==='string'&&t.id.startsWith('user-')&&typeof t.title==='string'&&typeof t.composerName==='string').map(t=>({id:scrubString(t.id,80),title:scrubString(t.title,100),composerName:scrubString(t.composerName,80),genre:GENRES.includes(t.genre)?t.genre:GENRES[0],era:ERAS.includes(t.era)?t.era:ERAS[2],moods:Array.isArray(t.moods)?t.moods.filter(m=>MOODS.includes(m)).slice(0,3):[],hook:scrubString(t.hook,240),story:scrubString(t.story,300)||'自分で追加した曲です。',query:scrubString(t.query,140),level:scrubString(t.level,30)||'自分で登録',composer:COMPOSERS[t.composer]?t.composer:'',composerBio:scrubString(t.composerBio,300),wikiTitle:scrubString(t.wikiTitle,100)}));
+    const ids=new Set([...TRACKS,...custom].map(t=>t.id));const entries={};for(const [id,e] of Object.entries(raw.entries)){if(!ids.has(id)||!e||typeof e!=='object')continue;let rating=Number(e.rating);if(!Number.isInteger(rating)||rating<1||rating>5)rating=null;entries[id]={rating,listened:!!e.listened||rating!==null,saved:!!e.saved,note:scrubString(e.note,500),ratedAt:scrubString(e.ratedAt,50),tags:[...new Set((Array.isArray(e.tags)?e.tags:[]).slice(0,12).map(normalizeTag).filter(validTag))]};}
+    const tags=[];for(const name of [...(Array.isArray(raw.tags)?raw.tags:[]),...Object.values(entries).flatMap(e=>e.tags)]){const normalized=normalizeTag(name);if(validTag(normalized)&&!tags.some(x=>tagKey(x)===tagKey(normalized))&&tags.length<100)tags.push(normalized);}
+    for(const e of Object.values(entries))e.tags=e.tags.map(n=>tags.find(t=>tagKey(t)===tagKey(n))).filter(Boolean);
+    return {entries,customTracks:custom,tags};
+  }
+  const keyFor=(title,composer)=>[title,composer].map(s=>String(s||'').normalize('NFKC').toLocaleLowerCase('ja').replace(/[\s・･「」『』（）()]/g,'')).join('|');
+  function parseTrackPack(raw){
+    if(!raw||raw.format!=='ClassicaTrackPack'||raw.version!==1||!Array.isArray(raw.tracks))throw Error('Classicaの追加曲セットではありません。');
+    if(raw.tracks.length>500)throw Error('1セットの上限は500曲です。');
+    const packId=scrubString(raw.packId,40).replace(/[^a-zA-Z0-9_-]/g,'')||'extra';
+    const existingIds=new Set(allTracks().map(t=>t.id));
+    const keys=new Set(allTracks().map(t=>keyFor(t.title,composerOf(t).name)));
+    const added=[];let skipped=0;
+    for(let i=0;i<raw.tracks.length;i++){
+      const tr=raw.tracks[i];if(!tr||typeof tr!=='object'){skipped++;continue;}
+      const title=scrubString(tr.title,100).trim();
+      const composer=COMPOSERS[tr.composer]?tr.composer:'';
+      const composerName=scrubString(tr.composerName,80).trim()||(composer?COMPOSERS[composer].name:'');
+      if(!title||!composerName){skipped++;continue;}
+      const key=keyFor(title,composerName),tid=scrubString(tr.id,40).replace(/[^a-zA-Z0-9_-]/g,'')||String(i+1);
+      let id='user-pack-'+packId+'-'+tid;
+      if(keys.has(key)||existingIds.has(id)){skipped++;continue;}
+      const genre=GENRES.includes(tr.genre)?tr.genre:'管弦楽';
+      const era=ERAS.includes(tr.era)?tr.era:(composer?COMPOSERS[composer].era:'ロマン派');
+      const moods=Array.isArray(tr.moods)?tr.moods.filter(m=>MOODS.includes(m)).slice(0,3):[];
+      added.push({id,title,composer,composerName,composerBio:scrubString(tr.composerBio,300),genre,era,moods,hook:scrubString(tr.hook,240),story:scrubString(tr.story,300)||'追加した曲です。',query:scrubString(tr.query,140)||`${composerName} ${title}`,level:['はじめて','もう一歩','じっくり'].includes(tr.level)?tr.level:'もう一歩',wikiTitle:scrubString(tr.wikiTitle,100)});
+      existingIds.add(id);keys.add(key);
+    }
+    return {added,skipped};
+  }
+  async function importPackFile(file){if(!file)return;if(file.size>2_000_000){toast('曲セットの上限は2MBです');return;}
+    try{const {added,skipped}=parseTrackPack(JSON.parse(await file.text()));if(!added.length){toast(`追加なし（重複または対象外：${skipped}曲）`);return;}
+      data.customTracks.push(...added);if(!save()){
+        // 失敗時はメモリ上の曲は維持し、JSON書き出し可能にする。画面では保存不可を常時表示する。
+        tab='manage';renderCurrent();return;
+      }
+      ui.library={...ui.library,query:'',genre:'',era:'',mood:'',tag:'',status:'all',visible:12};tab='library';renderCurrent();toast(`${added.length}曲を追加しました${skipped?'（重複など'+skipped+'曲を除外）':''}`);
+    }catch(err){toast('読み込みできません：'+err.message);}finally{const el=$('packFile');if(el)el.value='';}}
+  async function importFile(file){if(!file)return;if(file.size>5_000_000){toast('ファイルが大きすぎます（上限5MB）');return;}try{const newData=importData(JSON.parse(await file.text()));if(!confirm('現在の評価・メモ・追加曲を、選択したバックアップの内容で置き換えます。よろしいですか？'))return;const previous=data;data=newData;if(!save()){data=previous;renderCurrent();return;}tab='library';renderCurrent();toast('復元しました。クラウドへ同期しています');}catch(err){toast('復元できません：'+err.message);}finally{const input=$('importFile');if(input)input.value='';}}
+  document.addEventListener('click',(ev)=>{
+    const el=ev.target.closest('button,[data-tab]');if(!el)return;
+    if(el.matches('[data-tab]')){switchTab(el.dataset.tab);return;}
+    if(el.dataset.rate){rate(el.dataset.id,Number(el.dataset.rate));return;}
+    if(el.dataset.tagChoose){const id=el.dataset.tagChoose,selector=el.closest('.music-card')?.querySelector('[data-tag-select]');addTagToTrack(id,selector?.value||'');return;}
+    if(el.dataset.tagAdd){const id=el.dataset.tagAdd,input=el.closest('.music-card')?.querySelector('[data-tag-input]');addTagToTrack(id,input?.value||'');return;}
+    if(el.dataset.tagRemove){removeTagFromTrack(el.dataset.tagRemove,el.dataset.tagName);return;}
+    if(el.hasAttribute('data-tag-create')){createGlobalTag($('newGlobalTag')?.value||'');return;}
+    if(el.dataset.tagRename){const old=el.dataset.tagRename,next=prompt(`「${old}」の新しい名前を入力してください`,old);if(next!==null)renameGlobalTag(old,next);return;}
+    if(el.dataset.tagDelete){deleteGlobalTag(el.dataset.tagDelete);return;}
+    if(el.dataset.save){const id=el.dataset.save;const val=!entry(id).saved;storeEntry(id,{saved:val});renderCurrent();toast(val?'「あとで聴く」に追加しました':'「あとで聴く」から外しました');return;}
+    if(el.dataset.mood!==undefined){const v=el.dataset.view;ui[v].mood=el.dataset.mood;ui[v].tag='';ui[v].visible=12;renderListing(v);return;}
+    if(el.hasAttribute('data-filter-tag')){const v=el.dataset.view;ui[v].tag=el.dataset.filterTag;ui[v].mood='';ui[v].visible=12;renderListing(v);return;}
+    if(el.dataset.more){ui[el.dataset.more].visible+=12;renderResults(el.dataset.more);return;}
+    if(el.dataset.resetFilters){const v=el.dataset.resetFilters;ui[v]={...ui[v],query:'',genre:'',era:'',mood:'',tag:'',status:'all',sort:'recommended',visible:12};renderListing(v);return;}
+    if(el.dataset.noteSave){
+      // 必ず押されたボタンと同じ曲カードの入力欄を参照する。
+      // 非表示タブにも同じ曲があるため document.querySelector では誤取得する。
+      const id=el.dataset.noteSave;
+      const card=el.closest('.music-card');
+      const area=card?.querySelector('textarea[data-note]');
+      const status=card?.querySelector('.note-save-status');
+      if(!area||area.dataset.note!==id){toast('メモ欄を特定できません。再度お試しください');return;}
+      const note=area.value.slice(0,500);
+      if(storeEntry(id,{note})){
+        // 全画面再描画を避け、入力中の内容と開いた編集欄を維持する。
+        const summary=card.querySelector('.note-wrap summary');
+        if(summary)summary.textContent=note?'✎ メモあり・編集する':'✎ 感想・演奏家をメモ';
+        if(status){status.textContent='端末に記録・クラウド同期中…';status.classList.remove('error');}
+        toast('感想メモを記録。クラウド同期中です');
+      } else {
+        if(status){status.textContent='保存できませんでした';status.classList.add('error');}
+        toast('メモの保存に失敗しました。JSONバックアップをご利用ください');
+      }
+      return;
+    }
+    if(el.dataset.export){exportData(el.dataset.export);return;}
+    if(el.hasAttribute('data-import')){$('importFile')?.click();return;}
+    if(el.hasAttribute('data-import-pack')){$('packFile')?.click();return;}
+    if(el.hasAttribute('data-reset-all')){if(confirm('すべての評価・メモ・追加曲を消去します。事前にバックアップを保存しましたか？')&&confirm('最終確認：全記録を初期化しますか？')){data=initData();save();tab='recommend';renderCurrent();toast('全記録を初期化しました');}return;}
+  });
+  document.addEventListener('keydown',(ev)=>{if(ev.key==='Enter'&&ev.target.matches('[data-tag-input]')){ev.preventDefault();addTagToTrack(ev.target.dataset.tagInput,ev.target.value);}if(ev.key==='Enter'&&ev.target.id==='newGlobalTag'){ev.preventDefault();createGlobalTag(ev.target.value);}});
+  document.addEventListener('input',(ev)=>{const e=ev.target;if(e.matches('textarea[data-note]')){const status=e.closest('.note-wrap')?.querySelector('.note-save-status');if(status){status.textContent='未保存の変更あり';status.classList.remove('error');}return;}if(e.dataset.filter==='query'){const v=e.dataset.view;ui[v].query=e.value;ui[v].visible=12;renderResults(v);}});
+  document.addEventListener('change',(ev)=>{const e=ev.target;if(e.dataset.filter&&e.dataset.filter!=='query'){const v=e.dataset.view;ui[v][e.dataset.filter]=e.value;if(e.dataset.filter==='tag')ui[v].mood='';ui[v].visible=12;if(e.dataset.filter==='tag')renderListing(v);else renderResults(v);return;}
+    if(e.dataset.listened){storeEntry(e.dataset.listened,{listened:e.checked});renderCurrent();toast(e.checked?'試聴済みにしました':'試聴済みを解除しました');return;}
+    if(e.id==='importFile'){importFile(e.files?.[0]);return;}
+    if(e.id==='packFile'){importPackFile(e.files?.[0]);return;}
+  });
+  document.addEventListener('submit',(ev)=>{if(ev.target.id!=='addForm')return;ev.preventDefault();const form=new FormData(ev.target),title=scrubString(form.get('title'),100).trim(),composerName=scrubString(form.get('composer'),80).trim();if(!title||!composerName)return;
+    const id='user-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
+    data.customTracks.push({id,title,composerName,genre:GENRES.includes(form.get('genre'))?form.get('genre'):GENRES[0],era:ERAS.includes(form.get('era'))?form.get('era'):ERAS[2],moods:[],hook:scrubString(form.get('hook'),240),story:'自分で追加した曲です。',query:scrubString(form.get('query'),140).trim()||`${composerName} ${title}`,level:'自分で登録'});
+    const persisted=save();tab='library';ui.library.status='all';ui.library.query=title;ui.library.visible=12;renderCurrent();if(persisted)toast('曲を追加しました。試聴して評価できます');});
+  $('brandHome').addEventListener('click',ev=>{ev.preventDefault();switchTab('recommend');});
+  $('headerBackup').addEventListener('click',()=>{switchTab('manage');});
+  // ---- Classica v8: Supabase同期。Wine Noteとは別テーブルに保存。 ----
+  const PRESET_URL='https://yiyjbgyhbkcjxjdvcmav.supabase.co';
+  const PRESET_KEY='sb_publishable_6uYZ-Khw6cODDoKsJwqesg_c88GkB-A';
+  const CLOUD_CONFIG_KEY='classica_cloud_config_v1';
+  const CLOUD_TABLE='classica_state';
+  const cloudCacheKey=uid=>'classica_cloud_cache_'+uid;
+  const cloudPendingKey=uid=>'classica_cloud_pending_'+uid;
+  const cloudRevKey=uid=>'classica_cloud_revision_'+uid;
+  const safeLocal=(fn,fallback)=>{try{return fn();}catch{return fallback;}};
+  const getConfig=()=>{
+    const mine=safeLocal(()=>JSON.parse(localStorage.getItem(CLOUD_CONFIG_KEY)),null);
+    const wine=safeLocal(()=>JSON.parse(localStorage.getItem('wine_note_config')),null);
+    const c=mine?.url&&mine?.key?mine:wine?.url&&wine?.key?wine:{url:PRESET_URL,key:PRESET_KEY};
+    return {url:String(c.url||'').trim(),key:String(c.key||'').trim()};
+  };
+  const loginError=message=>{$('cloudLoginError').textContent=message||'';};
+  const cloudLabel=(message,kind='ok')=>{const el=$('cloudMessage');el.textContent=message;el.className='cloud-message '+(kind==='ok'?'':kind);};
+  const setLoggedIn=on=>{$('cloudGate').hidden=on;$('classicaApp').hidden=!on;};
+  const parseSnapshot=payload=>{try{return importData(payload);}catch(err){throw Error('クラウドデータ形式が不正です。バックアップを確認してください: '+err.message);}};
+  const currentSnapshot=()=>({format:'Classica',version:2,entries:data.entries,customTracks:data.customTracks,tags:allTagNames()});
+  cloudBridge={client:null,user:null,ready:false,blocked:false,rev:0,dirty:false,draining:false,seq:0,authRun:0,retryTimer:null,
+    saveCache(){if(!this.user)return;safeLocal(()=>{
+      localStorage.setItem(cloudCacheKey(this.user.id),JSON.stringify(currentSnapshot()));
+      localStorage.setItem(cloudRevKey(this.user.id),String(this.rev));
+      if(this.dirty)localStorage.setItem(cloudPendingKey(this.user.id),'1');
+      else localStorage.removeItem(cloudPendingKey(this.user.id));
+    },null);},
+    noteChange(){this.dirty=true;this.seq++;this.saveCache();cloudLabel('変更を保存中…','warn');clearTimeout(this.retryTimer);this.retryTimer=setTimeout(()=>this.push(),350);},
+    async push(){if(!this.ready||!this.user||this.blocked||this.draining||!this.dirty)return;
+      if(!navigator.onLine){cloudLabel('オフライン：端末内に一時保存。接続後に再送','warn');return;}
+      this.draining=true;const seq=this.seq;const uid=this.user.id;const payload=currentSnapshot();const expectedRev=this.rev;
+      try{let result;
+        if(expectedRev===0){result=await this.client.from(CLOUD_TABLE).insert({user_id:uid,payload,revision:1,updated_at:new Date().toISOString()}).select('revision').single();}
+        else{result=await this.client.from(CLOUD_TABLE).update({payload,revision:expectedRev+1,updated_at:new Date().toISOString()}).eq('user_id',uid).eq('revision',expectedRev).select('revision').maybeSingle();}
+        if(result.error)throw result.error;
+        if(!result.data){this.blocked=true;cloudLabel('他の端末で更新あり：競合が発生。JSONバックアップ後に同期してください','error');return;}
+        if(this.user?.id!==uid)return;
+        this.rev=Number(result.data.revision);this.dirty=this.seq!==seq;this.saveCache();
+        cloudLabel(this.dirty?'追加の変更を同期中…':'✓ クラウドに保存済み',this.dirty?'warn':'ok');
+        if(!this.dirty){document.querySelectorAll('.note-save-status').forEach(el=>{if(el.textContent.includes('クラウド同期中'))el.textContent='✓ クラウドに保存済み';});}
+      }catch(err){cloudLabel('同期失敗：'+(err.message||String(err))+'。再度「同期」を押してください','error');this.saveCache();}
+      finally{this.draining=false;if(this.dirty&&!this.blocked&&navigator.onLine&&this.rev!==expectedRev){clearTimeout(this.retryTimer);this.retryTimer=setTimeout(()=>this.push(),250);}}
+    },
+    async pull(){if(!this.user||!this.ready||this.draining)return;
+      if(this.dirty){await this.push();return;}
+      const uid=this.user.id;
+      try{const {data:row,error}=await this.client.from(CLOUD_TABLE).select('payload,revision,updated_at').eq('user_id',uid).maybeSingle();
+        if(error)throw error;if(this.user?.id!==uid||this.dirty)return;
+        if(row&&Number(row.revision)!==this.rev){data=parseSnapshot(row.payload);this.rev=Number(row.revision);this.saveCache();renderCurrent();toast('別端末の変更を読み込みました');}
+        if(!row&&this.rev>0){this.blocked=true;cloudLabel('クラウドデータが見つかりません。SQL設定を確認してください','error');return;}
+        cloudLabel('✓ クラウド同期済み');
+      }catch(err){cloudLabel('読込エラー：'+(err.message||String(err)),'error');}
+    },
+    async connect(session){const uid=session?.user?.id||'';if(!uid){this.ready=false;this.user=null;this.dirty=false;this.blocked=false;setLoggedIn(false);loginError('');return;}
+      if(this.ready&&this.user?.id===uid)return;
+      const run=++this.authRun;this.ready=false;this.blocked=false;this.user=session.user;cloudLabel('クラウドから読み込み中…','warn');$('cloudAccount').textContent=session.user.email||'';
+      try{const {data:row,error}=await this.client.from(CLOUD_TABLE).select('payload,revision').eq('user_id',uid).maybeSingle();if(error)throw error;
+        if(run!==this.authRun||this.user?.id!==uid)return;
+        const isPending=safeLocal(()=>localStorage.getItem(cloudPendingKey(uid))==='1',false);
+        const cached=safeLocal(()=>JSON.parse(localStorage.getItem(cloudCacheKey(uid))),null);
+        if(isPending&&cached){data=parseSnapshot(cached);this.rev=Number(safeLocal(()=>localStorage.getItem(cloudRevKey(uid)),'0'))||0;this.dirty=true;this.seq++;}
+        else if(row){data=parseSnapshot(row.payload);this.rev=Number(row.revision)||0;this.dirty=false;}
+        else{data=initData();this.rev=0;this.dirty=false;}
+        this.ready=true;this.saveCache();setLoggedIn(true);renderCurrent();cloudLabel(this.dirty?'未同期の端末内データを再送中…':'✓ クラウド同期済み',this.dirty?'warn':'ok');
+        if(this.dirty)this.push();
+      }catch(err){this.ready=false;setLoggedIn(false);loginError('クラウド読込失敗：'+(err.message||String(err))+'。SQL実行と接続設定を確認してください。');}
+    },
+    async manualSync(){if(!this.ready)return;cloudLabel('確認しています…','warn');if(this.blocked){if(!confirm('他の端末の更新と競合しています。まずJSONバックアップを保存してください。クラウド側のデータを読み込んで、端末側の未同期変更を破棄しますか？'))return;
+        this.blocked=false;this.dirty=false;safeLocal(()=>localStorage.removeItem(cloudPendingKey(this.user.id)),null);this.rev=-1;
+      }
+      if(this.dirty)await this.push();else await this.pull();},
+    async signOut(){if(this.dirty){if(!confirm('クラウド未同期の記録があります。先にJSONバックアップを保存することをおすすめします。ログアウトしますか？'))return;}
+      try{const {error}=await this.client.auth.signOut();if(error)throw error;this.ready=false;this.user=null;this.dirty=false;this.blocked=false;data=initData();setLoggedIn(false);cloudLabel('ログアウトしました','warn');loginError('');}catch(err){toast('ログアウト失敗：'+(err.message||String(err)));}}
+  };
+  let authClientKey='';
+  async function bootCloud(){const conf=getConfig();$('cloudUrl').value=conf.url;$('cloudKey').value=conf.key;
+    if(!window.supabase){loginError('Supabaseライブラリを読み込めません。ネット接続を確認し、ページを再読み込みしてください。');return;}
+    if(!conf.url||!conf.key){loginError('Supabase接続設定を入力してください。');return;}
+    try{cloudBridge.client=window.supabase.createClient(conf.url,conf.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      authClientKey=conf.url+'|'+conf.key;
+      cloudBridge.client.auth.onAuthStateChange((_event,session)=>{setTimeout(()=>cloudBridge.connect(session),0);});
+      const {data:authData,error}=await cloudBridge.client.auth.getSession();if(error)throw error;
+      await cloudBridge.connect(authData?.session||null);
+    }catch(err){loginError('接続エラー：'+(err.message||String(err)));}}
+  $('cloudLoginForm').addEventListener('submit',async ev=>{ev.preventDefault();loginError('');const btn=$('cloudLoginButton');btn.disabled=true;btn.textContent='ログイン中…';
+    try{if(!cloudBridge.client)throw Error('接続設定を確認してください');const {data:session,error}=await cloudBridge.client.auth.signInWithPassword({email:$('cloudEmail').value.trim(),password:$('cloudPassword').value});if(error)throw error;
+      $('cloudPassword').value='';await cloudBridge.connect(session.session);
+    }catch(err){loginError(err.message||String(err));}finally{btn.disabled=false;btn.textContent='ログイン';}});
+  $('cloudConfigSave').addEventListener('click',()=>{const url=$('cloudUrl').value.trim(),key=$('cloudKey').value.trim();if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)){loginError('Project URLの形式を確認してください');return;}
+    if(!key.startsWith('sb_publishable_')&&!key.startsWith('eyJ')){loginError('Publishableまたはanonキーを設定してください。secretキーは使えません。');return;}
+    if(key.startsWith('sb_secret_')){loginError('secretキーは使用できません');return;}
+    localStorage.setItem(CLOUD_CONFIG_KEY,JSON.stringify({url,key}));location.reload();});
+  $('cloudSyncNow').addEventListener('click',()=>cloudBridge.manualSync());
+  $('cloudSignOut').addEventListener('click',()=>cloudBridge.signOut());
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&cloudBridge?.ready)cloudBridge.manualSync();});
+  window.addEventListener('online',()=>{if(cloudBridge?.ready)cloudBridge.manualSync();});
+  window.addEventListener('focus',()=>{if(cloudBridge?.ready)cloudBridge.manualSync();});
+  window.addEventListener('beforeunload',ev=>{if(cloudBridge?.ready&&cloudBridge?.dirty&&navigator.onLine){ev.preventDefault();ev.returnValue='';}});
+  // サービスワーカーはHTTPSのGitHub Pagesでのみ登録
+  if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  bootCloud();
+
+  try{const key=STORAGE_KEY+'-check';localStorage.setItem(key,'ok');localStorage.removeItem(key);}catch(e){storageDiagnostic(e);}
+  renderCurrent();
+})();
+
+</script>
+</body>
+</html>
