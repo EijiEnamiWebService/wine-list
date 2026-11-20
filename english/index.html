@@ -25,7 +25,7 @@
 .mobilebar,.ios-start-panel{display:none}
 .ios-start-panel{background:#eff6ff;border:1px solid #b8cff5;border-radius:15px;padding:13px 15px;margin:0 0 16px}
 .ios-start-panel p{margin:7px 0 0;color:#435873;font-size:13px;line-height:1.55}
-.ios-start-panel .btn{width:100%;min-height:48px}
+.ios-start-panel .btn{width:100%;min-height:48px}.ios-audio-help{font-size:13px}.ios-audio-help a{color:#184ca5;font-weight:800;text-decoration:underline}
 .mobilebar select{display:block;width:100%;padding:11px;border:1px solid #cdd8e8;border-radius:12px;background:#fff;color:var(--ink);font-size:15px}
 .mobilebar .btn{min-height:47px;white-space:nowrap}
 .ios-start-panel.visible{display:block}
@@ -48,10 +48,10 @@ body.mobile-device.show-settings .main{order:1}
   .panel{padding:16px}
 }
 </style></head><body>
-<div class="shell"><header><div class="brand">🎧 English Conversation Practice<small>自然な英語を聞いて、声に出して練習</small></div><div class="tag">FREE · NO API KEY</div></header>
+<div class="shell"><header><div class="brand">🎧 English Conversation Practice<small>自然な英語を聞いて、声に出して練習</small></div><div class="tag">FREE · NO API KEY · iOS音声改良</div></header>
 <div class="layout"><aside class="panel"><h2>会話シーン</h2><div class="scene-list" id="sceneList"></div><div class="sidefooter"><label class="field">難易度フィルター<select id="levelFilter"><option value="all" selected>すべて · Lv.1 → Lv.3</option><option value="1">Lv.1 入門だけ</option><option value="2">Lv.2 標準だけ</option><option value="3">Lv.3 応用だけ</option></select><span class="hint">「すべて」で入門から応用へ順番に練習します。</span></label><label class="toggle" style="margin-top:14px"><input type="checkbox" id="autoSet" checked> 終了後、次のセットへ自動進行</label><div class="side-stat" id="sceneCount">12シーン / 36セット</div></div><div class="sidefooter"><label class="toggle"><input type="checkbox" id="autoplay" checked> Aの英文を自動再生</label><label class="toggle" style="margin-top:12px"><input type="checkbox" id="handsfree" checked> ハンズフリー（Aの後に自動で聞き取る）</label><label class="toggle" style="margin-top:12px"><input type="checkbox" id="autoNext" checked> 正しく話せたら次へ</label><label class="toggle" style="margin-top:12px"><input type="checkbox" id="strict"> 厳しめの認識判定</label><label class="field" style="margin-top:14px">発話中の待ち時間<select id="pauseDelay"><option value="1500" selected>1.5秒（最短）</option><option value="2500">2.5秒（短め）</option><option value="4000">4秒（ゆっくり）</option><option value="6000">6秒（ゆっくり）</option><option value="8000">8秒（考えながら話す）</option></select><span class="hint">途中で言葉に詰まっても、設定した無音時間までは発話をつなげます。</span></label></div></aside>
 <main class="main"><div class="mobilebar"><label>会話シーン<select id="mobileSceneSelect" aria-label="会話シーンを選択"></select></label><button class="btn" id="mobileSettingsToggle" type="button" aria-expanded="false">⚙ 設定</button></div><div class="topline"><span class="eyebrow">LISTEN & SPEAK</span><span class="progress" id="progressText">1 / 5</span></div><h1 id="sceneTitle">会話練習</h1><div class="set-switch"><label class="field">このシーンの会話セット<select id="setSelect"></select></label><span class="set-meta" id="setMeta"></span></div><div class="bar"><div id="progressBar"></div></div>
-<section class="ios-start-panel" id="iosStartPanel" aria-label="iPhone音声コントロール"><button type="button" class="btn primary" id="iosStartBtn">▶ レッスン開始（音声を有効にする）</button><p id="iosStatusText">最初にタップすると、英語の読み上げを開始します。Aの読み上げ後はマイクの自動起動を試みます。</p></section><div id="lesson"><div class="customarea" id="customArea"><label class="field">自由指定の会話（A: と B: を交互に入力）<textarea id="customText" spellcheck="false" placeholder="A: What brings you here today?&#10;B: I'm here for a business meeting.&#10;A: How long will you stay?&#10;B: Just two days."></textarea></label><div class="customhelp">A・Bを1組として、何組でも追加できます。自由入力の英文には日本語訳が自動生成されません。入力内容はこのブラウザ内だけで使います。</div><button class="btn" id="applyCustom">この会話を開始</button></div>
+<section class="ios-start-panel" id="iosStartPanel" aria-label="iPhone音声コントロール"><button type="button" class="btn primary" id="iosStartBtn">▶ レッスン開始（音声を有効にする）</button><p id="iosStatusText">最初にタップすると、英語の読み上げを開始します。Aの読み上げ後はマイクの自動起動を試みます。</p><p class="ios-audio-help">音声が出ない場合は <a href="./audio-test.html">🔎 音声テスト</a> で読み上げ機能を単独で確認できます。</p></section><div id="lesson"><div class="customarea" id="customArea"><label class="field">自由指定の会話（A: と B: を交互に入力）<textarea id="customText" spellcheck="false" placeholder="A: What brings you here today?&#10;B: I'm here for a business meeting.&#10;A: How long will you stay?&#10;B: Just two days."></textarea></label><div class="customhelp">A・Bを1組として、何組でも追加できます。自由入力の英文には日本語訳が自動生成されません。入力内容はこのブラウザ内だけで使います。</div><button class="btn" id="applyCustom">この会話を開始</button></div>
 <div class="translation-toolbar"><button class="btn translation-toggle" type="button" id="toggleTranslation" aria-expanded="false" aria-controls="aTranslation bTranslation">🌐 日本語訳を見る</button><span class="translation-help">必要なときだけ表示・次の会話で自動的に閉じます</span></div><div class="dialogue"><section class="bubble ai"><div class="name">A · LISTEN</div><p class="english" id="aText"></p><p class="translation" id="aTranslation" lang="ja" hidden></p><div class="controlrow"><button class="btn" id="playA">🔊 Aを聞く</button></div></section><section class="bubble you"><div class="name">B · YOUR TURN</div><p class="english" id="bText"></p><p class="translation" id="bTranslation" lang="ja" hidden></p><div class="controlrow"><button class="btn" id="playB">🔊 Bの例文を聞く</button><button class="btn green" id="micBtn">🎙️ 話す</button></div></section></div>
 <div class="recognition"><strong>あなたの発話</strong><div class="status" id="permissionNote">ハンズフリーをONにすると、Aの読み上げ後に自動で聞き取ります。マイクは初回のみ許可してください。</div><div class="recognized" id="heard" aria-live="polite">マイクを押すと発話を認識します。</div><div class="status" id="status" role="status">例文を見ながら話してください。</div><div class="result" id="result" aria-live="polite"></div><div class="controlrow"><button class="btn" id="prevBtn">← 前へ</button><button class="btn primary" id="nextBtn">次の会話へ →</button></div></div></div>
 <div class="completion" id="completion"><div style="font-size:44px">🎉</div><h2>このシーンは終了です</h2><p class="minor" id="completionMessage">会話を最後まで練習しました。</p><div class="controlrow" style="justify-content:center"><button class="btn" id="restartBtn">↻ もう一度</button><button class="btn primary" id="nextSetBtn">次のセットへ →</button><button class="btn" id="nextSceneBtn">次のシーンへ →</button></div></div>
@@ -91,7 +91,7 @@ function combinedScenes(){
   return merged;
 }
 let scenes=combinedScenes();
-const st={iosStarted:!IOS_DEVICE,sceneId:'b03',setId:'b03-l1',index:0,voice:null,voices:[],recognition:null,listening:false,token:0,finished:false,customItems:null,micStream:null,micPending:null,speechSerial:0,retryTimer:null,transitionTimer:null,failures:0,utterance:null};
+const st={ttsUtterance:null,ttsWatchdog:null,iosStarted:!IOS_DEVICE,sceneId:'b03',setId:'b03-l1',index:0,voice:null,voices:[],recognition:null,listening:false,token:0,finished:false,customItems:null,micStream:null,micPending:null,speechSerial:0,retryTimer:null,transitionTimer:null,failures:0,utterance:null};
 function handsfree(){return $('handsfree').checked}
 function currentScene(){return scenes.find(s=>s.id===st.sceneId)||scenes[0]}
 function availableSets(scene=currentScene()){
@@ -104,7 +104,21 @@ function currentItems(){return st.sceneId==='custom'&&st.customItems?st.customIt
 function getPair(){return currentItems()[st.index]}
 function clearRetry(){if(st.retryTimer){clearTimeout(st.retryTimer);st.retryTimer=null}}
 function clearTransition(){if(st.transitionTimer){clearTimeout(st.transitionTimer);st.transitionTimer=null}}
-function stopSpeech(){st.speechSerial++;if('speechSynthesis' in window)window.speechSynthesis.cancel()}
+function stopSpeech(){
+  st.speechSerial++;
+  if(st.ttsWatchdog){clearTimeout(st.ttsWatchdog);st.ttsWatchdog=null}
+  st.ttsUtterance=null;
+  if(!('speechSynthesis' in window))return;
+  const synth=window.speechSynthesis;
+  // iOS Safari: cancelling an idle synthesizer immediately before speak() can cause silent playback.
+  // Cancel only when something is actually playing or queued.
+  if(!IOS_DEVICE || synth.speaking || synth.pending){try{synth.cancel()}catch(e){}}
+}
+function prepareAudioOutput(){
+  // When supported, explicitly switch the iOS audio session out of microphone mode.
+  try{if(IOS_DEVICE && navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
+  try{if(window.speechSynthesis?.paused)window.speechSynthesis.resume()}catch(e){}
+}
 function stopRecognition(){clearRetry();if(st.utterance?.timer)clearTimeout(st.utterance.timer);st.utterance=null;if(st.recognition){try{st.recognition.abort()}catch(e){}st.recognition=null}st.listening=false;$('micBtn').textContent='🎙️ 話す';$('micBtn').classList.remove('active')}
 function setStatus(msg,warn=false){$('status').textContent=msg;$('status').classList.toggle('warn',warn)}
 function levelName(level){return {1:'入門',2:'標準',3:'応用'}[level]||'追加'}
@@ -192,24 +206,67 @@ function next(){
 }
 function prev(){if(st.index===0)return;st.token++;clearTransition();stopSpeech();stopRecognition();st.index--;st.finished=false;render()}
 function populateVoices(){
-  const synth=window.speechSynthesis;if(!synth){$('voiceSelect').innerHTML='<option>非対応</option>';return}
-  const all=synth.getVoices();const en=all.filter(v=>/^en[-_]/i.test(v.lang));
+  const synth=window.speechSynthesis;
+  if(!synth){$('voiceSelect').innerHTML='<option>非対応</option>';return}
+  const en=synth.getVoices().filter(v=>/^en(?:[-_]|$)/i.test(v.lang));
   en.sort((a,b)=>{const score=v=>(/^en-US$/i.test(v.lang)?100:0)+(v.localService?15:0)+(/natural|neural|premium|enhanced|aria|jenny|guy|davis|ava/i.test(v.name)?10:0);return score(b)-score(a)});
-  st.voices=en;const sel=$('voiceSelect');const previous=sel.value;sel.replaceChildren();
-  if(!en.length){const o=document.createElement('option');o.textContent='英語音声がありません';sel.appendChild(o);$('voiceHint').textContent='端末の設定で英語 (米国) の音声を追加してください。';return}
+  st.voices=en;
+  const sel=$('voiceSelect');const previousURI=st.voice;sel.replaceChildren();
+  if(IOS_DEVICE){
+    const o=document.createElement('option');o.value='auto';o.textContent='iPhone標準の英語音声（推奨）';sel.appendChild(o);
+  }
   en.forEach((v,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=`${v.name} (${v.lang})${v.localService?' · 端末内':''}`;sel.append(o)});
-  const old=en.findIndex(v=>v.voiceURI===st.voice);
-  sel.value=old>=0?String(old):previous&&Number(previous)<en.length?previous:'0';st.voice=en[Number(sel.value)]?.voiceURI;
-  $('voiceHint').textContent=`利用可能な英語音声 ${en.length} 種類。音が日本語的なら別の音声に変更してください。`;
+  if(!sel.options.length){const o=document.createElement('option');o.textContent='英語音声が読み込まれていません';sel.appendChild(o)}
+  const stored=en.findIndex(v=>v.voiceURI===previousURI);
+  if(stored>=0)sel.value=String(stored);
+  else sel.value=IOS_DEVICE?'auto':en.length?'0':sel.options[0].value;
+  st.voice=sel.value==='auto'?null:en[Number(sel.value)]?.voiceURI||null;
+  $('voiceHint').textContent=IOS_DEVICE
+    ?'iPhone標準の英語音声を優先します。無音の場合は「音声テスト」もお試しください。'
+    :en.length?`利用可能な英語音声 ${en.length} 種類。音が日本語的なら別の音声に変更してください。`:'端末の設定で英語の音声を追加してください。';
 }
 function speak(text,aiTurn=false){
   if(!('speechSynthesis' in window)){setStatus('このブラウザは読み上げに対応していません。',true);return}
-  stopRecognition();stopSpeech();const serial=st.speechSerial;
-  const utter=new SpeechSynthesisUtterance(text.replace(/[’]/g,"'"));utter.lang='en-US';utter.rate=Number($('rate').value);utter.pitch=1;utter.volume=1;
-  const v=st.voices[Number($('voiceSelect').value)];if(v)utter.voice=v;
-  utter.onend=()=>{if(serial===st.speechSerial&&aiTurn&&handsfree()&&!st.finished)scheduleListen(IOS_DEVICE?500:230)};
-  utter.onerror=e=>{if(serial!==st.speechSerial)return;if(e.error!=='interrupted'&&e.error!=='canceled')setStatus('音声を再生できませんでした。「レッスン開始」または「Aを聞く」を押してください。',true)};
-  window.speechSynthesis.speak(utter);
+  stopRecognition();stopSpeech();prepareAudioOutput();
+  const serial=st.speechSerial;
+  const utter=new SpeechSynthesisUtterance(text.replace(/[’]/g,"'"));
+  utter.lang='en-US';utter.rate=Number($('rate').value);utter.pitch=1;utter.volume=1;
+  const selected=$('voiceSelect').value;
+  if(selected!=='auto'){
+    const v=st.voices[Number(selected)];
+    if(v)utter.voice=v;
+  }
+  // Keep the utterance alive: some Safari versions can drop it early otherwise.
+  st.ttsUtterance=utter;
+  let started=false;
+  utter.onstart=()=>{
+    if(serial!==st.speechSerial)return;
+    started=true;
+    if(st.ttsWatchdog){clearTimeout(st.ttsWatchdog);st.ttsWatchdog=null}
+    setStatus('🔊 英語音声を再生中…');
+  };
+  utter.onend=()=>{
+    if(serial!==st.speechSerial)return;
+    st.ttsUtterance=null;
+    if(st.ttsWatchdog){clearTimeout(st.ttsWatchdog);st.ttsWatchdog=null}
+    if(aiTurn&&handsfree()&&!st.finished)scheduleListen(IOS_DEVICE?650:230);
+    else setStatus('音声再生が終了しました。');
+  };
+  utter.onerror=e=>{
+    if(serial!==st.speechSerial)return;
+    st.ttsUtterance=null;
+    if(st.ttsWatchdog){clearTimeout(st.ttsWatchdog);st.ttsWatchdog=null}
+    if(e.error!=='interrupted'&&e.error!=='canceled')setStatus('音声再生エラー：'+(e.error||'不明')+'。音声テストを試してください。',true);
+  };
+  try{
+    window.speechSynthesis.speak(utter);
+    if(IOS_DEVICE){
+      st.ttsWatchdog=setTimeout(()=>{
+        if(serial!==st.speechSerial||started)return;
+        setStatus('読み上げの開始が確認できません。「音声テスト」を開いてください。',true);
+      },2400);
+    }
+  }catch(e){st.ttsUtterance=null;setStatus('音声を開始できません：'+(e.message||String(e)),true)}
 }
 function scheduleListen(delay=350){
   clearRetry();if(!handsfree()||st.finished||document.hidden)return;
@@ -289,6 +346,9 @@ function launchRecognition(session){
     }
     setTimeout(()=>{if(st.utterance===session&&st.token===t&&!session.done)launchRecognition(session)},180);
   };
+  try{
+    if(IOS_DEVICE && navigator.audioSession)navigator.audioSession.type='play-and-record';
+  }catch(e){}
   try{rec.start()}catch(e){st.recognition=null;stopRecognition();setStatus('音声認識を自動起動できませんでした。「話す」をタップして再開してください。',true)}
 }
 async function listen(auto=false){
@@ -380,7 +440,6 @@ $('iosStartBtn').onclick=()=>{
   st.iosStarted=true;
   const b=$('iosStartBtn');b.textContent='🔊 Aをもう一度聞く / 再開';
   $('iosStatusText').textContent='Aの後に自動でマイクを起動します。停止したときは「話す」をタップしてください。';
-  if('speechSynthesis' in window)populateVoices();
   if(!st.finished)speak(getPair()[0],true);
   else selectScene(st.sceneId);
 };
@@ -406,8 +465,8 @@ $('setSelect').onchange=e=>selectSet(e.target.value);
 $('levelFilter').onchange=()=>{saveSettings();selectScene(st.sceneId)};
 $('autoSet').onchange=saveSettings;
 $('pauseDelay').onchange=saveSettings;
-$('voiceSelect').onchange=()=>{st.voice=st.voices[Number($('voiceSelect').value)]?.voiceURI;stopSpeech();speak(getPair()[0])};
-$('rate').onchange=()=>{saveSettings();stopSpeech();speak(getPair()[0])};
+$('voiceSelect').onchange=()=>{const id=$('voiceSelect').value;st.voice=id==='auto'?null:st.voices[Number(id)]?.voiceURI||null;speak(getPair()[0])};
+$('rate').onchange=()=>{saveSettings();speak(getPair()[0])};
 $('autoplay').onchange=()=>{if($('autoplay').checked&&!st.finished)speak(getPair()[0],true)};
 $('handsfree').onchange=async()=>{
   st.failures=0;st.token++;stopRecognition();stopSpeech();
