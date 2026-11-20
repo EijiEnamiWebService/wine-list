@@ -92,6 +92,84 @@ function combinedScenes(){
 }
 let scenes=combinedScenes();
 const st={micWatchdog:null,ttsUtterance:null,ttsWatchdog:null,iosStarted:!IOS_DEVICE,sceneId:'b03',setId:'b03-l1',index:0,voice:null,voices:[],recognition:null,listening:false,token:0,finished:false,customItems:null,micStream:null,micPending:null,speechSerial:0,retryTimer:null,transitionTimer:null,failures:0,utterance:null};
+// iPhone: one continuous SpeechRecognition session across several A/B turns.
+// A's synthesized audio is discarded while the listener stays active.
+const iosMic={rec:null,active:false,accept:false,finals:new Set(),committed:'',interim:'',pauseTimer:null,enableTimer:null,run:0,suppress:false};
+function iosClearPause(){if(iosMic.pauseTimer){clearTimeout(iosMic.pauseTimer);iosMic.pauseTimer=null}}
+function iosResetTurn(){iosClearPause();iosMic.committed='';iosMic.interim='';}
+function iosPause(){
+  iosClearPause();if(!iosMic.accept||!iosMic.active)return;
+  const text=[iosMic.committed,iosMic.interim].filter(Boolean).join(' ').trim();if(!text)return;
+  const run=iosMic.run,turn=st.token;
+  iosMic.pauseTimer=setTimeout(()=>{
+    if(run!==iosMic.run||turn!==st.token||!iosMic.accept||!iosMic.active)return;
+    const heard=[iosMic.committed,iosMic.interim].filter(Boolean).join(' ').trim();
+    if(heard)iosFinish(heard);
+  },pauseMs());
+}
+function iosFinish(heard){
+  iosMic.accept=false;iosResetTurn();$('heard').textContent=heard;
+  const goal=getPair()[1],score=similar(heard,goal),threshold=$('strict').checked?.84:.62;
+  if(score>=threshold){
+    $('result').className='result show';$('result').style.background='';$('result').style.color='';$('result').textContent='✓ 例文を認識しました。';setStatus('認識できました。');
+    if($('autoNext').checked){const t=st.token;setTimeout(()=>{if(t===st.token)next()},850)}
+    else setStatus('認識できました。「次の会話へ」を押してください。');
+  }else{
+    $('result').className='result show';$('result').style.background='#fff5e7';$('result').style.color='#88570a';$('result').textContent='もう一度練習： '+goal;
+    setStatus('もう一度話してください。');
+    if(handsfree())setTimeout(()=>iosEnableInput(),550);
+  }
+}
+function iosEnableInput(){
+  if(!iosMic.active||st.finished||document.hidden)return;
+  iosResetTurn();iosMic.accept=true;micInfo('連続認識中・発話待機');
+  $('micBtn').textContent='■ 録音を止める';$('micBtn').classList.add('active');st.listening=true;
+  setStatus('Bを話してください（連続認識中）。');
+}
+function iosStartContinuous(){
+  if(iosMic.active)return true;
+  const Rec=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Rec){setStatus('このSafariは音声認識に対応していません。',true);return false}
+  if(iosMic.rec){try{iosMic.rec.abort()}catch(e){}}
+  const rec=new Rec();const run=++iosMic.run;
+  rec.lang='en-US';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;
+  iosMic.rec=rec;iosMic.active=true;iosMic.accept=false;iosMic.finals=new Set();iosResetTurn();
+  prepareAudioInput();
+  rec.onstart=()=>{if(iosMic.rec!==rec)return;micInfo('連続認識開始');st.listening=true;$('micBtn').textContent='■ 録音を止める';$('micBtn').classList.add('active')};
+  rec.onresult=e=>{
+    if(iosMic.rec!==rec||run!==iosMic.run)return;
+    let changed=false,interims=[];
+    for(let i=0;i<e.results.length;i++){
+      const r=e.results[i],t=(r[0]?.transcript||'').trim();
+      if(r.isFinal){
+        if(!iosMic.finals.has(i)){
+          iosMic.finals.add(i);
+          if(iosMic.accept&&t){iosMic.committed=[iosMic.committed,t].filter(Boolean).join(' ');changed=true}
+        }
+      }else if(iosMic.accept&&t){interims.push(t)}
+    }
+    if(!iosMic.accept)return;
+    const interim=interims.join(' ').trim();
+    if(interim!==iosMic.interim){iosMic.interim=interim;changed=true}
+    if(changed){const heard=[iosMic.committed,iosMic.interim].filter(Boolean).join(' ').trim();$('heard').textContent=heard||'聞き取り中…';micInfo('連続認識・音声受信');iosPause()}
+  };
+  rec.onerror=e=>{if(iosMic.rec!==rec)return;micInfo('連続認識エラー: '+e.error);if(e.error!=='no-speech'&&e.error!=='aborted')setStatus('音声認識エラー: '+e.error,true)};
+  rec.onend=()=>{
+    if(iosMic.rec!==rec)return;
+    iosMic.active=false;iosMic.accept=false;iosClearPause();iosMic.rec=null;st.listening=false;
+    $('micBtn').textContent='🎙️ 話す';$('micBtn').classList.remove('active');
+    micInfo('連続認識が終了');setStatus('Safariが連続認識を終了しました。「話す」で再開してください。',true);
+  };
+  try{rec.start();micInfo('連続認識起動要求');return true}
+  catch(e){iosMic.active=false;iosMic.rec=null;setStatus('連続認識を開始できません: '+e.message,true);return false}
+}
+function iosStopContinuous(){
+  iosMic.accept=false;iosMic.active=false;iosMic.run++;iosClearPause();
+  if(iosMic.enableTimer){clearTimeout(iosMic.enableTimer);iosMic.enableTimer=null}
+  const rec=iosMic.rec;iosMic.rec=null;
+  if(rec){try{rec.abort()}catch(e){}}
+  st.listening=false;$('micBtn').textContent='🎙️ 話す';$('micBtn').classList.remove('active');
+}
 function handsfree(){return $('handsfree').checked}
 function currentScene(){return scenes.find(s=>s.id===st.sceneId)||scenes[0]}
 function availableSets(scene=currentScene()){
@@ -124,6 +202,7 @@ function prepareAudioOutput(){
   try{if(window.speechSynthesis?.paused)window.speechSynthesis.resume()}catch(e){}
 }
 function stopRecognition(){
+  if(IOS_DEVICE)iosStopContinuous();
   clearRetry();
   if(st.micWatchdog){clearTimeout(st.micWatchdog);st.micWatchdog=null}
   if(st.utterance?.timer)clearTimeout(st.utterance.timer);
@@ -216,8 +295,8 @@ function setTranslationOpen(open){
   $('toggleTranslation').textContent=open?'🌐 日本語訳を閉じる':'🌐 日本語訳を見る';
 }
 function next(){
-  st.token++;clearTransition();stopSpeech();stopRecognition();
-  if(st.index+1>=currentItems().length){st.finished=true;render();return}
+  st.token++;clearTransition();stopSpeech();if(!IOS_DEVICE)stopRecognition();else {iosMic.accept=false;iosResetTurn()}
+  if(st.index+1>=currentItems().length){if(IOS_DEVICE)iosStopContinuous();st.finished=true;render();return}
   st.index++;render();
 }
 function prev(){if(st.index===0)return;st.token++;clearTransition();stopSpeech();stopRecognition();st.index--;st.finished=false;render()}
@@ -243,7 +322,8 @@ function populateVoices(){
 }
 function speak(text,aiTurn=false){
   if(!('speechSynthesis' in window)){setStatus('このブラウザは読み上げに対応していません。',true);return}
-  stopRecognition();stopSpeech();prepareAudioOutput();
+  if(IOS_DEVICE){iosMic.accept=false;iosResetTurn()}else stopRecognition();
+  stopSpeech();if(!IOS_DEVICE||!iosMic.active)prepareAudioOutput();else prepareAudioInput();
   const serial=st.speechSerial;
   const utter=new SpeechSynthesisUtterance(text.replace(/[’]/g,"'"));
   utter.lang='en-US';utter.rate=Number($('rate').value);utter.pitch=1;utter.volume=1;
@@ -265,8 +345,12 @@ function speak(text,aiTurn=false){
     if(serial!==st.speechSerial)return;
     st.ttsUtterance=null;
     if(st.ttsWatchdog){clearTimeout(st.ttsWatchdog);st.ttsWatchdog=null}
-    if(aiTurn&&handsfree()&&!st.finished)scheduleListen(IOS_DEVICE?650:230);
-    else setStatus('音声再生が終了しました。');
+    if(aiTurn&&handsfree()&&!st.finished){
+      if(IOS_DEVICE){
+        if(iosMic.enableTimer)clearTimeout(iosMic.enableTimer);
+        iosMic.enableTimer=setTimeout(()=>{iosMic.enableTimer=null;if(iosMic.active)iosEnableInput();else setStatus('「話す」をタップして連続認識を開始してください。',true)},650);
+      }else scheduleListen(230);
+    }else setStatus('音声再生が終了しました。');
   };
   utter.onerror=e=>{
     if(serial!==st.speechSerial)return;
@@ -383,6 +467,11 @@ function launchRecognition(session){
   }
 }
 async function listen(auto=false){
+  if(IOS_DEVICE){
+    if(!iosMic.active){if(!auto)stopSpeech();if(iosStartContinuous())iosEnableInput()}
+    else iosEnableInput();
+    return;
+  }
   if(st.utterance){
     if(auto)return;
     const session=st.utterance;
@@ -476,6 +565,7 @@ async function copyPrompt(){
 }
 $('iosStartBtn').onclick=()=>{
   st.iosStarted=true;
+  if(IOS_DEVICE)iosStartContinuous();
   const b=$('iosStartBtn');b.textContent='🔊 Aをもう一度聞く / 再開';
   $('iosStatusText').textContent='Aの後に自動でマイクを起動します。停止したときは「話す」をタップしてください。';
   if(!st.finished)speak(getPair()[0],true);
@@ -492,7 +582,7 @@ $('mobileSettingsToggle').onclick=()=>{
   if(show)window.scrollTo({top:0,behavior:'smooth'});
 };
 $('toggleTranslation').onclick=()=>setTranslationOpen($('aTranslation').hidden);
-$('playA').onclick=()=>{st.iosStarted=true;speak(getPair()[0],true)};
+$('playA').onclick=()=>{st.iosStarted=true;if(IOS_DEVICE)iosStartContinuous();speak(getPair()[0],true)};
 $('playB').onclick=()=>{st.iosStarted=true;speak(getPair()[1])};
 $('recoverMic').onclick=()=>{
   stopRecognition();$('recoverMic').style.display='none';micInfo('再起動要求');
@@ -536,7 +626,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopSpeech
 window.addEventListener('pagehide',()=>{if(st.micStream)st.micStream.getTracks().forEach(t=>t.stop())});
 if(IOS_DEVICE){
   $('iosStartPanel').classList.add('visible');$('iosTips').hidden=false;
-  $('permissionNote').textContent='iPhone版 v4（マイク診断）。マイクの印が表示されても、音声認識が終了している場合があります。下の「マイク状態」を確認してください。';
+  $('permissionNote').textContent='iPhone連続認識テスト版。レッスン開始でマイクを起動し、Aの読み上げ中も認識セッションを維持します。Safariが終了した場合は「話す」で再開します。';
   if(location.protocol!=='https:' && !['localhost','127.0.0.1'].includes(location.hostname))setStatus('iPhoneではHTTPS公開先から開いてください。',true);
 } else if(location.protocol==='file:')$('permissionNote').textContent='PCでファイルを直接開くとマイク許可が毎回表示される場合があります。localhostまたはHTTPSで開いてください。';
 if('serviceWorker' in navigator && location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=4').catch(()=>{}));
