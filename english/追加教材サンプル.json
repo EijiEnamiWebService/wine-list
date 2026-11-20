@@ -1,0 +1,123 @@
+{
+  "version": 2,
+  "scenes": [
+    {
+      "name": "会議の開始と進行",
+      "sets": [
+        {
+          "title": "アクションの確認",
+          "level": 2,
+          "items": [
+            [
+              "Before we finish, can we review the action items?",
+              "Yes, that would be helpful.",
+              "会議を終える前に、対応事項を確認できますか？",
+              "はい、そうしていただけると助かります。"
+            ],
+            [
+              "Could you send the revised document by Thursday?",
+              "Sure. I can send it by Thursday morning.",
+              "木曜日までに修正版の資料を送ってもらえますか？",
+              "もちろんです。木曜日の朝までに送れます。"
+            ],
+            [
+              "Great. Who will check it after that?",
+              "I can ask our team leader to review it.",
+              "いいですね。その後は誰が確認しますか？",
+              "チームリーダーに確認をお願いできます。"
+            ],
+            [
+              "That should work. Any other questions?",
+              "Nothing else from me.",
+              "それで大丈夫そうです。ほかに質問はありますか？",
+              "私はほかにはありません。"
+            ],
+            [
+              "Then let's wrap up the meeting.",
+              "Thank you, everyone. Have a good day.",
+              "では、会議を終えましょう。",
+              "皆さん、ありがとうございました。よい一日を。"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "展示会・イベント",
+      "sets": [
+        {
+          "title": "展示ブースで質問する",
+          "level": 1,
+          "items": [
+            [
+              "Hello. Welcome to our booth.",
+              "Hello. Could you tell me about this product?",
+              "こんにちは。展示ブースへようこそ。",
+              "こんにちは。この製品について教えていただけますか？"
+            ],
+            [
+              "Of course. It helps teams share information.",
+              "That sounds useful. Is it easy to use?",
+              "もちろんです。チーム内で情報を共有するのに役立ちます。",
+              "便利そうですね。使いやすいですか？"
+            ],
+            [
+              "Yes. Let me show you a short demo.",
+              "Great. Thank you.",
+              "はい。簡単なデモをご覧に入れます。",
+              "いいですね。ありがとうございます。"
+            ],
+            [
+              "Would you like some more information?",
+              "Yes, please. Do you have a brochure?",
+              "もっと詳しい情報をご希望ですか？",
+              "はい、お願いします。パンフレットはありますか？"
+            ],
+            [
+              "Certainly. Here you are.",
+              "Thanks. It was nice talking with you.",
+              "もちろんです。どうぞ。",
+              "ありがとう。お話しできてよかったです。"
+            ]
+          ]
+        },
+        {
+          "title": "展示会で技術を話す",
+          "level": 2,
+          "items": [
+            [
+              "What kind of solutions are you interested in?",
+              "We are looking for ways to make our process more efficient.",
+              "どのようなソリューションにご関心がありますか？",
+              "業務をより効率的にする方法を探しています。"
+            ],
+            [
+              "I see. Could you describe your current system?",
+              "We use several separate tools, which makes sharing data difficult.",
+              "なるほど。現在のシステムについて説明いただけますか？",
+              "別々のツールを複数使っているため、データ共有が難しいです。"
+            ],
+            [
+              "Our product can connect with many existing tools.",
+              "That sounds promising. Is integration support included?",
+              "当社の製品は多くの既存ツールと連携できます。",
+              "期待できそうですね。連携のサポートも含まれますか？"
+            ],
+            [
+              "Yes. We can explain the options in more detail.",
+              "Could we arrange a short online meeting next week?",
+              "はい。詳しい選択肢をご説明できます。",
+              "来週、短いオンライン会議を設定できますか？"
+            ],
+            [
+              "Of course. Let me take your contact details.",
+              "Thank you. I look forward to speaking again.",
+              "もちろんです。連絡先を教えていただけますか？",
+              "ありがとうございます。またお話しできるのを楽しみにしています。"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
