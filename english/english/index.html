@@ -277,7 +277,7 @@ function normalize(t){return t.toLowerCase().replace(/[’‘]/g,"'").replace(/[
 function similar(a,b){a=normalize(a);b=normalize(b);if(!a||!b)return 0;if(a===b)return 1;const aw=a.split(' '),bw=b.split(' ');const dp=Array.from({length:aw.length+1},()=>new Array(bw.length+1).fill(0));for(let i=0;i<=aw.length;i++)dp[i][0]=i;for(let j=0;j<=bw.length;j++)dp[0][j]=j;for(let i=1;i<=aw.length;i++)for(let j=1;j<=bw.length;j++)dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(aw[i-1]===bw[j-1]?0:1));return 1-dp[aw.length][bw.length]/Math.max(aw.length,bw.length)}
 async function prepareMicrophone(){
   if(IOS_DEVICE){
-    $('permissionNote').textContent='iPhoneでは音声認識の開始時にSafariがマイク許可を確認します。';
+    $('permissionNote').textContent='iPhoneではSafari側の制限により、音声認識の自動再開に失敗する場合があります。その場合は「話す」で再開してください。';
     return true;
   }
   if(st.micStream && st.micStream.getAudioTracks().some(t=>t.readyState==='live'))return true;
@@ -332,7 +332,7 @@ function launchRecognition(session){
   };
   rec.onerror=e=>{
     if(st.utterance!==session)return;const fatal=['not-allowed','service-not-allowed','audio-capture','network'].includes(e.error);hadError=fatal;
-    if(fatal){$('handsfree').checked=false;stopRecognition();setStatus('自動認識を停止しました：'+e.error+'。マイク・接続・サイト権限を確認してください。',true)}
+    if(fatal){$('handsfree').checked=false;stopRecognition();setStatus('音声認識が停止しました：'+e.error+'。Safariのマイク許可を確認し、「話す」で再開してください。',true)}
     else if(e.error!=='no-speech'&&e.error!=='aborted')setStatus('音声認識エラー：'+e.error,true);
   };
   rec.onend=()=>{
@@ -340,8 +340,17 @@ function launchRecognition(session){
     if(session.interim){session.committed=[session.committed,session.interim].filter(Boolean).join(' ');session.interim='';$('heard').textContent=visibleSpeech(session)}
     st.listening=false;st.recognition=null;const t=session.token;
     if(IOS_DEVICE){
-      if(visibleSpeech(session)){armPause(session)}
-      else {stopRecognition();setStatus('iPhoneの自動聞き取りが終了しました。「話す」で再開してください。')}
+      if(visibleSpeech(session)){armPause(session);return}
+      // iOS often automatically ends a recognition session after a short silence.
+      // Retry a limited number of times, then allow a fresh manual start.
+      if(session.iosRestarts<2 && handsfree() && !document.hidden){
+        session.iosRestarts++;
+        setStatus('聞き取りが終了しました。自動再開を試しています… ('+session.iosRestarts+'/2)');
+        setTimeout(()=>{if(st.utterance===session&&st.token===t&&!session.done&&!st.recognition)launchRecognition(session)},450);
+      }else{
+        stopRecognition();
+        setStatus('iPhoneの聞き取りが停止しました。「話す」をタップすると再開します。',true);
+      }
       return;
     }
     setTimeout(()=>{if(st.utterance===session&&st.token===t&&!session.done)launchRecognition(session)},180);
@@ -349,10 +358,19 @@ function launchRecognition(session){
   try{
     if(IOS_DEVICE && navigator.audioSession)navigator.audioSession.type='play-and-record';
   }catch(e){}
-  try{rec.start()}catch(e){st.recognition=null;stopRecognition();setStatus('音声認識を自動起動できませんでした。「話す」をタップして再開してください。',true)}
+  try{rec.start()}catch(e){
+    st.recognition=null;stopRecognition();
+    setStatus('音声認識を開始できませんでした ('+(e?.name||'unknown')+')。「話す」をタップして再開してください。',true);
+  }
 }
 async function listen(auto=false){
-  if(st.utterance){if(!auto){const session=st.utterance;if(visibleSpeech(session))finishSpeech(session);else{stopRecognition();setStatus('録音を停止しました。')}}return}
+  if(st.utterance){
+    if(auto)return;
+    const session=st.utterance;
+    if(visibleSpeech(session)){finishSpeech(session);return}
+    // iPhone Safari may end recognition without a result. A second tap must start a NEW session.
+    stopRecognition();
+  }
   const Rec=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!Rec){setStatus('このブラウザでは音声認識が使えません。iPhoneはSafariで開いてください。',true);return}
   if(!auto)stopSpeech();
@@ -360,7 +378,7 @@ async function listen(auto=false){
   $('micBtn').disabled=true;setStatus('マイクを準備しています…');
   const ready=await prepareMicrophone();$('micBtn').disabled=false;
   if(!ready||st.finished||st.sceneId!==startScene||st.setId!==startSet||st.index!==startIndex||oldToken!==st.token)return;
-  const session={token:st.token,committed:'',interim:'',timer:null,done:false};st.utterance=session;
+  const session={token:st.token,committed:'',interim:'',timer:null,done:false,iosRestarts:0};st.utterance=session;
   $('result').className='result';$('result').textContent='';$('result').removeAttribute('style');launchRecognition(session);
 }
 function setCustom(){
