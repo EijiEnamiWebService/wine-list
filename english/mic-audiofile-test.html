@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>iPhone MP3再生 × 連続音声認識テスト</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif;color:#182e4b;background:#f3f6fc}*{box-sizing:border-box}body{margin:0;padding:20px 14px calc(42px + env(safe-area-inset-bottom))}main{max-width:680px;margin:auto}h1{font-size:23px;line-height:1.4}p{line-height:1.7}.small{font-size:13px;color:#5d6f85}.panel{padding:17px;margin:14px 0;background:white;border:1px solid #d7e0ec;border-radius:15px;box-shadow:0 3px 14px #172b4b0a}h2{font-size:17px;margin:0 0 12px}.row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}button{border:0;border-radius:10px;background:#1b5bc7;color:#fff;padding:13px;min-height:48px;font-size:16px;font-weight:700;flex:1 1 170px;cursor:pointer}button.sub{background:#e4edfa;color:#19427d}button:disabled{opacity:.43}.step{border-left:4px solid #d6dfed;margin:8px 0;padding:9px 11px;line-height:1.65}.step.on{background:#eef4ff;border-color:#1b5bc7}.phrase{font-size:19px;font-weight:700;color:#103e87}.state{background:#eaf1fc;padding:12px;border-radius:9px;font-weight:700;line-height:1.5}.result{background:#f5f8fc;padding:12px;white-space:pre-wrap;min-height:65px;line-height:1.7;border-radius:9px}.partial{color:#536d8c;min-height:24px}pre{background:#122540;color:#e1ebfb;border-radius:10px;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.6 ui-monospace,monospace;max-height:400px;overflow:auto}label{display:block;margin:8px 0}input{width:19px;height:19px;vertical-align:middle}audio{width:100%}
+</style></head><body><main>
+<h1>iPhone：MP3再生とマイクの干渉診断</h1>
+<p class="small">Safariの読み上げ機能（Speech Synthesis）は一切使用しません。録音セッションを継続した状態で、<strong>MP3ファイル再生後にも2文目を認識できるか</strong>確認します。既存アプリには変更を加えません。</p>
+<section class="panel"><h2>テスト方式</h2><label><input type="radio" name="mode" value="mp3" checked> B：途中でMP3ファイルを再生（今回の検証）</label><label><input type="radio" name="mode" value="plain"> A：何も再生しない（比較用）</label><p class="small">iPhoneの消音モードをOFFにしてください。音声はテスト用に機械合成した短い英文です。実際の教材音声の品質を評価するものではありません。</p></section>
+<section class="panel"><h2>テストの手順</h2>
+<div class="step on" id="step1"><strong>1. 「連続認識を開始」をタップ</strong><div>マイクの使用を許可します。</div></div>
+<div class="step" id="step2"><strong>2. 最初の英文を話す</strong><div class="phrase">Good morning.</div>確定結果が表示されるまで待ちます。</div>
+<div class="step" id="step3"><strong>3. 「MP3を再生」をタップ</strong><div>マイクは停止しません。音が聞こえたら再生完了を待ちます。</div></div>
+<div class="step" id="step4"><strong>4. 次の英文を話す</strong><div class="phrase">How are you today?</div>「話す」や「開始」を押し直さずに話します。</div>
+<div class="row"><button id="start">連続認識を開始</button><button class="sub" id="play" disabled>MP3を再生</button></div><div class="row"><button id="stop" class="sub" disabled>認識を終了</button><button id="reset" class="sub">リセット</button></div>
+<div id="status" class="state" role="status">状態：未開始</div><p class="small">再生後に30秒ほど待っても2文目が認識されない場合は「認識を終了」をタップし、ログをコピーしてください。</p></section>
+<section class="panel"><h2>認識結果</h2><div id="results" class="result">（結果待ち）</div><div id="partial" class="partial"></div></section>
+<section class="panel"><h2>診断ログ</h2><div class="row"><button class="sub" id="copy">結果とログをコピー</button></div><pre id="log"></pre></section>
+<audio id="mp3" preload="auto" playsinline src="./lesson_sample.mp3"></audio>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const player=$('mp3');let rec=null,run=0,active=false,manuallyStopped=false,phase='idle',mode='mp3',done=new Map(),finals=[],audioPlayed=false,audioFinished=false;
+const clock=()=>new Date().toLocaleTimeString('ja-JP',{hour12:false});
+function log(s){$('log').textContent+=clock()+' '+s+'\n';$('log').scrollTop=$('log').scrollHeight}
+function status(s){$('status').textContent='状態：'+s;log(s)}
+function step(n){for(let i=1;i<=4;i++)$('step'+i).classList.toggle('on',i===n)}
+function selection(){return document.querySelector('input[name=mode]:checked').value}
+function buttons(){$('start').disabled=active;$('stop').disabled=!active;$('play').disabled=!active||phase!=='first-complete';$('play').textContent=mode==='plain'?'次の発話へ':'MP3を再生';document.querySelectorAll('input[name=mode]').forEach(x=>x.disabled=active)}
+function render(){$('results').textContent=finals.length?finals.map((x,i)=>(i+1)+'. ['+x.phase+'] '+x.text).join('\n'):'（結果待ち）'}
+function reset(){run++;manuallyStopped=true;const old=rec;rec=null;active=false;if(old){try{old.abort()}catch(e){log('abort失敗 '+e.message)}}player.pause();player.currentTime=0;phase='idle';done.clear();finals=[];audioPlayed=false;audioFinished=false;$('log').textContent='';$('partial').textContent='';mode=selection();render();step(1);buttons();status('未開始');log('対応: '+(SR?'SpeechRecognitionあり':'SpeechRecognitionなし')+' / '+navigator.userAgent);log('MP3 URL: '+new URL(player.getAttribute('src'),location.href).href)}
+function start(){if(active)return;if(!SR){status('このSafariは音声認識非対応です');return}
+ mode=selection();run++;const myRun=run;active=true;manuallyStopped=false;phase='first';done.clear();finals=[];audioPlayed=false;audioFinished=false;$('log').textContent='';$('partial').textContent='';render();step(2);
+ const r=new SR();rec=r;r.lang='en-US';r.continuous=true;r.interimResults=true;r.maxAlternatives=1;
+ const valid=()=>rec===r&&run===myRun;
+ r.onstart=()=>{if(valid())log('認識 onstart')};r.onaudiostart=()=>{if(valid())log('認識 onaudiostart')};r.onsoundstart=()=>{if(valid())log('認識 onsoundstart')};r.onspeechstart=()=>{if(valid())log('認識 onspeechstart')};r.onspeechend=()=>{if(valid())log('認識 onspeechend')};r.onaudioend=()=>{if(valid())log('認識 onaudioend')};
+ r.onresult=e=>{if(!valid())return;let partial='';for(let i=e.resultIndex;i<e.results.length;i++){const item=e.results[i];const s=(item[0]?.transcript||'').trim();if(!s)continue;if(item.isFinal){if(done.get(i)!==s){done.set(i,s);finals.push({phase,text:s});log('確定 ['+phase+']: '+s);if(phase==='first'){phase='first-complete';step(3);status('1文目を認識。MP3を再生してください');buttons()}else if(phase==='second'){status('2文目を認識。成功です。結果をコピーしてください')}}}else partial+=' '+s}
+ $('partial').textContent=partial?'途中: '+partial.trim():'';if(partial.trim())log('途中 ['+phase+']: '+partial.trim());render()};
+ r.onerror=e=>{if(valid())log('認識 onerror: '+e.error+' '+(e.message||''))};r.onend=()=>{if(!valid())return;log('認識 onend '+(manuallyStopped?'(手動)':'(Safari側)'));active=false;phase='ended';buttons();if(!manuallyStopped)status('Safariが連続認識を終了しました')};
+ buttons();log('方式: '+mode+' / continuous=true, interimResults=true');try{r.start();status('連続認識中。Good morning. を話してください')}catch(e){active=false;buttons();status('開始失敗: '+e.name+' '+e.message)}
+}
+function play(){if(!active||phase!=='first-complete')return;
+ if(mode==='plain'){phase='second';step(4);buttons();status('再生なし。How are you today? を話してください');return}
+ phase='playing';buttons();step(3);log('audio.play() を呼び出し。Speech Synthesisは不使用');
+ player.currentTime=0;const p=player.play();if(p&&p.catch)p.catch(e=>{log('audio.play()失敗: '+e.name+' '+e.message);status('再生に失敗。ファイルの配置やiPhoneの音量を確認してください');phase='first-complete';buttons()});
+}
+player.addEventListener('play',()=>log('MP3 playイベント'));player.addEventListener('playing',()=>{audioPlayed=true;log('MP3 playingイベント');$('status').textContent='状態：MP3再生中（連続認識は停止しません）'});player.addEventListener('ended',()=>{audioFinished=true;log('MP3 endedイベント');if(active&&phase==='playing'){phase='second';step(4);buttons();status('MP3再生終了。How are you today? を話してください')}});player.addEventListener('error',()=>{log('MP3 error: '+(player.error?.code||'unknown'));status('MP3の読み込みに失敗しました。同じフォルダーにlesson_sample.mp3が必要です')});
+function stop(){if(!active)return;manuallyStopped=true;active=false;phase='ended';buttons();try{rec.stop();log('手動 stop()')}catch(e){log('stop()エラー: '+e.message)}status('ユーザー操作で認識を終了しました')}
+function report(){return ['iPhone MP3 × 連続マイク診断','方式: '+(mode==='mp3'?'B MP3再生あり':'A 再生なし'),'MP3 playing: '+audioPlayed,'MP3 ended: '+audioFinished,$('status').textContent,'認識結果:',$('results').textContent,'イベントログ:',$('log').textContent].join('\n')}
+async function copy(){const s=report();try{await navigator.clipboard.writeText(s);$('status').textContent='状態：結果をコピーしました'}catch(e){const ta=document.createElement('textarea');ta.value=s;ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();$('status').textContent=ok?'状態：コピーしました':'状態：コピーできません。ログを選択してください'}}
+$('start').addEventListener('click',start);$('play').addEventListener('click',play);$('stop').addEventListener('click',stop);$('reset').addEventListener('click',reset);$('copy').addEventListener('click',copy);document.querySelectorAll('input[name=mode]').forEach(x=>x.addEventListener('change',reset));window.addEventListener('pagehide',()=>{if(rec){try{rec.abort()}catch(e){}}player.pause()});reset();
+})();
+</script></body></html>
