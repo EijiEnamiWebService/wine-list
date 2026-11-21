@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>iPhone 音声読み上げ × 連続マイク診断</title>
+<style>
+:root{color-scheme:light;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;color:#14233c;background:#f3f6fa}
+*{box-sizing:border-box}body{margin:0;padding:18px 14px calc(35px + env(safe-area-inset-bottom))}main{max-width:650px;margin:auto}
+h1{font-size:23px;line-height:1.35;margin:10px 0}p{line-height:1.7;margin:10px 0}.sub{color:#475b75;font-size:14px}.panel{background:#fff;border:1px solid #dce4f0;border-radius:16px;padding:16px;margin:14px 0;box-shadow:0 2px 12px #152b4910}
+h2{font-size:17px;margin:0 0 9px}.radio{display:flex;gap:10px;border:1px solid #d5deeb;border-radius:12px;padding:12px;margin-top:10px;align-items:flex-start;cursor:pointer}.radio:has(input:checked){border-color:#2365d5;background:#edf4ff}.radio input{margin-top:3px;width:19px;height:19px}.radio strong{display:block}.radio span{font-size:13px;color:#52627a}
+button{appearance:none;-webkit-appearance:none;border:0;cursor:pointer;border-radius:11px;font:700 16px system-ui,-apple-system,sans-serif;background:#1859cc;color:#fff;padding:13px 15px;min-height:48px;touch-action:manipulation}button.secondary{background:#e8eef7;color:#1b3b67}button.warn{background:#a52831}button:disabled{opacity:.4;cursor:not-allowed}.actions{display:flex;flex-wrap:wrap;gap:9px;margin:10px 0}.actions button{flex:1 1 160px}
+.status{font-weight:700;background:#edf3fc;padding:12px;border-radius:10px;line-height:1.6}.step{padding:10px 12px;border-left:3px solid #c3d2e7;margin:9px 0;line-height:1.65}.step.active{border-left-color:#1859cc;background:#eff5ff;border-radius:5px}.muted{color:#52627a;font-size:13px}.sentence{font-size:17px;font-weight:700;color:#143458}.transcript{white-space:pre-wrap;min-height:64px;line-height:1.7;margin:10px 0;background:#f7f9fc;padding:12px;border-radius:10px}.partial{min-height:1.3em;color:#667c98;font-size:14px}pre{font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;color:#dce9ff;background:#11223d;white-space:pre-wrap;overflow-wrap:anywhere;border-radius:10px;padding:13px;max-height:350px;overflow:auto}.small{font-size:13px;color:#56647a}.pill{font-size:13px;font-weight:700;color:#154a9e;background:#dceaff;padding:3px 8px;border-radius:9px}a{color:#1859cc}
+</style>
+</head>
+<body><main>
+<h1>iPhone 音声とマイクの干渉診断</h1>
+<p class="sub">既存の英会話アプリは変更しません。<strong>同じマイク認識セッション</strong>の途中でAIの英語読み上げを挟むと、2回目の発話が認識されなくなるか比較します。</p>
+<section class="panel">
+<h2>① テストを選択</h2>
+<label class="radio"><input name="mode" type="radio" value="plain" checked><div><strong>A：読み上げなし</strong><span>2つの英文を続けて話す（比較用）</span></div></label>
+<label class="radio"><input name="mode" type="radio" value="tts"><div><strong>B：途中で英語を読み上げる</strong><span>1文目を話す → AI音声再生 → 2文目を話す（重要）</span></div></label>
+<p class="small">最初はBを実施してください。Aは以前の連続認識テストの再確認用です。iPhoneの消音モードはOFFにしてください。</p>
+</section>
+<section class="panel">
+<h2>② 手順と操作</h2>
+<div id="step1" class="step active"><strong>1. 「連続認識を開始」をタップ</strong><div>マイクを1回だけ起動します。</div></div>
+<div id="step2" class="step"><strong>2. 最初の英文を話す</strong><div class="sentence">Good morning.</div><div class="muted">「確定: Good morning」が出るまで待ちます。</div></div>
+<div id="step3" class="step"><strong>3. <span id="step3Title">「次の発話へ」をタップ</span></strong><div id="step3Text">認識を止めずに、次の発話に進みます。</div></div>
+<div id="step4" class="step"><strong>4. 次の英文を話す</strong><div class="sentence">How are you today?</div><div class="muted">開始ボタンは押し直さないでください。</div></div>
+<div class="actions"><button id="start">連続認識を開始</button><button id="action" class="secondary" disabled>次の発話へ</button></div>
+<div class="actions"><button id="stop" class="secondary" disabled>認識を終了</button><button id="reset" class="secondary">リセット</button></div>
+<div class="status" id="status" role="status" aria-live="polite">状態：未開始</div>
+<p class="small">A・Bどちらも、2文目まで<strong>マイク認識の stop() / abort() / start() を追加で呼ばない</strong>設計です。音声認識がSafari側で自動終了した場合はログに記録して、再開しません。</p>
+</section>
+<section class="panel"><h2>③ 認識結果</h2><div id="transcript" class="transcript">（結果待ち）</div><div id="partial" class="partial"></div><div class="small">読み上げたAIの英文が誤認識された場合も、そのまま記録されます。</div></section>
+<section class="panel"><h2>④ 診断ログ</h2><div class="actions"><button id="copy" class="secondary">結果とログをコピー</button></div><pre id="log"></pre></section>
+</main>
+<script>
+(()=>{
+'use strict';
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const $=id=>document.getElementById(id);
+let rec=null,active=false,manualStop=false,phase='idle',mode='plain',runId=0;
+let finals=[],seen=new Map(),currentVoice=null,utterance=null,ttsStarted=false,ttsFinished=false;
+function when(){return new Date().toLocaleTimeString('ja-JP',{hour12:false})}
+function log(s){$('log').textContent+=`${when()} ${s}\n`;$('log').scrollTop=$('log').scrollHeight}
+function status(s){$('status').textContent='状態：'+s;log(s)}
+function steps(n){for(let i=1;i<=4;i++)$('step'+i).classList.toggle('active',i===n)}
+function refresh(){
+ $('start').disabled=active;
+ $('stop').disabled=!active;
+ $('action').disabled=!active || phase!=='first-ready' || finals.length<1;
+ $('action').textContent=mode==='tts'?'AIの英文を再生':'次の発話へ';
+ document.querySelectorAll('input[name=mode]').forEach(el=>el.disabled=active);
+}
+function renderResults(){ $('transcript').textContent=finals.length?finals.map((x,i)=>`${i+1}. [${x.phase}] ${x.text}`).join('\n'):'（結果待ち）' }
+function selectedMode(){return document.querySelector('input[name=mode]:checked').value}
+function updateMode(){mode=selectedMode();$('step3Title').textContent=mode==='tts'?'「AIの英文を再生」をタップ':'「次の発話へ」をタップ';$('step3Text').textContent=mode==='tts'?'マイクは停止せず、Safariの英語読み上げを挟みます。読み上げが終わったら2文目を話します。':'マイクは停止せず、すぐ2文目を話します。';refresh()}
+function reset(){runId++;manualStop=true;active=false;const old=rec;rec=null;if(old){try{old.abort()}catch(e){log('abort例外: '+e.message)}}if(utterance){try{speechSynthesis.cancel()}catch(e){}}utterance=null;finals=[];seen.clear();phase='idle';ttsStarted=false;ttsFinished=false;$('log').textContent='';$('partial').textContent='';renderResults();steps(1);refresh();status('未開始');log('対応: '+(SR?(window.SpeechRecognition?'SpeechRecognition':'webkitSpeechRecognition'):'SpeechRecognitionなし')+' / '+navigator.userAgent)}
+function start(){
+ if(active)return;
+ if(!SR){status('このSafariはSpeechRecognition非対応です');return}
+ runId++;let thisRun=runId;mode=selectedMode();manualStop=false;active=true;phase='first';ttsStarted=false;ttsFinished=false;finals=[];seen.clear();$('log').textContent='';$('partial').textContent='';renderResults();
+ const r=new SR();rec=r;r.lang='en-US';r.continuous=true;r.interimResults=true;r.maxAlternatives=1;
+ refresh();steps(2);log('対応: '+(window.SpeechRecognition?'SpeechRecognition':'webkitSpeechRecognition')+' / '+navigator.userAgent);
+ log(`方式: ${mode==='tts'?'B: 途中でTTS':'A: 読み上げなし'} / continuous=true / interimResults=true`);
+ const valid=()=>rec===r&&runId===thisRun;
+ r.onstart=()=>{if(valid())log('音声認識 onstart')};
+ r.onaudiostart=()=>{if(valid())log('音声認識 onaudiostart')};
+ r.onsoundstart=()=>{if(valid())log('音声認識 onsoundstart')};
+ r.onspeechstart=()=>{if(valid())log('音声認識 onspeechstart')};
+ r.onspeechend=()=>{if(valid())log('音声認識 onspeechend')};
+ r.onsoundend=()=>{if(valid())log('音声認識 onsoundend')};
+ r.onaudioend=()=>{if(valid())log('音声認識 onaudioend')};
+ r.onresult=e=>{if(!valid())return;let partial='';for(let i=e.resultIndex;i<e.results.length;i++){
+  const item=e.results[i];const text=(item[0]?.transcript||'').trim();if(!text)continue;
+  if(item.isFinal){if(seen.get(i)!==text){seen.set(i,text);finals.push({phase,text});log(`確定 [${phase}]: ${text}`);if(phase==='first'){phase='first-ready';steps(3);status('1文目を認識しました。次の操作へ');refresh()}}}
+  else partial+=' '+text;
+ }$('partial').textContent=partial?'認識途中: '+partial.trim():'';if(partial.trim())log(`途中 [${phase}]: ${partial.trim()}`);renderResults()};
+ r.onerror=e=>{if(!valid())return;log(`音声認識 onerror: ${e.error||'unknown'} ${e.message||''}`);if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error))status('マイク権限/入力エラー: '+e.error)};
+ r.onend=()=>{if(!valid())return;log('音声認識 onend'+(manualStop?'（手動終了）':'（Safari側が終了）'));active=false;phase='ended';refresh();if(!manualStop)status('Safari側で認識が終了しました。結果とログをコピーしてください')};
+ try{r.start();status('認識中。最初の英文を話してください')}catch(e){log('start例外: '+e.name+' '+e.message);active=false;phase='error';refresh();status('開始エラー: '+e.message)}
+}
+function action(){if(!active||phase!=='first-ready')return;
+ if(mode==='plain'){phase='second';steps(4);refresh();status('マイクを維持しています。2文目を話してください');return}
+ phase='tts';refresh();steps(3);ttsStarted=false;ttsFinished=false;
+ if(!('speechSynthesis' in window)){log('Speech Synthesisなし');phase='second';steps(4);status('Speech Synthesis非対応。2文目を話して結果を記録してください');return}
+ const u=new SpeechSynthesisUtterance('Let us move on to the next topic.');u.lang='en-US';u.rate=.88;u.pitch=1;u.volume=1;
+ const voices=speechSynthesis.getVoices();currentVoice=voices.find(v=>v.lang==='en-US'&&v.localService)||voices.find(v=>v.lang==='en-US')||null;
+ if(currentVoice)u.voice=currentVoice;
+ utterance=u;
+ log('TTS speak() / 認識セッション継続 / voice='+ (currentVoice?`${currentVoice.name} (${currentVoice.lang})`:'デフォルト') );
+ u.onstart=()=>{if(utterance!==u)return;ttsStarted=true;log('TTS onstart');$('status').textContent='状態：AIの英文を読み上げ中（マイクは連続認識中）'};
+ u.onend=()=>{if(utterance!==u)return;ttsFinished=true;log('TTS onend');utterance=null;phase='second';steps(4);refresh();status('読み上げが終了しました。2文目を話してください')};
+ u.onerror=e=>{if(utterance!==u)return;log('TTS onerror: '+(e.error||'unknown'));utterance=null;phase='second';steps(4);refresh();status('読み上げエラー。2文目を話して結果を記録してください')};
+ try{speechSynthesis.speak(u);status('読み上げ要求を送りました（マイクは停止しません）')}catch(e){log('TTS speak()例外: '+e.message);utterance=null;phase='second';steps(4);refresh();status('音声再生に失敗。2文目を話してください')}
+}
+function stop(){if(!active)return;manualStop=true;active=false;phase='ended';const r=rec;refresh();if(r){try{r.stop();log('手動: stop()')}catch(e){log('stop例外: '+e.message)}}status('ユーザー操作で認識を終了しました')}
+function report(){const header=['iPhone 音声読み上げ × 連続マイク診断',`方式：${mode==='tts'?'B 読み上げあり':'A 読み上げなし'}`,`TTS onstart：${ttsStarted?'あり':'なし'}`,`TTS onend：${ttsFinished?'あり':'なし'}`,$('status').textContent,'認識結果:',$('transcript').textContent,'イベントログ:',$('log').textContent];return header.join('\n')}
+async function copy(){let txt=report();try{await navigator.clipboard.writeText(txt);$('status').textContent='状態：結果をコピーしました'}catch(e){let t=document.createElement('textarea');t.value=txt;t.style.cssText='position:fixed;top:0;left:0;width:1px;opacity:0';document.body.appendChild(t);t.select();let copied=document.execCommand('copy');t.remove();$('status').textContent=copied?'状態：結果をコピーしました（代替手段）':'状態：コピーできません。ログを長押しで選択してください'}}
+$('start').addEventListener('click',start);$('action').addEventListener('click',action);$('stop').addEventListener('click',stop);$('reset').addEventListener('click',reset);$('copy').addEventListener('click',copy);document.querySelectorAll('input[name=mode]').forEach(el=>el.addEventListener('change',updateMode));
+window.addEventListener('pagehide',()=>{if(rec){try{rec.abort()}catch(e){}}});
+updateMode();reset();
+})();
+</script>
+</body></html>
