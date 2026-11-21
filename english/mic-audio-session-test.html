@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#183c68">
+<title>iPhone 音声セッション × 連続認識診断</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#18304d;background:#f1f5fb}*{box-sizing:border-box}body{margin:0;padding:19px 14px calc(35px + env(safe-area-inset-bottom))}main{max-width:690px;margin:auto}h1{font-size:23px;line-height:1.45;margin:0 0 10px}h2{font-size:17px;margin:0 0 10px}p{line-height:1.65;margin:8px 0}.lead,.muted{color:#516680;font-size:14px}.panel{background:#fff;border-radius:15px;border:1px solid #d5e0ee;padding:17px;margin:14px 0;box-shadow:0 3px 11px #223d6010}.choice{display:block;padding:12px;border:1px solid #d9e2ee;border-radius:10px;margin:8px 0;line-height:1.6}.choice input{accent-color:#155bc6;width:18px;height:18px;vertical-align:middle;margin-right:5px}.choice small{display:block;color:#61748b;margin-left:29px}button{font:700 15px/1.2 -apple-system,BlinkMacSystemFont,sans-serif;min-height:47px;background:#185ac2;color:white;border:0;border-radius:10px;padding:12px 14px;flex:1 1 150px}button.secondary{background:#e7eef9;color:#1d4479}button:disabled{opacity:.42}.buttons{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.step{border-left:4px solid #d8e0eb;padding:9px 11px;margin:9px 0;line-height:1.65}.step.current{border-color:#185ac2;background:#eef4ff}.phrase{font-weight:700;color:#1a4f9e;font-size:19px}.status{border-radius:10px;background:#e9f0fb;padding:12px;font-weight:700;line-height:1.5}.pill{display:inline-block;background:#edf2f8;border-radius:30px;padding:5px 10px;font-size:12px;color:#365472;margin:5px 3px 0 0}pre{background:#14283f;color:#e6edf8;white-space:pre-wrap;overflow-wrap:anywhere;border-radius:10px;padding:13px;max-height:470px;overflow:auto;font:12px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace}#results{background:#f6f8fc;border-radius:9px;padding:13px;min-height:65px;white-space:pre-wrap;line-height:1.7}#partial{font-size:14px;color:#536982;min-height:20px;margin:10px 0}#settings{word-break:break-word}code{background:#eaf0fa;padding:2px 5px;border-radius:4px}footer{font-size:12px;color:#60738a}a{color:#155bc6}
+</style>
+</head>
+<body><main>
+<h1>iPhone 音声セッション × 連続マイク診断</h1>
+<p class="lead">iPhone Safariで、音声セッションを <code>play-and-record</code> に設定すると、MP3再生後もマイクが発話を認識するか調べます。<strong>英会話アプリ本体は変更しません。</strong></p>
+<section class="panel">
+<h2>1. 診断モード</h2>
+<label class="choice"><input type="radio" name="sessionMode" value="play-and-record" checked><strong>play-and-record（今回の検証）</strong><small>再生と録音を併用する意図をSafariに伝える設定です。</small></label>
+<label class="choice"><input type="radio" name="sessionMode" value="auto"><strong>auto（比較用）</strong><small>Safariに音声モードの選択を任せます。比較するときはページを再読み込みしてから試してください。</small></label>
+<p class="muted">このAPIが未対応の場合もテストはできますが、設定による比較はできません。</p>
+<div id="settings" class="status" role="status">Audio Session: 調査中...</div>
+</section>
+<section class="panel">
+<h2>2. 操作手順</h2>
+<div class="step current" id="step1"><strong>① 「連続認識を開始」をタップ</strong><div>最初のボタン操作時に選択した音声モードを設定します。</div></div>
+<div class="step" id="step2"><strong>② 英語で話す</strong><div class="phrase">Good morning.</div>英文が確定するまで待ってください。</div>
+<div class="step" id="step3"><strong>③ 「MP3を再生」をタップ</strong><div>再生が終わるまで待ちます。マイクは止めません。</div></div>
+<div class="step" id="step4"><strong>④ 続けて英語で話す</strong><div class="phrase">How are you today?</div>追加のマイク操作はしないでください。</div>
+<div class="buttons"><button id="start">連続認識を開始</button><button id="play" class="secondary" disabled>MP3を再生</button></div>
+<div class="buttons"><button id="stop" class="secondary" disabled>認識を終了</button><button id="reset" class="secondary">ページを再読み込み</button></div>
+<div id="status" class="status" role="status">状態：未開始</div>
+<p class="muted">④の発話から20～30秒待っても結果が出ないときは、認識を終了してログをコピーしてください。音が小さい場合は通話用受話口側にも注意してください。</p>
+</section>
+<section class="panel"><h2>3. 認識結果</h2><div id="results">（結果待ち）</div><div id="partial"></div></section>
+<section class="panel"><h2>4. 診断ログ</h2><div class="buttons"><button id="copy">結果とログをコピー</button></div><pre id="log"></pre></section>
+<footer>このページはマイク音声をサーバーに保存・送信する処理を実装していません。ただしSafariのWeb Speech音声認識自体の処理方法はブラウザに依存します。</footer>
+<audio id="sample" preload="auto" playsinline src="./lesson_sample.mp3"></audio>
+</main>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const SpeechAPI=window.SpeechRecognition||window.webkitSpeechRecognition;
+const player=$('sample');
+let recognition=null,phase='idle',active=false,manualStop=false,runId=0;
+let playbackStarted=false,playbackEnded=false;
+const finals=[],seen=new Map();
+let selectedMode='play-and-record';
+const timestamp=()=>new Date().toLocaleTimeString('ja-JP',{hour12:false});
+function log(message){$('log').textContent+=timestamp()+' '+message+'\n';$('log').scrollTop=$('log').scrollHeight}
+function state(message){$('status').textContent='状態：'+message;log(message)}
+function advance(n){for(let i=1;i<=4;i++)$('step'+i).classList.toggle('current',i===n)}
+function mode(){return document.querySelector('input[name="sessionMode"]:checked').value}
+function audio(){try{return navigator.audioSession||null}catch(e){return null}}
+function audioMode(){try{return audio()?.type??'(不明)'}catch(e){return '(取得失敗: '+e.message+')'}}
+function showAudio(){let a=audio();$('settings').textContent=a?'Audio Session: 対応 / 現在のtype = '+audioMode():'Audio Session: navigator.audioSession 非対応（設定は適用できません）'}
+function configAudioSession(){const a=audio();if(!a){log('Audio Session API非対応 / 設定できません');showAudio();return}
+log('Audio Session 設定前 type='+audioMode());try{a.type=selectedMode;log('Audio Session 代入 type='+selectedMode+' / 読み戻し='+audioMode())}catch(e){log('Audio Session 設定エラー '+e.name+': '+e.message)}showAudio()}
+function buttons(){$('start').disabled=active;$('stop').disabled=!active;$('play').disabled=!active||phase!=='first-complete';document.querySelectorAll('input[name="sessionMode"]').forEach(x=>x.disabled=active)}
+function render(){$('results').textContent=finals.length?finals.map((x,i)=>(i+1)+'. ['+x.phase+'] '+x.text).join('\n'):'（結果待ち）'}
+function start(){if(active)return;if(!SpeechAPI){state('このブラウザはSpeechRecognitionに対応していません');return}
+ selectedMode=mode();runId++;let my=runId;phase='first';active=true;manualStop=false;playbackStarted=false;playbackEnded=false;finals.length=0;seen.clear();$('log').textContent='';$('partial').textContent='';render();advance(2);
+ log('ユーザー環境: '+navigator.userAgent);log('Speech Recognition: '+(window.webkitSpeechRecognition?'webkitSpeechRecognition':'SpeechRecognition'));
+ log('テスト: audioSession='+selectedMode+' / continuous=true / MP3再生あり');
+ configAudioSession();
+ const r=new SpeechAPI();recognition=r;r.lang='en-US';r.continuous=true;r.interimResults=true;r.maxAlternatives=1;
+ const valid=()=>recognition===r&&my===runId;
+ r.onstart=()=>{if(valid())log('認識 onstart / audioSession.type='+audioMode())};
+ r.onaudiostart=()=>{if(valid())log('認識 onaudiostart')};
+ r.onsoundstart=()=>{if(valid())log('認識 onsoundstart')};
+ r.onspeechstart=()=>{if(valid())log('認識 onspeechstart')};
+ r.onspeechend=()=>{if(valid())log('認識 onspeechend')};
+ r.onaudioend=()=>{if(valid())log('認識 onaudioend')};
+ r.onresult=e=>{if(!valid())return;let partial='';for(let i=e.resultIndex;i<e.results.length;i++){const value=(e.results[i][0]?.transcript||'').trim();if(!value)continue;if(e.results[i].isFinal){if(seen.get(i)!==value){seen.set(i,value);const tag=phase;finals.push({phase:tag,text:value});log('確定 ['+tag+']: '+value);if(phase==='first'){phase='first-complete';advance(3);state('1文目を認識しました。MP3を再生してください')}else if(phase==='second'){state('2文目を認識しました。成功です')}}}else{partial+=' '+value}}
+ $('partial').textContent=partial.trim()?'途中: '+partial.trim():'';render();buttons()};
+ r.onerror=e=>{if(valid())log('認識 onerror: '+e.error+' / '+(e.message||''))};
+ r.onend=()=>{if(!valid())return;log('認識 onend '+(manualStop?'(手動終了)':'(Safari側で終了)')+' / type='+audioMode());active=false;phase='ended';buttons();if(!manualStop)state('Safari側で認識が終了しました')};
+ buttons();try{r.start();state('認識を開始しました。Good morning. と話してください')}catch(e){active=false;buttons();state('開始失敗: '+e.name+' '+e.message)}
+}
+function play(){if(!active||phase!=='first-complete')return;phase='playing';advance(3);buttons();log('audio.play()呼び出し / audioSession.type='+audioMode());player.currentTime=0;const p=player.play();if(p&&typeof p.catch==='function')p.catch(e=>{log('MP3再生失敗: '+e.name+' '+e.message);phase='first-complete';buttons();state('MP3再生失敗: '+e.message)})}
+player.addEventListener('play',()=>log('MP3 play'));
+player.addEventListener('playing',()=>{playbackStarted=true;state('MP3 playing / Audio Session='+audioMode())});
+player.addEventListener('ended',()=>{playbackEnded=true;log('MP3 ended / Audio Session='+audioMode());if(active&&phase==='playing'){phase='second';advance(4);buttons();state('MP3再生終了。How are you today? と話してください')}});
+player.addEventListener('error',()=>{log('MP3 error: '+(player.error?.code||'不明'));state('MP3読み込み失敗。lesson_sample.mp3を同じフォルダーに置いてください')});
+function stop(){if(!active)return;manualStop=true;active=false;phase='ended';buttons();try{recognition.stop();log('手動 stop()')}catch(e){log('stop()失敗: '+e.message)}state('ユーザー操作で認識を終了しました')}
+function report(){return ['iPhone Audio Session × 連続マイク診断','設定方式: '+selectedMode,'Audio Session API: '+(audio()?'対応':'非対応'),'設定後のtype: '+audioMode(),'MP3 playing: '+playbackStarted,'MP3 ended: '+playbackEnded,$('status').textContent,'認識結果:',$('results').textContent,'イベントログ:',$('log').textContent].join('\n')}
+async function copy(){const txt=report();try{await navigator.clipboard.writeText(txt);$('status').textContent='状態：結果をコピーしました'}catch(e){const t=document.createElement('textarea');t.value=txt;t.style.cssText='position:fixed;top:0;opacity:0';document.body.appendChild(t);t.select();const ok=document.execCommand('copy');t.remove();$('status').textContent=ok?'状態：結果をコピーしました':'状態：コピーできません。ログ部分を選択してください'}}
+$('start').addEventListener('click',start);$('play').addEventListener('click',play);$('stop').addEventListener('click',stop);$('copy').addEventListener('click',copy);
+$('reset').addEventListener('click',()=>location.reload());
+document.querySelectorAll('input[name="sessionMode"]').forEach(x=>x.addEventListener('change',()=>{selectedMode=mode();log('選択モード変更: '+selectedMode+'（次回開始時に反映）')}));
+const session=audio();if(session&&session.addEventListener){try{session.addEventListener('statechange',()=>{log('Audio Session statechange / type='+audioMode());showAudio()})}catch(e){log('statechange監視失敗 '+e.message)}}
+document.addEventListener('visibilitychange',()=>log('visibilitychange: '+document.visibilityState));
+window.addEventListener('pagehide',()=>{if(recognition){try{recognition.abort()}catch(e){}}player.pause()});
+showAudio();log('ロード完了 / '+navigator.userAgent);log('初期 Audio Session type='+audioMode());buttons();
+})();
+</script>
+</body></html>
