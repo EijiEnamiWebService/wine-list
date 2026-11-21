@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "scenes": [
+    {
+      "name": "展示会での会話",
+      "sets": [
+        {
+          "title": "初めての挨拶",
+          "level": 1,
+          "items": [
+            [
+              "Hello. Is this your first time here?",
+              "Yes, it is. I work in product development.",
+              "こんにちは。こちらは初めてですか？",
+              "はい。私は製品開発の仕事をしています。"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
