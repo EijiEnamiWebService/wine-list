@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "English Conversation Practice",
-  "short_name": "English Practice",
-  "description": "A・B英会話トレーニング／音声認識／日本語訳",
+  "name": "Conversation Practice - English & Mandarin",
+  "short_name": "Conversation Practice",
+  "description": "英語・中国語（簡体字＋ピンイン）の会話練習／端末内音声認識",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
