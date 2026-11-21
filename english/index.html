@@ -94,7 +94,7 @@ let scenes=combinedScenes();
 const st={micWatchdog:null,ttsUtterance:null,ttsWatchdog:null,iosStarted:!IOS_DEVICE,sceneId:'b03',setId:'b03-l1',index:0,voice:null,voices:[],recognition:null,listening:false,token:0,finished:false,customItems:null,micStream:null,micPending:null,speechSerial:0,retryTimer:null,transitionTimer:null,failures:0,utterance:null};
 // iPhone: one continuous SpeechRecognition session across several A/B turns.
 // A's synthesized audio is discarded while the listener stays active.
-const iosMic={rec:null,active:false,accept:false,finals:new Set(),committed:'',interim:'',pauseTimer:null,enableTimer:null,run:0,suppress:false};
+const iosMic={rec:null,active:false,ready:false,accept:false,finals:new Set(),committed:'',interim:'',pauseTimer:null,enableTimer:null,run:0,suppress:false};
 function iosClearPause(){if(iosMic.pauseTimer){clearTimeout(iosMic.pauseTimer);iosMic.pauseTimer=null}}
 function iosResetTurn(){iosClearPause();iosMic.committed='';iosMic.interim='';}
 function iosPause(){
@@ -121,7 +121,7 @@ function iosFinish(heard){
   }
 }
 function iosEnableInput(){
-  if(!iosMic.active||st.finished||document.hidden)return;
+  if(!iosMic.active||!iosMic.ready||st.finished||document.hidden)return;
   iosResetTurn();iosMic.accept=true;micInfo('連続認識中・発話待機');
   $('micBtn').textContent='■ 録音を止める';$('micBtn').classList.add('active');st.listening=true;
   setStatus('Bを話してください（連続認識中）。');
@@ -133,9 +133,11 @@ function iosStartContinuous(){
   if(iosMic.rec){try{iosMic.rec.abort()}catch(e){}}
   const rec=new Rec();const run=++iosMic.run;
   rec.lang='en-US';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;
-  iosMic.rec=rec;iosMic.active=true;iosMic.accept=false;iosMic.finals=new Set();iosResetTurn();
+  iosMic.rec=rec;iosMic.active=true;iosMic.ready=false;iosMic.accept=false;iosMic.finals=new Set();iosResetTurn();
   prepareAudioInput();
-  rec.onstart=()=>{if(iosMic.rec!==rec)return;micInfo('連続認識開始');st.listening=true;$('micBtn').textContent='■ 録音を止める';$('micBtn').classList.add('active')};
+  rec.onstart=()=>{if(iosMic.rec!==rec)return;micInfo('連続認識開始（音声入力の準備中）');st.listening=true;$('micBtn').textContent='■ 録音を止める';$('micBtn').classList.add('active')};
+  rec.onaudiostart=()=>{if(iosMic.rec!==rec)return;iosMic.ready=true;micInfo('連続認識・音声入力開始');if(!window.speechSynthesis?.speaking&&handsfree())iosEnableInput()};
+  rec.onspeechstart=()=>{if(iosMic.rec===rec)micInfo('連続認識・発話検出')};
   rec.onresult=e=>{
     if(iosMic.rec!==rec||run!==iosMic.run)return;
     let changed=false,interims=[];
@@ -156,7 +158,7 @@ function iosStartContinuous(){
   rec.onerror=e=>{if(iosMic.rec!==rec)return;micInfo('連続認識エラー: '+e.error);if(e.error!=='no-speech'&&e.error!=='aborted')setStatus('音声認識エラー: '+e.error,true)};
   rec.onend=()=>{
     if(iosMic.rec!==rec)return;
-    iosMic.active=false;iosMic.accept=false;iosClearPause();iosMic.rec=null;st.listening=false;
+    iosMic.active=false;iosMic.ready=false;iosMic.accept=false;iosClearPause();iosMic.rec=null;st.listening=false;
     $('micBtn').textContent='🎙️ 話す';$('micBtn').classList.remove('active');
     micInfo('連続認識が終了');setStatus('Safariが連続認識を終了しました。「話す」で再開してください。',true);
   };
@@ -164,7 +166,7 @@ function iosStartContinuous(){
   catch(e){iosMic.active=false;iosMic.rec=null;setStatus('連続認識を開始できません: '+e.message,true);return false}
 }
 function iosStopContinuous(){
-  iosMic.accept=false;iosMic.active=false;iosMic.run++;iosClearPause();
+  iosMic.accept=false;iosMic.active=false;iosMic.ready=false;iosMic.run++;iosClearPause();
   if(iosMic.enableTimer){clearTimeout(iosMic.enableTimer);iosMic.enableTimer=null}
   const rec=iosMic.rec;iosMic.rec=null;
   if(rec){try{rec.abort()}catch(e){}}
@@ -193,7 +195,7 @@ function stopSpeech(){
   if(!IOS_DEVICE || synth.speaking || synth.pending){try{synth.cancel()}catch(e){}}
 }
 function prepareAudioInput(){
-  // Safari may retain playback mode after TTS finishes. Reset before opening recognition.
+  // Do not switch a live iOS capture session to playback mid-lesson.
   try{if(IOS_DEVICE && navigator.audioSession)navigator.audioSession.type='play-and-record'}catch(e){}
 }
 function prepareAudioOutput(){
@@ -323,7 +325,7 @@ function populateVoices(){
 function speak(text,aiTurn=false){
   if(!('speechSynthesis' in window)){setStatus('このブラウザは読み上げに対応していません。',true);return}
   if(IOS_DEVICE){iosMic.accept=false;iosResetTurn()}else stopRecognition();
-  stopSpeech();if(!IOS_DEVICE||!iosMic.active)prepareAudioOutput();else prepareAudioInput();
+  stopSpeech();if(IOS_DEVICE)prepareAudioInput();else prepareAudioOutput();
   const serial=st.speechSerial;
   const utter=new SpeechSynthesisUtterance(text.replace(/[’]/g,"'"));
   utter.lang='en-US';utter.rate=Number($('rate').value);utter.pitch=1;utter.volume=1;
@@ -348,7 +350,7 @@ function speak(text,aiTurn=false){
     if(aiTurn&&handsfree()&&!st.finished){
       if(IOS_DEVICE){
         if(iosMic.enableTimer)clearTimeout(iosMic.enableTimer);
-        iosMic.enableTimer=setTimeout(()=>{iosMic.enableTimer=null;if(iosMic.active)iosEnableInput();else setStatus('「話す」をタップして連続認識を開始してください。',true)},650);
+        iosMic.enableTimer=setTimeout(()=>{iosMic.enableTimer=null;if(iosMic.active&&iosMic.ready)iosEnableInput();else if(!iosMic.active){setStatus('連続認識を起動しています…');if(iosStartContinuous())setStatus('音声認識の開始を待っています…');}else setStatus('音声入力の準備を待っています…')},650);
       }else scheduleListen(230);
     }else setStatus('音声再生が終了しました。');
   };
@@ -468,8 +470,8 @@ function launchRecognition(session){
 }
 async function listen(auto=false){
   if(IOS_DEVICE){
-    if(!iosMic.active){if(!auto)stopSpeech();if(iosStartContinuous())iosEnableInput()}
-    else iosEnableInput();
+    if(!iosMic.active){if(!auto)stopSpeech();if(iosStartContinuous())setStatus('音声入力が始まるまでお待ちください…')}
+    else if(iosMic.ready)iosEnableInput();
     return;
   }
   if(st.utterance){
@@ -565,7 +567,7 @@ async function copyPrompt(){
 }
 $('iosStartBtn').onclick=()=>{
   st.iosStarted=true;
-  if(IOS_DEVICE)iosStartContinuous();
+  // Start TTS first. Opening the iOS mic before TTS was stealing the input route.
   const b=$('iosStartBtn');b.textContent='🔊 Aをもう一度聞く / 再開';
   $('iosStatusText').textContent='Aの後に自動でマイクを起動します。停止したときは「話す」をタップしてください。';
   if(!st.finished)speak(getPair()[0],true);
@@ -582,7 +584,7 @@ $('mobileSettingsToggle').onclick=()=>{
   if(show)window.scrollTo({top:0,behavior:'smooth'});
 };
 $('toggleTranslation').onclick=()=>setTranslationOpen($('aTranslation').hidden);
-$('playA').onclick=()=>{st.iosStarted=true;if(IOS_DEVICE)iosStartContinuous();speak(getPair()[0],true)};
+$('playA').onclick=()=>{st.iosStarted=true;speak(getPair()[0],true)};
 $('playB').onclick=()=>{st.iosStarted=true;speak(getPair()[1])};
 $('recoverMic').onclick=()=>{
   stopRecognition();$('recoverMic').style.display='none';micInfo('再起動要求');
