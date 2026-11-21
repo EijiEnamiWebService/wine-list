@@ -48,15 +48,15 @@ body.mobile-device.show-settings .main{order:1}
   .panel{padding:16px}
 }
 </style></head><body>
-<div class="shell"><header><div class="brand">🎧 English Conversation Practice<small>自然な英語を聞いて、声に出して練習</small></div><div class="tag">FREE · NO API KEY · iOS音声改良</div></header>
+<div class="shell"><header><div class="brand">🎧 English Conversation Practice<small>自然な英語を聞いて、声に出して練習</small></div><div class="tag">FREE · NO API KEY · iPhone Whisper試用版</div></header>
 <div class="layout"><aside class="panel"><h2>会話シーン</h2><div class="scene-list" id="sceneList"></div><div class="sidefooter"><label class="field">難易度フィルター<select id="levelFilter"><option value="all" selected>すべて · Lv.1 → Lv.3</option><option value="1">Lv.1 入門だけ</option><option value="2">Lv.2 標準だけ</option><option value="3">Lv.3 応用だけ</option></select><span class="hint">「すべて」で入門から応用へ順番に練習します。</span></label><label class="toggle" style="margin-top:14px"><input type="checkbox" id="autoSet" checked> 終了後、次のセットへ自動進行</label><div class="side-stat" id="sceneCount">12シーン / 36セット</div></div><div class="sidefooter"><label class="toggle"><input type="checkbox" id="autoplay" checked> Aの英文を自動再生</label><label class="toggle" style="margin-top:12px"><input type="checkbox" id="handsfree" checked> ハンズフリー（Aの後に自動で聞き取る）</label><label class="toggle" style="margin-top:12px"><input type="checkbox" id="autoNext" checked> 正しく話せたら次へ</label><label class="toggle" style="margin-top:12px"><input type="checkbox" id="strict"> 厳しめの認識判定</label><label class="field" style="margin-top:14px">発話中の待ち時間<select id="pauseDelay"><option value="1500" selected>1.5秒（最短）</option><option value="2500">2.5秒（短め）</option><option value="4000">4秒（ゆっくり）</option><option value="6000">6秒（ゆっくり）</option><option value="8000">8秒（考えながら話す）</option></select><span class="hint">途中で言葉に詰まっても、設定した無音時間までは発話をつなげます。</span></label></div></aside>
 <main class="main"><div class="mobilebar"><label>会話シーン<select id="mobileSceneSelect" aria-label="会話シーンを選択"></select></label><button class="btn" id="mobileSettingsToggle" type="button" aria-expanded="false">⚙ 設定</button></div><div class="topline"><span class="eyebrow">LISTEN & SPEAK</span><span class="progress" id="progressText">1 / 5</span></div><h1 id="sceneTitle">会話練習</h1><div class="set-switch"><label class="field">このシーンの会話セット<select id="setSelect"></select></label><span class="set-meta" id="setMeta"></span></div><div class="bar"><div id="progressBar"></div></div>
-<section class="ios-start-panel" id="iosStartPanel" aria-label="iPhone音声コントロール"><button type="button" class="btn primary" id="iosStartBtn">▶ レッスン開始（音声を有効にする）</button><p id="iosStatusText">最初にタップすると、英語の読み上げを開始します。Aの読み上げ後はマイクの自動起動を試みます。</p><p class="ios-audio-help">音声が出ない場合は <a href="./audio-test.html">🔎 音声テスト</a> で読み上げ機能を単独で確認できます。</p></section><div id="lesson"><div class="customarea" id="customArea"><label class="field">自由指定の会話（A: と B: を交互に入力）<textarea id="customText" spellcheck="false" placeholder="A: What brings you here today?&#10;B: I'm here for a business meeting.&#10;A: How long will you stay?&#10;B: Just two days."></textarea></label><div class="customhelp">A・Bを1組として、何組でも追加できます。自由入力の英文には日本語訳が自動生成されません。入力内容はこのブラウザ内だけで使います。</div><button class="btn" id="applyCustom">この会話を開始</button></div>
+<section class="ios-start-panel" id="iosStartPanel" aria-label="iPhone音声コントロール"><button type="button" class="btn primary" id="iosStartBtn">▶ レッスン開始（初回はAI準備）</button><p id="iosStatusText">最初にタップすると、英語の読み上げを開始します。Aの読み上げ後はマイクの自動起動を試みます。</p><p class="ios-audio-help">音声が出ない場合は <a href="./audio-test.html">🔎 音声テスト</a> で読み上げ機能を単独で確認できます。</p></section><div id="lesson"><div class="customarea" id="customArea"><label class="field">自由指定の会話（A: と B: を交互に入力）<textarea id="customText" spellcheck="false" placeholder="A: What brings you here today?&#10;B: I'm here for a business meeting.&#10;A: How long will you stay?&#10;B: Just two days."></textarea></label><div class="customhelp">A・Bを1組として、何組でも追加できます。自由入力の英文には日本語訳が自動生成されません。入力内容はこのブラウザ内だけで使います。</div><button class="btn" id="applyCustom">この会話を開始</button></div>
 <div class="translation-toolbar"><button class="btn translation-toggle" type="button" id="toggleTranslation" aria-expanded="false" aria-controls="aTranslation bTranslation">🌐 日本語訳を見る</button><span class="translation-help">必要なときだけ表示・次の会話で自動的に閉じます</span></div><div class="dialogue"><section class="bubble ai"><div class="name">A · LISTEN</div><p class="english" id="aText"></p><p class="translation" id="aTranslation" lang="ja" hidden></p><div class="controlrow"><button class="btn" id="playA">🔊 Aを聞く</button></div></section><section class="bubble you"><div class="name">B · YOUR TURN</div><p class="english" id="bText"></p><p class="translation" id="bTranslation" lang="ja" hidden></p><div class="controlrow"><button class="btn" id="playB">🔊 Bの例文を聞く</button><button class="btn green" id="micBtn">🎙️ 話す</button></div></section></div>
 <div class="recognition"><strong>あなたの発話</strong><div class="status" id="permissionNote">ハンズフリーをONにすると、Aの読み上げ後に自動で聞き取ります。マイクは初回のみ許可してください。</div><div class="recognized" id="heard" aria-live="polite">マイクを押すと発話を認識します。</div><div class="status" id="status" role="status">例文を見ながら話してください。</div><div class="status" id="micDebug" aria-live="polite">マイク状態：未開始</div><div class="controlrow"><button class="btn" id="recoverMic" type="button" style="display:none">🔄 マイクを再起動</button></div><div class="result" id="result" aria-live="polite"></div><div class="controlrow"><button class="btn" id="prevBtn">← 前へ</button><button class="btn primary" id="nextBtn">次の会話へ →</button></div></div></div>
 <div class="completion" id="completion"><div style="font-size:44px">🎉</div><h2>このシーンは終了です</h2><p class="minor" id="completionMessage">会話を最後まで練習しました。</p><div class="controlrow" style="justify-content:center"><button class="btn" id="restartBtn">↻ もう一度</button><button class="btn primary" id="nextSetBtn">次のセットへ →</button><button class="btn" id="nextSceneBtn">次のシーンへ →</button></div></div>
 <div class="settings"><label class="field">英語音声（米国英語優先）<select id="voiceSelect"><option>音声を読み込み中...</option></select><span class="hint" id="voiceHint">英語音声は端末にインストールされた音声を使用します。</span></label><label class="field">再生速度 <select id="rate"><option value="0.70">0.70× · ゆっくり</option><option value="0.80">0.80×</option><option value="0.85" selected>0.85× · おすすめ</option><option value="0.90">0.90×</option><option value="1">1.00× · 普通</option></select><span class="hint">発音を変えずに話速を調整します（端末依存）。</span></label></div>
-<section class="library"><div class="library-heading"><h2>教材ライブラリ</h2><span class="minor">JSONファイルから追加 · APIキー不要</span></div><p class="minor">自分で用意した会話セットを読み込めます。日本語訳付き教材にも対応（旧形式の英文2列だけのJSONも使用可能）。追加した教材はこのブラウザに保存されます。</p><div class="controlrow"><button class="btn primary" id="chooseImport">＋ 教材JSONを読み込む</button><button class="btn" id="downloadTemplate">教材のひな形を保存</button><button class="btn" id="copyPrompt">AI用作成指示をコピー</button><button class="btn" id="exportContents">追加教材を書き出す</button></div><input type="file" id="importFile" accept=".json,application/json" hidden><textarea id="promptPreview" hidden readonly aria-label="AI用の教材作成指示"></textarea><div class="status" id="libraryStatus" role="status">ZIP内の「追加教材サンプル.json」で読み込みを試せます。</div></section><p class="ios-tips" id="iosTips" hidden>iPhoneではSafariからHTTPSのページを開いてください。自動マイク認識が停止した場合は「話す」で再開できます。英語音声・認識精度はiOSの仕様に依存します。</p><p class="notice">音声読み上げはブラウザのSpeech Synthesis、発話認識はWeb Speech APIを使用します。PCはChrome / Edge、iPhoneはSafariを推奨。音声やマイクの利用可否・品質は環境に依存します。発話認識機能はブラウザによってオンライン処理される場合があります。</p></main></div><p class="footer">APIキー・会員登録不要。教材・設定は端末ごとに保存され、PCと同期しません。Safariのデータを消去すると追加教材が消えるため、必要に応じてJSONを書き出してください。</p></div>
+<section class="library"><div class="library-heading"><h2>教材ライブラリ</h2><span class="minor">JSONファイルから追加 · APIキー不要</span></div><p class="minor">自分で用意した会話セットを読み込めます。日本語訳付き教材にも対応（旧形式の英文2列だけのJSONも使用可能）。追加した教材はこのブラウザに保存されます。</p><div class="controlrow"><button class="btn primary" id="chooseImport">＋ 教材JSONを読み込む</button><button class="btn" id="downloadTemplate">教材のひな形を保存</button><button class="btn" id="copyPrompt">AI用作成指示をコピー</button><button class="btn" id="exportContents">追加教材を書き出す</button></div><input type="file" id="importFile" accept=".json,application/json" hidden><textarea id="promptPreview" hidden readonly aria-label="AI用の教材作成指示"></textarea><div class="status" id="libraryStatus" role="status">ZIP内の「追加教材サンプル.json」で読み込みを試せます。</div></section><p class="ios-tips" id="iosTips" hidden>iPhoneではSafariからHTTPSで開いてください。Whisperモデルは初回読み込みが必要です。声の検出に失敗した場合は「話す」で再試行できます。英語音声・認識精度はiOSの仕様に依存します。</p><p class="notice">音声読み上げはブラウザのSpeech Synthesisを使用します。PCはWeb Speech API、iPhoneはWhisper Tiny（端末内WASM）で発話を認識します。PCはChrome / Edge、iPhoneはSafariを推奨。音声やマイクの利用可否・品質は環境に依存します。PCの発話認識はブラウザによってオンライン処理される場合があります。Whisperモデルは初回に外部CDNからダウンロードします。</p></main></div><p class="footer">APIキー・会員登録不要。教材・設定は端末ごとに保存され、PCと同期しません。Safariのデータを消去すると追加教材が消えるため、必要に応じてJSONを書き出してください。</p></div>
 <script>
 'use strict';
 const BASE_SCENES = [{"id":"b01","name":"同僚との日常会話","sets":[{"id":"b01-l1","title":"週明けの挨拶","level":1,"items":[["Good morning. How was your weekend?","It was nice, thanks. I spent time with my family.","おはようございます。週末はどうでしたか？","よかったですよ、ありがとう。家族と過ごしました。"],["Did you go anywhere?","No, we just relaxed at home.","どこかへ出かけましたか？","いいえ、家でのんびりしていました。"],["That sounds nice. Did you watch any movies?","Yes, we watched a comedy together.","いいですね。映画は何か観ましたか？","はい、一緒にコメディ映画を観ました。"],["Was it good?","Yes, it was really funny.","面白かったですか？","はい、とても笑えました。"],["I'm glad you enjoyed it. Let's get to work.","Sure. Have a good morning!","楽しめてよかったですね。仕事を始めましょう。","はい。よい午前を！"]]},{"id":"b01-l2","title":"ランチのお誘い","level":2,"items":[["Are you free for lunch today?","I think so. What did you have in mind?","今日、昼食の時間は空いていますか？","たぶん大丈夫です。何か考えていますか？"],["There's a new restaurant near the office.","That sounds interesting. What kind of food do they serve?","オフィスの近くに新しいレストランがあるんです。","面白そうですね。どんな料理のお店ですか？"],["Mostly Italian food. I've heard it's quite good.","Great. I'd like to try it.","主にイタリア料理です。かなりおいしいと聞いています。","いいですね。ぜひ行ってみたいです。"],["Would twelve thirty work for you?","Could we make it one o'clock? I have a call first.","12時半で都合はつきますか？","1時にできませんか？先に電話の予定があるので。"],["Of course. I'll meet you in the lobby at one.","Perfect. See you then.","もちろんです。1時にロビーで会いましょう。","ちょうどいいですね。それでは後ほど。"]]},{"id":"b01-l3","title":"忙しい日の雑談","level":3,"items":[["You seem pretty busy this week. Is everything going okay?","Yes, thanks. I'm just trying to finish a report before Friday.","今週はかなり忙しそうですね。大丈夫ですか？","はい、ありがとう。金曜までに報告書を仕上げようとしているだけです。"],["Is there anything I can help you with?","I appreciate the offer. Could you check one section for me?","何か手伝えることはありますか？","お気遣いありがとう。一つの項目を確認してもらえますか？"],["Sure. When would you need my feedback?","By tomorrow afternoon would be ideal, if that works for you.","もちろんです。いつまでに意見が必要ですか？","可能なら明日の午後までにいただけると助かります。"],["That should be fine. Send it over whenever you're ready.","Thanks. I'll share the latest draft after lunch.","大丈夫そうです。準備できたら送ってください。","ありがとう。昼食後に最新版の草稿を共有します。"],["No problem. Hope the rest of your day goes smoothly.","Thanks, I hope yours does too.","どういたしまして。残りの一日も順調に進むといいですね。","ありがとう。あなたもよい一日を。"]]}]},{"id":"b02","name":"社外の人との初対面","sets":[{"id":"b02-l1","title":"初めてのご挨拶","level":1,"items":[["Hello. You must be from the Tokyo office.","Yes, that's right. Nice to meet you.","こんにちは。東京オフィスから来られた方ですね。","はい、そうです。はじめまして。"],["Nice to meet you too. Was it easy to find us?","Yes, your directions were very helpful.","こちらこそ、はじめまして。迷わず来られましたか？","はい、案内がとても分かりやすかったです。"],["Is this your first visit here?","Yes, it is. I'm happy to be here.","こちらに来るのは初めてですか？","はい、初めてです。来られてうれしいです。"],["Can I get you something to drink?","A glass of water would be great, thank you.","何かお飲み物をお持ちしましょうか？","お水を一杯いただけるとありがたいです。"],["Of course. Let's go to the meeting room.","Sounds good. Thank you.","もちろんです。会議室へ行きましょう。","いいですね。ありがとうございます。"]]},{"id":"b02-l2","title":"会社紹介","level":2,"items":[["Welcome. Could you tell me a little about your company?","Certainly. We develop software for business customers.","ようこそ。御社について少し教えていただけますか？","もちろんです。法人向けのソフトウェアを開発しています。"],["How long have you been with the company?","I've worked there for about ten years.","その会社で何年くらい働いていますか？","10年ほど勤めています。"],["What do you focus on in your current role?","I mainly manage product development projects.","現在のお仕事では何を主に担当していますか？","主に製品開発プロジェクトの管理をしています。"],["That sounds interesting. Do you work with overseas teams?","Yes, we work with partners in several countries.","面白そうですね。海外のチームとも仕事をしていますか？","はい、複数の国のパートナーと協力しています。"],["I'd love to hear more during the meeting.","Of course. I'm looking forward to our discussion.","会議でもっと詳しく伺いたいです。","もちろんです。お話しできるのを楽しみにしています。"]]},{"id":"b02-l3","title":"交流会での自己紹介","level":3,"items":[["I don't think we've met before. I'm Alex from the sales team.","Nice to meet you, Alex. I work in product development in Yokohama.","以前お会いしたことはないですよね。営業チームのアレックスです。","アレックスさん、はじめまして。横浜で製品開発の仕事をしています。"],["What kinds of products are you working on?","We're developing tools that help companies improve their operations.","どのような製品に取り組んでいますか？","企業の業務改善に役立つツールを開発しています。"],["That sounds useful. What has been your biggest challenge?","Balancing new features with delivery schedules has been challenging.","役立ちそうですね。一番大きな課題は何でしたか？","新機能と納期の両立が課題になっています。"],["I can imagine. Have you found a good way to handle that?","We're making progress by setting clearer priorities with our customers.","なるほど。その対応にうまい方法は見つかりましたか？","お客様と優先順位をより明確に決めることで、改善が進んでいます。"],["I'd be interested in exchanging ideas sometime.","I'd welcome that. Let's stay in touch.","いつか意見交換できたらうれしいです。","ぜひお願いします。今後も連絡を取り合いましょう。"]]}]},{"id":"b03","name":"会議の開始と進行","sets":[{"id":"b03-l1","title":"会議を始める","level":1,"items":[["Good morning, everyone. Let's get started.","Good morning. Thanks for joining.","皆さん、おはようございます。始めましょう。","おはようございます。ご参加ありがとうございます。"],["First, let's go over today's agenda.","Sure, that sounds good.","最初に今日の議題を確認しましょう。","はい、いいと思います。"],["We have three topics to cover today.","Okay. How much time do we have?","今日は3つの議題があります。","分かりました。時間はどれくらいありますか？"],["About thirty minutes. Any questions before we begin?","No questions from me.","約30分です。始める前に質問はありますか？","私は特にありません。"],["Great. Let's start with the project schedule.","Okay, please go ahead.","では、プロジェクトのスケジュールから始めましょう。","分かりました。お願いします。"]]},{"id":"b03-l2","title":"会議の時間管理","level":2,"items":[["We have about twenty minutes left. Shall we move on?","Yes, let's move to the next topic.","残り約20分です。次に進みましょうか？","はい、次の議題に進みましょう。"],["First, we need to confirm the delivery date.","I believe we're still planning for next Friday.","まず納品日を確認する必要があります。","来週の金曜日を予定していると思います。"],["Has everyone reviewed the updated schedule?","I've reviewed it, and I have one question.","更新されたスケジュールは全員確認しましたか？","確認しました。一つ質問があります。"],["Sure. What would you like to clarify?","Could we confirm who is responsible for the final check?","もちろんです。何を確認したいですか？","最終確認の担当者を明確にしてもらえますか？"],["Good point. I'll ask the team leader to confirm that.","Thank you. That would be helpful.","いい指摘ですね。チームリーダーに確認してもらいます。","ありがとうございます。助かります。"]]},{"id":"b03-l3","title":"議題を調整する","level":3,"items":[["Before we begin, I'd like to suggest a small change to the agenda.","Of course. What would you like to change?","始める前に、議題の順番を少し変更したいのですが。","もちろんです。どのように変更したいですか？"],["Could we discuss the budget before the schedule?","That makes sense, since the budget may affect our timeline.","スケジュールより先に予算について話せませんか？","予算が日程に影響する可能性があるので、その方がよいですね。"],["Exactly. Does anyone have any concerns about switching the order?","No concerns from my side. We can start with the budget.","そのとおりです。順番の変更について懸念はありますか？","私は問題ありません。予算から始めましょう。"],["Great. Let's aim to make a decision within fifteen minutes.","Agreed. I'll summarize the main options briefly.","いいですね。15分以内に結論を出すことを目指しましょう。","賛成です。主な選択肢を簡単にまとめます。"],["Thank you. Please go ahead when you're ready.","Certainly. I'll start with the estimated costs.","ありがとうございます。準備ができたらお願いします。","承知しました。概算費用から説明します。"]]}]},{"id":"b04","name":"会議での意見交換","sets":[{"id":"b04-l1","title":"意見を伝える","level":1,"items":[["What do you think about this plan?","I think it's a good idea overall.","この計画についてどう思いますか？","全体としてよい案だと思います。"],["Is there anything you would change?","Yes. I'd like to discuss the schedule.","変更したい点はありますか？","はい。スケジュールについて話し合いたいです。"],["Sure. What concerns do you have?","I think we may need more time.","もちろんです。何が気になりますか？","もう少し時間が必要だと思います。"],["How much more time?","Maybe one more week would help.","どれくらい時間を追加したいですか？","あと1週間あると助かるかもしれません。"],["I see. Let's talk about that with the team.","Thank you. I appreciate it.","分かりました。チームと話し合いましょう。","ありがとうございます。助かります。"]]},{"id":"b04-l2","title":"丁寧に異なる意見を述べる","level":2,"items":[["Do you agree with the proposed approach?","I agree with the goal, but I have a different idea.","提案された進め方に賛成ですか？","目標には賛成ですが、別の案があります。"],["I'd like to hear it. What do you suggest?","I suggest testing it with a smaller group first.","聞かせてください。何を提案しますか？","まず少人数で試してみることを提案します。"],["Why do you think that would be better?","We could find problems early and reduce the risk.","その方がよいと思う理由は何ですか？","問題を早期に発見して、リスクを減らせます。"],["That's a reasonable point. How long would the test take?","About two weeks, according to our current estimate.","もっともな指摘ですね。試験にはどれくらいかかりますか？","現時点の見積もりでは約2週間です。"],["Let's compare both options before deciding.","Yes, that sounds like a good next step.","決める前に両方の案を比較しましょう。","はい、それがよい次の一歩だと思います。"]]},{"id":"b04-l3","title":"意見をまとめる","level":3,"items":[["We seem to have two different opinions. How should we move forward?","Perhaps we should focus on what both options have in common.","意見が二つに分かれているようです。どう進めましょうか？","両案に共通する点に注目してはどうでしょうか。"],["That's a good idea. What do you see as the main priority?","I think meeting the customer's needs should come first.","いいですね。何が最優先だと思いますか？","お客様のニーズを満たすことが第一だと思います。"],["I agree, but we also have to consider the cost.","Absolutely. We need a solution that's both practical and affordable.","賛成ですが、費用も考えなければなりません。","そのとおりです。実用的で費用も抑えられる解決策が必要です。"],["Could you put together a brief comparison for tomorrow?","Yes. I'll outline the benefits, costs, and possible risks.","明日までに簡単な比較資料を作れますか？","はい。利点、費用、想定されるリスクを整理します。"],["Excellent. Then we can make a more informed decision.","Agreed. I'll send it to everyone by the end of today.","いいですね。それでより十分な情報に基づいて判断できます。","賛成です。今日中に全員に送ります。"]]}]},{"id":"b05","name":"仕事の進捗・問題報告","sets":[{"id":"b05-l1","title":"簡単な進捗報告","level":1,"items":[["How is the project going?","It's going well, but we have one small issue.","プロジェクトの進み具合はいかがですか？","順調ですが、小さな問題が一つあります。"],["What seems to be the problem?","We're waiting for information from the supplier.","どのような問題ですか？","仕入先からの情報を待っています。"],["Will that affect our schedule?","It might delay us by a few days.","スケジュールに影響しますか？","数日遅れる可能性があります。"],["What can we do?","I'll call them this afternoon.","何ができますか？","今日の午後、先方に電話します。"],["Thanks. Please send me an update tomorrow.","Of course. I'll let you know.","ありがとう。明日、状況を知らせてください。","もちろんです。ご連絡します。"]]},{"id":"b05-l2","title":"遅れを説明する","level":2,"items":[["Could you give us a quick progress update?","Sure. We've completed most of the design work.","進捗を簡単に報告してもらえますか？","はい。設計作業の大部分は完了しました。"],["Are we still on schedule?","We're a little behind because one test took longer than expected.","予定どおりに進んでいますか？","テストが一つ予想以上に長引き、少し遅れています。"],["Do you think we can catch up?","Yes, if we finish the remaining tests by Wednesday.","遅れを取り戻せそうですか？","はい。水曜日までに残りのテストを終えられれば大丈夫です。"],["Is there anything you need from the team?","It would help if someone could review the results with me.","チームから何か支援が必要ですか？","誰かに結果の確認を一緒にしてもらえると助かります。"],["I'll arrange that. Please keep me informed.","Thank you. I'll send a progress report this evening.","手配します。引き続き状況を教えてください。","ありがとうございます。今晩、進捗報告を送ります。"]]},{"id":"b05-l3","title":"問題と対策の提案","level":3,"items":[["I heard there may be a risk to the release date. What's happening?","We've identified an issue that could affect the final testing stage.","リリース日に影響するリスクがあると聞きました。何が起きていますか？","最終テスト工程に影響する可能性がある問題を特定しました。"],["How serious is the issue at this point?","It isn't critical yet, but we need to address it this week.","現時点でどれくらい深刻ですか？","まだ重大ではありませんが、今週中に対応が必要です。"],["What options do we have to reduce the impact?","We could assign another engineer or simplify one feature temporarily.","影響を減らすにはどんな選択肢がありますか？","エンジニアをもう一人付けるか、一つの機能を一時的に簡素化できます。"],["Which option would you recommend?","I'd recommend adding support first, so we can maintain the product quality.","どちらを勧めますか？","製品品質を維持できるよう、まず人員を追加することを勧めます。"],["That sounds reasonable. Can you prepare a short action plan?","Certainly. I'll share the plan, owners, and target dates tomorrow morning.","妥当ですね。簡単な対応計画を用意できますか？","もちろんです。計画、担当者、目標日を明日の朝に共有します。"]]}]},{"id":"b06","name":"出張・会食での会話","sets":[{"id":"b06-l1","title":"到着後の会話","level":1,"items":[["Is this your first time visiting this city?","Yes, it is. I've heard good things about this place.","この街を訪れるのは初めてですか？","はい、初めてです。ここは評判がよいと聞いています。"],["Nice. How was your flight?","It was long, but comfortable.","そうですか。フライトはいかがでしたか？","長かったですが、快適でした。"],["I'm glad to hear that. Are you hungry?","Yes, a little. Maybe something light.","それはよかったです。お腹は空いていますか？","はい、少し。軽いものがいいですね。"],["There's a nice restaurant near the hotel.","That sounds perfect. Let's go there.","ホテルの近くにいいレストランがあります。","よさそうですね。そこに行きましょう。"],["Would you like coffee after dinner?","Coffee sounds nice. Thank you.","夕食後にコーヒーはいかがですか？","コーヒーがいいですね。ありがとうございます。"]]},{"id":"b06-l2","title":"レストランでの会話","level":2,"items":[["Have you had a chance to try any local food yet?","Not yet. Is there anything you'd recommend?","もう地元の料理を食べる機会はありましたか？","まだです。何かおすすめはありますか？"],["The grilled fish is very popular here.","That sounds good. I enjoy seafood.","焼き魚がこちらではとても人気です。","おいしそうですね。魚介類は好きです。"],["Would you like to share a few dishes?","Yes, that's a great idea. We can try more things.","料理をいくつかシェアしませんか？","はい、いいですね。いろいろ試せますね。"],["How has your trip been so far?","It's been productive. Everyone has been very welcoming.","これまでの出張はいかがですか？","充実しています。皆さんとても温かく迎えてくれています。"],["I'm glad to hear that. Shall we order dessert?","Maybe just coffee for me, thanks.","それはよかったです。デザートを注文しましょうか？","私はコーヒーだけにしておきます。ありがとう。"]]},{"id":"b06-l3","title":"仕事と食事を交えた会話","level":3,"items":[["I'm glad we could have dinner together outside the office.","Me too. It's nice to talk in a more relaxed setting.","オフィスの外で一緒に食事ができてうれしいです。","私もです。リラックスした雰囲気で話せるのはいいですね。"],["How do you usually spend your time after work?","I enjoy reading and going for a walk when I have time.","普段、仕事の後はどう過ごしていますか？","時間があるときは読書や散歩を楽しんでいます。"],["That sounds relaxing. Do you travel often for business?","A few times a year. I try to explore the city when my schedule allows.","くつろげそうですね。出張はよくありますか？","年に数回です。時間が許せば街を散策するようにしています。"],["Is there anywhere you'd like to visit before heading home?","I'd love to see the old town if I have a free afternoon.","帰国する前に行ってみたい場所はありますか？","午後に自由時間があれば旧市街を見てみたいです。"],["I can suggest a few places. For now, shall we call it a night?","That sounds good. Thanks again for a lovely evening.","いくつかおすすめできますよ。ひとまず今夜はこの辺でお開きにしましょうか？","いいですね。今夜は楽しい時間をありがとうございました。"]]}]},{"id":"b07","name":"電話・オンライン会議","sets":[{"id":"b07-l1","title":"接続の確認","level":1,"items":[["Hello. Can you hear me clearly?","Yes, I can hear you well.","こんにちは。こちらの声ははっきり聞こえますか？","はい、よく聞こえます。"],["Great. Can you see my screen?","Yes, I can see it.","よかったです。私の画面は見えますか？","はい、見えています。"],["Let's start with a quick update.","Sure. I have a few things to share.","簡単な進捗報告から始めましょう。","はい、共有したいことがいくつかあります。"],["Sorry, could you say that again?","Of course. Let me explain it again.","すみません、もう一度言ってもらえますか？","もちろんです。もう一度説明します。"],["Thanks. I think we're all set for today.","Great. Thanks for your time.","ありがとう。今日のところはこれで大丈夫そうです。","はい。お時間ありがとうございました。"]]},{"id":"b07-l2","title":"聞き返しと確認","level":2,"items":[["Sorry, your voice is cutting out a little.","I'll turn off my camera. Is that any better?","すみません、声が少し途切れています。","カメラをオフにします。これで少しよくなりましたか？"],["Yes, much better. Could you repeat the last part?","Sure. We plan to finish the test by Thursday.","はい、ずっとよくなりました。最後の部分を繰り返してもらえますか？","はい。木曜日までにテストを完了する予定です。"],["Did you say Thursday, not Tuesday?","That's right, Thursday afternoon.","火曜日ではなく木曜日と言いましたか？","そうです、木曜日の午後です。"],["Thanks for confirming. Could you share the document?","Of course. I'll send the link in the chat.","確認ありがとうございます。資料を共有してもらえますか？","もちろんです。チャットにリンクを送ります。"],["Perfect. Shall we continue with the next item?","Yes, I'm ready.","いいですね。次の項目に進みましょうか？","はい、準備できています。"]]},{"id":"b07-l3","title":"海外拠点とのオンライン会議","level":3,"items":[["Thanks for joining despite the time difference.","No problem. This time works well for our team.","時差がある中でご参加いただきありがとうございます。","問題ありません。こちらのチームにも都合のよい時間です。"],["Before we start, are there any urgent updates?","Yes, I'd like to flag a potential issue with the delivery schedule.","始める前に、急ぎの連絡事項はありますか？","はい、納品スケジュールに関する懸念点をお知らせしたいです。"],["Could you explain the situation briefly?","The supplier needs three additional days to complete the shipment.","状況を簡単に説明してもらえますか？","仕入先が出荷を完了するのにさらに3日必要です。"],["How might that affect the customer?","We may need to adjust the installation date, but we're checking alternatives.","お客様にはどのような影響がありますか？","設置日を調整する必要があるかもしれませんが、代案を検討中です。"],["Please keep us updated as soon as you know more.","Absolutely. I'll send a summary and the next steps after this call.","詳細が分かり次第、随時お知らせください。","承知しました。会議後に概要と次の対応を送ります。"]]}]},{"id":"b08","name":"仕事の依頼・調整","sets":[{"id":"b08-l1","title":"資料をお願いする","level":1,"items":[["Could you help me with this report?","Sure. What do you need?","この報告書を手伝ってもらえますか？","もちろんです。何が必要ですか？"],["Could you check these numbers?","Of course. When do you need them?","この数字を確認してもらえますか？","もちろんです。いつまでに必要ですか？"],["By tomorrow morning, if possible.","Okay. I'll take a look today.","可能なら明日の朝までに。","分かりました。今日中に確認します。"],["Thank you. Let me know if you have questions.","I will. Thanks.","ありがとう。質問があれば知らせてください。","そうします。ありがとうございます。"],["Great. I appreciate your help.","You're welcome.","いいですね。助かります。","どういたしまして。"]]},{"id":"b08-l2","title":"優先順位を調整する","level":2,"items":[["Could you review this document by Friday?","I can, but I'm working on another urgent task.","この資料を金曜日までに確認してもらえますか？","できますが、別の緊急の仕事をしています。"],["I understand. Which task is more important?","The customer proposal is due tomorrow morning.","分かりました。どちらの仕事が優先ですか？","顧客向けの提案書が明日の朝締め切りです。"],["That should come first. Can we move the review to Monday?","Yes, Monday would work much better for me.","そちらを優先しましょう。確認を月曜日に変更できますか？","はい、月曜日の方がずっと助かります。"],["Good. I'll update the schedule.","Thank you for being flexible.","分かりました。スケジュールを更新します。","柔軟に対応していただき、ありがとうございます。"],["No problem. Let me know if anything changes.","I will. Thanks again.","問題ありません。何か変更があれば知らせてください。","そうします。重ねてありがとうございます。"]]},{"id":"b08-l3","title":"リソースの相談","level":3,"items":[["We're getting close to the deadline. Do you have enough support?","We can finish the main tasks, but testing may require extra help.","締め切りが近づいています。支援は足りていますか？","主な作業は完了できますが、テストには追加の支援が必要かもしれません。"],["What kind of support would make the biggest difference?","Someone with experience in system testing could save us a lot of time.","どのような支援が一番効果的ですか？","システムテストの経験がある人なら、多くの時間を節約できます。"],["Could you estimate how much time you'd need?","About two days of support should be enough, based on our current plan.","必要な時間を見積もれますか？","現在の計画では、2日ほど支援があれば十分でしょう。"],["I'll check whether another team can spare someone.","That would be very helpful. I can prepare a task list in advance.","他のチームから人員を出せるか確認します。","大変助かります。事前に作業一覧を用意できます。"],["Great. Let's review the situation again tomorrow.","Agreed. I'll share an updated estimate before our meeting.","いいですね。明日、もう一度状況を確認しましょう。","賛成です。会議前に最新の見積もりを共有します。"]]}]},{"id":"b09","name":"顧客との打ち合わせ","sets":[{"id":"b09-l1","title":"希望を確認する","level":1,"items":[["Thank you for meeting with us today.","Thank you for inviting us.","本日はお時間をいただき、ありがとうございます。","こちらこそ、お招きいただきありがとうございます。"],["What would you like to discuss first?","We'd like to talk about the new product.","最初に何について話したいですか？","新製品について話したいと思います。"],["Of course. Do you have any questions?","Yes. When will it be available?","もちろんです。質問はありますか？","はい。いつから利用できますか？"],["We're planning to release it next month.","That's good to know.","来月の発売を予定しています。","それが分かってよかったです。"],["We'll send you more details soon.","Thank you. We look forward to them.","詳細は近いうちにお送りします。","ありがとうございます。楽しみにお待ちしています。"]]},{"id":"b09-l2","title":"要件を詳しく聞く","level":2,"items":[["Could you explain what you're looking for in the new system?","We'd like something that's easy for our staff to use.","新しいシステムに何を求めているか説明いただけますか？","社員が使いやすいものを希望しています。"],["Are there any features you consider essential?","Yes, we need clear reports and simple data entry.","必須だと思う機能はありますか？","はい、分かりやすいレポートと簡単なデータ入力が必要です。"],["Understood. How many people will use it?","Around fifty people across three departments.","承知しました。何人が使う予定ですか？","3つの部門で約50人です。"],["Would you like us to prepare a demonstration?","Yes, that would help us evaluate the options.","デモをご用意しましょうか？","はい、選択肢を評価するのに役立ちます。"],["Great. We'll arrange a session next week.","Thank you. We appreciate your support.","いいですね。来週、実施するよう手配します。","ありがとうございます。ご支援に感謝します。"]]},{"id":"b09-l3","title":"提案の条件を交渉する","level":3,"items":[["Thanks for sharing your proposal. We'd like to discuss the schedule.","Certainly. Which part of the timeline concerns you?","ご提案ありがとうございます。スケジュールについて相談したいです。","もちろんです。日程のどの部分が気になりますか？"],["The implementation date seems a little later than we hoped.","I understand. Could you tell me your ideal start date?","導入日が希望より少し遅いようです。","承知しました。理想的な開始日を教えていただけますか？"],["We'd prefer to begin at the start of next month.","That may be possible if we agree on the key requirements this week.","来月の初めから始めたいです。","今週中に主要要件で合意できれば、可能かもしれません。"],["What would you need from our side to make that happen?","We'd need your approval of the scope and a main contact person.","そのために当社側で必要なことは何ですか？","作業範囲の承認と、主な窓口担当者の指定が必要です。"],["That sounds manageable. Let's confirm the details by email.","Excellent. I'll send a summary of the agreed points today.","それなら対応できそうです。メールで詳細を確認しましょう。","承知しました。合意事項の概要を今日お送りします。"]]}]},{"id":"b10","name":"空港・ホテル","sets":[{"id":"b10-l1","title":"ホテルへのチェックイン","level":1,"items":[["Good evening. Do you have a reservation?","Yes. My name is Tanaka.","こんばんは。ご予約はありますか？","はい。田中と申します。"],["Thank you. May I see your passport?","Of course. Here you are.","ありがとうございます。パスポートを拝見できますか？","もちろんです。どうぞ。"],["You'll be staying for two nights, correct?","Yes, that's correct.","2泊のご滞在ですね？","はい、そのとおりです。"],["Would you like breakfast included?","Yes, please. What time does it start?","朝食付きにしますか？","はい、お願いします。何時からですか？"],["Breakfast starts at seven. Here's your key.","Thank you very much.","朝食は7時からです。こちらが鍵です。","どうもありがとうございます。"]]},{"id":"b10-l2","title":"ホテルでお願いする","level":2,"items":[["Good morning. How can I help you?","I'd like to ask about the checkout time.","おはようございます。ご用件をどうぞ。","チェックアウトの時間を伺いたいです。"],["Checkout is at eleven o'clock.","Would it be possible to check out at noon?","チェックアウトは11時です。","正午にチェックアウトすることはできますか？"],["Let me check. Yes, we can arrange that.","Thank you. I really appreciate it.","確認します。はい、手配できます。","ありがとうございます。本当に助かります。"],["Is there anything else you need?","Could you also call a taxi for twelve fifteen?","ほかに何か必要ですか？","12時15分にタクシーも呼んでいただけますか？"],["Certainly. We'll arrange one for you.","That's very helpful. Thank you.","かしこまりました。手配いたします。","大変助かります。ありがとうございます。"]]},{"id":"b10-l3","title":"フライトの変更相談","level":3,"items":[["Hello. How can I help you with your booking today?","My meeting was extended, so I need to change my return flight.","こんにちは。ご予約についてどのようなご用件でしょうか？","会議が延長になったので、帰りの便を変更したいです。"],["I can help with that. When would you like to travel?","Ideally tomorrow evening, but I'm flexible about the departure time.","承知しました。いつご出発を希望されますか？","できれば明日の夕方ですが、出発時刻は調整できます。"],["There's a flight at six thirty with an additional charge.","Could you tell me the total cost, including any change fees?","午後6時半の便がありますが、追加料金がかかります。","変更手数料を含めた総額を教えてもらえますか？"],["Of course. The total additional cost would be eighty dollars.","I understand. Please go ahead and make that change.","もちろんです。追加料金の合計は80ドルです。","分かりました。その変更でお願いします。"],["Certainly. I'll email your updated itinerary shortly.","Thank you for your help. I appreciate it.","かしこまりました。間もなく更新した旅程をメールでお送りします。","ご対応ありがとうございます。助かりました。"]]}]},{"id":"b11","name":"トラブル・問い合わせ","sets":[{"id":"b11-l1","title":"困りごとを伝える","level":1,"items":[["Hello. How can I help you?","I have a problem with my room key.","こんにちは。どうされましたか？","部屋の鍵に問題があります。"],["I'm sorry to hear that. Is it not working?","That's right. I can't open my door.","それは申し訳ありません。鍵が動きませんか？","はい。ドアを開けられないんです。"],["I can make a new key for you.","Thank you. That would help.","新しい鍵をお作りします。","ありがとうございます。助かります。"],["Could you tell me your room number?","It's room five twenty.","部屋番号を教えてもらえますか？","520号室です。"],["Here's your new key. Please try it.","Thank you very much.","新しい鍵です。お試しください。","どうもありがとうございます。"]]},{"id":"b11-l2","title":"問題を説明して対応を頼む","level":2,"items":[["Thanks for calling support. What's the problem?","I can't sign in to our company's online system.","サポートにお電話ありがとうございます。どのような問題ですか？","会社のオンラインシステムにログインできません。"],["Are you getting any error messages?","Yes. It says my password is incorrect.","何かエラーメッセージは出ていますか？","はい。パスワードが間違っていると表示されます。"],["Have you tried resetting your password?","Yes, but I haven't received the reset email.","パスワードの再設定は試しましたか？","はい。でも再設定メールが届いていません。"],["Let me check your account. Could you wait a moment?","Of course. Thank you for checking.","アカウントを確認します。少々お待ちいただけますか？","もちろんです。確認していただきありがとうございます。"],["I've fixed the problem. Please try again.","It works now. Thank you for your help.","問題を修正しました。もう一度お試しください。","今度は使えました。ご対応ありがとうございました。"]]},{"id":"b11-l3","title":"問題の影響と対応を確認する","level":3,"items":[["I understand you've found an issue during final testing.","Yes. Some users can't access the latest version of the application.","最終テストで問題が見つかったと聞いています。","はい。一部のユーザーがアプリの最新版を利用できません。"],["Do we know how many customers might be affected?","We're still checking, but the issue seems limited to older devices.","影響を受けるお客様の人数は分かっていますか？","調査中ですが、古い端末に限られているようです。"],["What are you doing to investigate the cause?","We're comparing logs and testing the update on different devices.","原因を調べるために何をしていますか？","ログを比較し、異なる端末で更新版をテストしています。"],["When can we expect another status report?","I'll share what we've learned by four this afternoon.","次の状況報告はいつ頃になりますか？","今日の午後4時までに分かったことを共有します。"],["Please flag any serious risks as soon as possible.","Understood. I'll contact you immediately if the impact is larger than expected.","重大なリスクがあればすぐに報告してください。","承知しました。影響が予想より大きければ直ちにご連絡します。"]]}]},{"id":"b12","name":"社内交流・ネットワーキング","sets":[{"id":"b12-l1","title":"休憩時間の会話","level":1,"items":[["Is this seat free?","Yes, please have a seat.","この席、空いていますか？","はい、どうぞお座りください。"],["Thanks. How's your day going?","Pretty well, thanks. How about you?","ありがとう。今日はどんな調子ですか？","順調です、ありがとう。そちらはどうですか？"],["Not bad. Have you tried the coffee here?","Yes, it's quite good.","悪くないですよ。ここのコーヒーは飲みましたか？","はい、なかなかおいしいです。"],["Would you like another cup?","No, thank you. I'm fine for now.","もう一杯いかがですか？","いいえ、ありがとう。今は大丈夫です。"],["All right. See you at the meeting.","See you there.","分かりました。会議でまた会いましょう。","では会議で。"]]},{"id":"b12-l2","title":"他部署の同僚と話す","level":2,"items":[["Hi, I don't think we've talked before. Which team are you on?","I'm with the development team. How about you?","こんにちは。まだお話ししたことがないですよね。どのチームですか？","開発チームです。そちらは？"],["I work in marketing. Are you working on the new project?","Yes. I'm helping with the planning and testing.","マーケティング担当です。新しいプロジェクトに関わっていますか？","はい、企画とテストを手伝っています。"],["That must keep you busy. How's it going?","It's busy, but we're making good progress.","忙しそうですね。進み具合はどうですか？","忙しいですが、順調に進んでいます。"],["I'd like to learn more about it sometime.","Sure. We could have coffee next week.","いつかもっと詳しく聞きたいです。","もちろんです。来週コーヒーでもどうですか？"],["That would be great. I'll send you a message.","Sounds good. I look forward to it.","いいですね。メッセージを送ります。","いいですね。楽しみにしています。"]]},{"id":"b12-l3","title":"交流イベントで話を広げる","level":3,"items":[["This event has brought together people from many teams.","Yes, it's a good opportunity to hear different perspectives.","このイベントには多くのチームの人が集まっていますね。","はい、さまざまな視点を知るよい機会ですね。"],["What has been the most interesting part for you?","I enjoyed the presentation about improving cooperation between departments.","一番興味深かったことは何ですか？","部門間の連携を改善する発表が面白かったです。"],["Was there anything you might apply to your own work?","I'd like to try shorter meetings with clearer action items.","ご自身の仕事に取り入れられそうなことはありましたか？","会議を短くして、次にやることを明確にしたいです。"],["That sounds practical. Do you think your team would support it?","I think so, especially if it helps everyone use their time better.","実用的ですね。チームの賛同は得られそうですか？","そう思います。特に全員が時間を有効に使えるなら。"],["I'd be interested to hear how it goes.","Definitely. I'll let you know once we've tried it.","結果をぜひ聞きたいです。","もちろんです。試したらお知らせします。"]]}]}];
@@ -92,86 +92,115 @@ function combinedScenes(){
 }
 let scenes=combinedScenes();
 const st={micWatchdog:null,ttsUtterance:null,ttsWatchdog:null,iosStarted:!IOS_DEVICE,sceneId:'b03',setId:'b03-l1',index:0,voice:null,voices:[],recognition:null,listening:false,token:0,finished:false,customItems:null,micStream:null,micPending:null,speechSerial:0,retryTimer:null,transitionTimer:null,failures:0,utterance:null};
-// iPhone: one continuous SpeechRecognition session across several A/B turns.
-// A's synthesized audio is discarded while the listener stays active.
-const iosMic={rec:null,active:false,ready:false,accept:false,finals:new Set(),committed:'',interim:'',pauseTimer:null,enableTimer:null,run:0,suppress:false};
-function iosClearPause(){if(iosMic.pauseTimer){clearTimeout(iosMic.pauseTimer);iosMic.pauseTimer=null}}
-function iosResetTurn(){iosClearPause();iosMic.committed='';iosMic.interim='';}
-function iosPause(){
-  iosClearPause();if(!iosMic.accept||!iosMic.active)return;
-  const text=[iosMic.committed,iosMic.interim].filter(Boolean).join(' ').trim();if(!text)return;
-  const run=iosMic.run,turn=st.token;
-  iosMic.pauseTimer=setTimeout(()=>{
-    if(run!==iosMic.run||turn!==st.token||!iosMic.accept||!iosMic.active)return;
-    const heard=[iosMic.committed,iosMic.interim].filter(Boolean).join(' ').trim();
-    if(heard)iosFinish(heard);
-  },pauseMs());
+// iPhone: MediaRecorder + local Whisper WASM, not Safari SpeechRecognition.
+// Audio capture is intentionally stopped before any synthesized A audio is played.
+const iosWhisper={asr:null,loading:null,rec:null,stream:null,ctx:null,analyser:null,source:null,tick:null,chunks:[],started:false,stopping:false,busy:false,seenVoice:false,lastVoice:0,recordStart:0,activeToken:0,init:false};
+function iosResetTurn(){} // retained interface for the lesson controller
+const iosMic={accept:false,active:false,ready:false,enableTimer:null};
+function iosPause(){}
+function iosEnableInput(){return iosStartContinuous()}
+function iosMime(){return ['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(t=>MediaRecorder.isTypeSupported(t))||''}
+function iosRelease(){
+  if(iosWhisper.tick){cancelAnimationFrame(iosWhisper.tick);iosWhisper.tick=null}
+  try{iosWhisper.source?.disconnect()}catch(e){}
+  iosWhisper.source=null;iosWhisper.analyser=null;
+  if(iosWhisper.ctx){iosWhisper.ctx.close().catch(()=>{});iosWhisper.ctx=null}
+  if(iosWhisper.stream){iosWhisper.stream.getTracks().forEach(t=>t.stop());iosWhisper.stream=null}
 }
-function iosFinish(heard){
-  iosMic.accept=false;iosResetTurn();$('heard').textContent=heard;
-  const goal=getPair()[1],score=similar(heard,goal),threshold=$('strict').checked?.84:.62;
-  if(score>=threshold){
-    $('result').className='result show';$('result').style.background='';$('result').style.color='';$('result').textContent='✓ 例文を認識しました。';setStatus('認識できました。');
-    if($('autoNext').checked){const t=st.token;setTimeout(()=>{if(t===st.token)next()},850)}
-    else setStatus('認識できました。「次の会話へ」を押してください。');
-  }else{
-    $('result').className='result show';$('result').style.background='#fff5e7';$('result').style.color='#88570a';$('result').textContent='もう一度練習： '+goal;
-    setStatus('もう一度話してください。');
-    if(handsfree())setTimeout(()=>iosEnableInput(),550);
-  }
-}
-function iosEnableInput(){
-  if(!iosMic.active||!iosMic.ready||st.finished||document.hidden)return;
-  iosResetTurn();iosMic.accept=true;micInfo('連続認識中・発話待機');
-  $('micBtn').textContent='■ 録音を止める';$('micBtn').classList.add('active');st.listening=true;
-  setStatus('Bを話してください（連続認識中）。');
-}
-function iosStartContinuous(){
-  if(iosMic.active)return true;
-  const Rec=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!Rec){setStatus('このSafariは音声認識に対応していません。',true);return false}
-  if(iosMic.rec){try{iosMic.rec.abort()}catch(e){}}
-  const rec=new Rec();const run=++iosMic.run;
-  rec.lang='en-US';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;
-  iosMic.rec=rec;iosMic.active=true;iosMic.ready=false;iosMic.accept=false;iosMic.finals=new Set();iosResetTurn();
-  prepareAudioInput();
-  rec.onstart=()=>{if(iosMic.rec!==rec)return;micInfo('連続認識開始（音声入力の準備中）');st.listening=true;$('micBtn').textContent='■ 録音を止める';$('micBtn').classList.add('active')};
-  rec.onaudiostart=()=>{if(iosMic.rec!==rec)return;iosMic.ready=true;micInfo('連続認識・音声入力開始');if(!window.speechSynthesis?.speaking&&handsfree())iosEnableInput()};
-  rec.onspeechstart=()=>{if(iosMic.rec===rec)micInfo('連続認識・発話検出')};
-  rec.onresult=e=>{
-    if(iosMic.rec!==rec||run!==iosMic.run)return;
-    let changed=false,interims=[];
-    for(let i=0;i<e.results.length;i++){
-      const r=e.results[i],t=(r[0]?.transcript||'').trim();
-      if(r.isFinal){
-        if(!iosMic.finals.has(i)){
-          iosMic.finals.add(i);
-          if(iosMic.accept&&t){iosMic.committed=[iosMic.committed,t].filter(Boolean).join(' ');changed=true}
+async function iosLoadModel(){
+  if(iosWhisper.asr)return true;
+  if(iosWhisper.loading)return iosWhisper.loading;
+  iosWhisper.loading=(async()=>{
+    micInfo('Whisperモデルを読み込み中');setStatus('初回はWhisperモデルをダウンロードします。画面を閉じずにお待ちください。');
+    $('iosStatusText').textContent='Whisperモデルを準備しています。初回はWi-Fi推奨です。';
+    try{
+      const lib=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1');
+      lib.env.allowRemoteModels=true;
+      iosWhisper.asr=await lib.pipeline('automatic-speech-recognition','onnx-community/whisper-tiny.en',{
+        device:'wasm',dtype:'q8',progress_callback:p=>{
+          if(p?.status==='progress'&&p?.progress!=null)micInfo('モデル取得 '+Math.round(p.progress)+'%');
         }
-      }else if(iosMic.accept&&t){interims.push(t)}
+      });
+      const cfg=iosWhisper.asr?.model?.generation_config;
+      if(cfg){cfg.language=null;cfg.task=null;cfg.is_multilingual=false}
+      micInfo('Whisper準備完了');$('iosStatusText').textContent='Whisper準備完了。レッスン開始でAを再生します。';
+      return true;
+    }catch(e){micInfo('モデル準備エラー');setStatus('AIモデル読み込み失敗: '+String(e.message||e),true);$('iosStatusText').textContent='モデルを読み込めませんでした。通信を確認して再試行してください。';return false}
+    finally{iosWhisper.loading=null}
+  })();return iosWhisper.loading;
+}
+function iosResample(data,rate){if(rate===16000)return new Float32Array(data);const length=Math.max(1,Math.floor(data.length*16000/rate)),out=new Float32Array(length),ratio=rate/16000;for(let i=0;i<length;i++){const pos=i*ratio,lo=Math.floor(pos),hi=Math.min(lo+1,data.length-1),f=pos-lo;out[i]=data[lo]*(1-f)+data[hi]*f}return out}
+async function iosTranscribe(blobs,mime,token){
+  iosWhisper.busy=true;micInfo('Whisper文字起こし中');setStatus('英語を認識しています…');
+  try{
+    const blob=new Blob(blobs,{type:mime||'audio/mp4'});if(blob.size<1200)throw new Error('録音が短すぎます');
+    const array=await blob.arrayBuffer(),ctx=new (window.AudioContext||window.webkitAudioContext)();
+    let decoded;try{decoded=await ctx.decodeAudioData(array)}finally{ctx.close().catch(()=>{})}
+    const mono=new Float32Array(decoded.length);
+    for(let c=0;c<decoded.numberOfChannels;c++){const ch=decoded.getChannelData(c);for(let i=0;i<mono.length;i++)mono[i]+=ch[i]/decoded.numberOfChannels}
+    if(!iosWhisper.asr)throw new Error('Whisperモデルが準備できていません');
+    const cfg=iosWhisper.asr?.model?.generation_config;if(cfg){cfg.language=null;cfg.task=null;cfg.is_multilingual=false}
+    const result=await iosWhisper.asr(iosResample(mono,decoded.sampleRate),{max_new_tokens:80,language:null,task:null,is_multilingual:false});
+    if(token!==st.token||st.finished)return;
+    const heard=(result?.text||'').trim();$('heard').textContent=heard||'音声を聞き取れませんでした。';
+    micInfo('Whisper認識完了');
+    if(!heard){setStatus('認識できませんでした。「話す」で再試行できます。',true);return}
+    const goal=getPair()[1],score=similar(heard,goal),threshold=$('strict').checked?.84:.62;
+    if(score>=threshold){$('result').className='result show';$('result').style.background='';$('result').style.color='';$('result').textContent='✓ 例文を認識しました。';setStatus('認識できました。');
+      if($('autoNext').checked){setTimeout(()=>{if(token===st.token&&!st.finished)next()},750)}
+      else setStatus('認識できました。「次の会話へ」を押してください。');
+    }else{$('result').className='result show';$('result').style.background='#fff5e7';$('result').style.color='#88570a';$('result').textContent='もう一度練習： '+goal;
+      setStatus('例文との一致が十分ではありません。もう一度話してください。');
+      if(handsfree())setTimeout(()=>{if(token===st.token)iosStartContinuous()},850);
     }
-    if(!iosMic.accept)return;
-    const interim=interims.join(' ').trim();
-    if(interim!==iosMic.interim){iosMic.interim=interim;changed=true}
-    if(changed){const heard=[iosMic.committed,iosMic.interim].filter(Boolean).join(' ').trim();$('heard').textContent=heard||'聞き取り中…';micInfo('連続認識・音声受信');iosPause()}
-  };
-  rec.onerror=e=>{if(iosMic.rec!==rec)return;micInfo('連続認識エラー: '+e.error);if(e.error!=='no-speech'&&e.error!=='aborted')setStatus('音声認識エラー: '+e.error,true)};
-  rec.onend=()=>{
-    if(iosMic.rec!==rec)return;
-    iosMic.active=false;iosMic.ready=false;iosMic.accept=false;iosClearPause();iosMic.rec=null;st.listening=false;
-    $('micBtn').textContent='🎙️ 話す';$('micBtn').classList.remove('active');
-    micInfo('連続認識が終了');setStatus('Safariが連続認識を終了しました。「話す」で再開してください。',true);
-  };
-  try{rec.start();micInfo('連続認識起動要求');return true}
-  catch(e){iosMic.active=false;iosMic.rec=null;setStatus('連続認識を開始できません: '+e.message,true);return false}
+  }catch(e){if(token===st.token){micInfo('認識エラー');setStatus('Whisper認識失敗：'+String(e.message||e),true)}}
+  finally{iosWhisper.busy=false}
 }
-function iosStopContinuous(){
-  iosMic.accept=false;iosMic.active=false;iosMic.ready=false;iosMic.run++;iosClearPause();
-  if(iosMic.enableTimer){clearTimeout(iosMic.enableTimer);iosMic.enableTimer=null}
-  const rec=iosMic.rec;iosMic.rec=null;
-  if(rec){try{rec.abort()}catch(e){}}
-  st.listening=false;$('micBtn').textContent='🎙️ 話す';$('micBtn').classList.remove('active');
+function iosStopRecording(transcribe=true){
+  const rec=iosWhisper.rec;
+  if(!rec||rec.state==='inactive'){iosRelease();return}
+  iosWhisper.stopping=true;
+  if(iosWhisper.tick){cancelAnimationFrame(iosWhisper.tick);iosWhisper.tick=null}
+  const token=iosWhisper.activeToken,mime=rec.mimeType;
+  rec.onstop=()=>{const chunks=iosWhisper.chunks.slice();iosWhisper.rec=null;iosWhisper.stopping=false;iosRelease();if(transcribe)iosTranscribe(chunks,mime,token)};
+  try{rec.stop()}catch(e){iosWhisper.rec=null;iosRelease()}
+  st.listening=false;iosMic.active=false;$('micBtn').textContent='🎙️ 話す';$('micBtn').classList.remove('active');
 }
+async function iosStartContinuous(){
+  if(iosWhisper.rec?.state==='recording'||iosWhisper.busy)return;
+  if(!iosWhisper.asr){const ok=await iosLoadModel();if(!ok)return}
+  const token=st.token;
+  if(st.finished||document.hidden||token!==st.token)return;
+  try{
+    setStatus('マイクを準備しています…');
+    const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false});
+    if(token!==st.token||st.finished){stream.getTracks().forEach(t=>t.stop());return}
+    iosWhisper.stream=stream;iosWhisper.chunks=[];iosWhisper.started=false;iosWhisper.seenVoice=false;iosWhisper.stopping=false;iosWhisper.activeToken=token;
+    const mime=iosMime(),rec=new MediaRecorder(stream,mime?{mimeType:mime}:{});iosWhisper.rec=rec;
+    rec.ondataavailable=e=>{if(e.data.size)iosWhisper.chunks.push(e.data)};
+    rec.onerror=e=>{micInfo('録音エラー');setStatus('録音エラー: '+String(e.error?.message||e.error||e),true)};
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();iosWhisper.ctx=ctx;
+    if(ctx.state==='suspended')await ctx.resume();
+    const source=ctx.createMediaStreamSource(stream),analyser=ctx.createAnalyser();analyser.fftSize=2048;source.connect(analyser);
+    iosWhisper.source=source;iosWhisper.analyser=analyser;
+    rec.start(250);iosWhisper.recordStart=performance.now();
+    st.listening=true;iosMic.active=true;$('micBtn').textContent='■ 録音を止める';$('micBtn').classList.add('active');
+    $('heard').textContent='聞き取り中…';$('result').className='result';$('result').textContent='';
+    micInfo('Whisper録音中');setStatus('Bを話してください。発話後の無音 '+(pauseMs()/1000)+' 秒で自動認識します。');
+    const samples=new Float32Array(analyser.fftSize);
+    const check=()=>{
+      if(iosWhisper.rec!==rec||rec.state!=='recording')return;
+      analyser.getFloatTimeDomainData(samples);let sum=0;for(const v of samples)sum+=v*v;
+      const rms=Math.sqrt(sum/samples.length),now=performance.now();
+      // A permissive threshold suitable for iPhone mics; room noise may require manual stop.
+      if(rms>0.016){iosWhisper.seenVoice=true;iosWhisper.lastVoice=now}
+      if(iosWhisper.seenVoice&&now-iosWhisper.lastVoice>pauseMs()&&now-iosWhisper.recordStart>750){iosStopRecording(true);return}
+      if(now-iosWhisper.recordStart>23000){iosStopRecording(iosWhisper.seenVoice);if(!iosWhisper.seenVoice)setStatus('声を検出できませんでした。「話す」で再試行してください。',true);return}
+      iosWhisper.tick=requestAnimationFrame(check);
+    };iosWhisper.tick=requestAnimationFrame(check);
+  }catch(e){iosRelease();iosWhisper.rec=null;st.listening=false;iosMic.active=false;micInfo('マイク開始失敗');setStatus('マイク開始に失敗: '+String(e.message||e)+'。「話す」で再試行してください。',true)}
+}
+function iosStopContinuous(){iosStopRecording(false)}
 function handsfree(){return $('handsfree').checked}
 function currentScene(){return scenes.find(s=>s.id===st.sceneId)||scenes[0]}
 function availableSets(scene=currentScene()){
@@ -297,7 +326,7 @@ function setTranslationOpen(open){
   $('toggleTranslation').textContent=open?'🌐 日本語訳を閉じる':'🌐 日本語訳を見る';
 }
 function next(){
-  st.token++;clearTransition();stopSpeech();if(!IOS_DEVICE)stopRecognition();else {iosMic.accept=false;iosResetTurn()}
+  st.token++;clearTransition();stopSpeech();if(!IOS_DEVICE)stopRecognition();else iosStopContinuous()
   if(st.index+1>=currentItems().length){if(IOS_DEVICE)iosStopContinuous();st.finished=true;render();return}
   st.index++;render();
 }
@@ -324,7 +353,7 @@ function populateVoices(){
 }
 function speak(text,aiTurn=false){
   if(!('speechSynthesis' in window)){setStatus('このブラウザは読み上げに対応していません。',true);return}
-  if(IOS_DEVICE){iosMic.accept=false;iosResetTurn()}else stopRecognition();
+  if(IOS_DEVICE)iosStopContinuous();else stopRecognition();
   stopSpeech();if(IOS_DEVICE)prepareAudioInput();else prepareAudioOutput();
   const serial=st.speechSerial;
   const utter=new SpeechSynthesisUtterance(text.replace(/[’]/g,"'"));
@@ -349,8 +378,7 @@ function speak(text,aiTurn=false){
     if(st.ttsWatchdog){clearTimeout(st.ttsWatchdog);st.ttsWatchdog=null}
     if(aiTurn&&handsfree()&&!st.finished){
       if(IOS_DEVICE){
-        if(iosMic.enableTimer)clearTimeout(iosMic.enableTimer);
-        iosMic.enableTimer=setTimeout(()=>{iosMic.enableTimer=null;if(iosMic.active&&iosMic.ready)iosEnableInput();else if(!iosMic.active){setStatus('連続認識を起動しています…');if(iosStartContinuous())setStatus('音声認識の開始を待っています…');}else setStatus('音声入力の準備を待っています…')},650);
+        setTimeout(()=>{if(serial===st.speechSerial&&handsfree()&&!st.finished)iosStartContinuous()},450);
       }else scheduleListen(230);
     }else setStatus('音声再生が終了しました。');
   };
@@ -379,7 +407,7 @@ function normalize(t){return t.toLowerCase().replace(/[’‘]/g,"'").replace(/[
 function similar(a,b){a=normalize(a);b=normalize(b);if(!a||!b)return 0;if(a===b)return 1;const aw=a.split(' '),bw=b.split(' ');const dp=Array.from({length:aw.length+1},()=>new Array(bw.length+1).fill(0));for(let i=0;i<=aw.length;i++)dp[i][0]=i;for(let j=0;j<=bw.length;j++)dp[0][j]=j;for(let i=1;i<=aw.length;i++)for(let j=1;j<=bw.length;j++)dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(aw[i-1]===bw[j-1]?0:1));return 1-dp[aw.length][bw.length]/Math.max(aw.length,bw.length)}
 async function prepareMicrophone(){
   if(IOS_DEVICE){
-    $('permissionNote').textContent='iPhoneではSafari側の制限により、音声認識の自動再開に失敗する場合があります。その場合は「話す」で再開してください。';
+    $('permissionNote').textContent='iPhoneでは端末内Whisperで認識します。初回はモデルのダウンロードが必要です。';
     return true;
   }
   if(st.micStream && st.micStream.getAudioTracks().some(t=>t.readyState==='live'))return true;
@@ -470,8 +498,7 @@ function launchRecognition(session){
 }
 async function listen(auto=false){
   if(IOS_DEVICE){
-    if(!iosMic.active){if(!auto)stopSpeech();if(iosStartContinuous())setStatus('音声入力が始まるまでお待ちください…')}
-    else if(iosMic.ready)iosEnableInput();
+    if(!auto)stopSpeech();await iosStartContinuous();
     return;
   }
   if(st.utterance){
@@ -565,11 +592,13 @@ async function copyPrompt(){
   try{await navigator.clipboard.writeText(promptForAI);libraryMessage('✓ AI向けの教材作成指示をコピーしました。ChatGPTなどに貼り付けてJSONを保存・読み込みしてください。')}
   catch{$('promptPreview').hidden=false;$('promptPreview').value=promptForAI;$('promptPreview').focus();$('promptPreview').select();libraryMessage('下の指示文を選択しました。Ctrl+Cでコピーしてください。')}
 }
-$('iosStartBtn').onclick=()=>{
+$('iosStartBtn').onclick=async()=>{
   st.iosStarted=true;
-  // Start TTS first. Opening the iOS mic before TTS was stealing the input route.
+  // Keep TTS and MediaRecorder non-overlapping on iOS Safari.
   const b=$('iosStartBtn');b.textContent='🔊 Aをもう一度聞く / 再開';
-  $('iosStatusText').textContent='Aの後に自動でマイクを起動します。停止したときは「話す」をタップしてください。';
+  $('iosStatusText').textContent='Aの読み上げ後、録音とWhisper認識を自動実行します。';
+  const firstLoad=!iosWhisper.asr;const ok=await iosLoadModel();if(!ok)return;
+  if(firstLoad){b.textContent='▶ レッスン開始';setStatus('AIの準備ができました。もう一度「レッスン開始」を押してください。');return}
   if(!st.finished)speak(getPair()[0],true);
   else selectScene(st.sceneId);
 };
@@ -593,7 +622,7 @@ $('recoverMic').onclick=()=>{
 };
 $('micBtn').onclick=()=>{
   st.iosStarted=true;st.failures=0;
-  if(st.listening){stopRecognition();micInfo('手動停止');setStatus('録音を停止しました。「話す」で再開できます。');return;}
+  if(st.listening){if(IOS_DEVICE){iosStopRecording(true)}else stopRecognition();micInfo('手動停止');return;}
   listen(false);
 };
 $('nextBtn').onclick=next;$('prevBtn').onclick=prev;
@@ -628,10 +657,10 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopSpeech
 window.addEventListener('pagehide',()=>{if(st.micStream)st.micStream.getTracks().forEach(t=>t.stop())});
 if(IOS_DEVICE){
   $('iosStartPanel').classList.add('visible');$('iosTips').hidden=false;
-  $('permissionNote').textContent='iPhone連続認識テスト版。レッスン開始でマイクを起動し、Aの読み上げ中も認識セッションを維持します。Safariが終了した場合は「話す」で再開します。';
+  $('permissionNote').textContent='iPhoneはWhisper端末内AIで音声を認識します。最初にモデルを準備してください。';
   if(location.protocol!=='https:' && !['localhost','127.0.0.1'].includes(location.hostname))setStatus('iPhoneではHTTPS公開先から開いてください。',true);
 } else if(location.protocol==='file:')$('permissionNote').textContent='PCでファイルを直接開くとマイク許可が毎回表示される場合があります。localhostまたはHTTPSで開いてください。';
-if('serviceWorker' in navigator && location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=4').catch(()=>{}));
+if('serviceWorker' in navigator && location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=8').catch(()=>{}));
 
 
 </script></body></html>
